@@ -31,8 +31,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
 
     {{-- Third Party Sign In --}}
-    <x-buttons.google-button class="mt-4" />
-    <x-buttons.facebook-button class="mt-4" />
+    <x-buttons.google-button class="mt-4" href="/auth/google/redirect" />
+    <x-buttons.facebook-button class="mt-4" href="/auth/facebook/redirect" />
 
     {{-- Divider --}}
     <div class="flex items-center justify-between mt-8 mb-4">
