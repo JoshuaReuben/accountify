@@ -5,6 +5,13 @@
         </h2>
     </x-slot>
 
+    {{-- Alert Message --}}
+    @if (session()->has('firstLogin'))
+        <x-alert-message class="w-4/5 mx-auto mt-4">
+            {{ session('firstLogin') }}
+        </x-alert-message>
+    @endif
+
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
@@ -14,4 +21,6 @@
             </div>
         </div>
     </div>
+
+
 </x-app-layout>

@@ -47,6 +47,11 @@ class ProviderController extends Controller
             } else {
                 dd('Some error occured on UPDATING provider details, provider platform is not google nor facebook');
             }
+
+
+            $user = $existingUser;
+            Auth::login($user);
+            return redirect()->route('dashboard');
         } else {
 
             //Prepare a new password for the user
@@ -73,10 +78,10 @@ class ProviderController extends Controller
 
 
             Mail::to($newUser)->send(new SendPasswordMail($password));
-        }
 
-        $user = $existingUser ?? $newUser;
-        Auth::login($user);
-        return redirect()->route('dashboard');
+            $user = $newUser;
+            Auth::login($user);
+            return redirect()->route('dashboard')->with('firstLogin', 'An email has been sent to your account containing a temporary password.');;
+        }
     }
 }
