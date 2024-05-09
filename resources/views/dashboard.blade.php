@@ -7,7 +7,7 @@
 
     {{-- Alert Message --}}
     @if (session()->has('firstLogin'))
-        <x-alert-message class="w-4/5 mx-auto mt-4">
+        <x-alert-message :id="uniqid()" class="w-4/5 mx-auto mt-4">
             {{ session('firstLogin') }}
         </x-alert-message>
     @endif
