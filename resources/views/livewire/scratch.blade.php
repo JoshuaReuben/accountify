@@ -20,7 +20,7 @@ new #[Layout('layouts.admin')] class extends Component {};
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- START SECTION --}}
 
-                    <x-buttons.theme-toggler />
+                    hekhek
 
                     {{-- END SECTION --}}
 
