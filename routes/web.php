@@ -2,11 +2,12 @@
 
 use App\Http\Controllers\Auth\ProviderController;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 
 Route::view('/', 'welcome');
 
-Route::view('/scratch', 'scratch')->name('scratch');
+//Route::view('/scratch', 'scratch')->name('scratch');
 
 // Route::get('/auth/google/redirect', [ProviderController::class, 'redirectGoogle']);
 // Route::get('/auth/facebook/redirect', [ProviderController::class, 'redirectFacebook']);
@@ -31,5 +32,18 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+
+
+
+// AFTER AUTHENTICATION
+Route::middleware('auth')->group(function () {
+
+    //Volt::route('admin-dashboard', 'admin.dashboard')->name('admin.dashboard');
+
+
+    Volt::route('scratch', 'scratch')->name('scratch');
+});
+
 
 require __DIR__ . '/auth.php';
