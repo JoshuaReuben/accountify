@@ -7,20 +7,13 @@ use Livewire\Volt\Volt;
 
 Route::view('/', 'welcome');
 
-//Route::view('/scratch', 'scratch')->name('scratch');
 
-// Route::get('/auth/google/redirect', [ProviderController::class, 'redirectGoogle']);
-// Route::get('/auth/facebook/redirect', [ProviderController::class, 'redirectFacebook']);
-
-
-// Route::get('/auth/google/callback', [ProviderController::class, 'callbackGoogle']);
-// Route::get('/auth/facebook/callback', [ProviderController::class, 'callbackFacebook']);
-
+// Third Party Logins FB + Google
 Route::get('auth/{provider}/redirect', [ProviderController::class, 'redirect']);
 Route::get('auth/{provider}/callback', [ProviderController::class, 'callback']);
 
 
-
+// Admin Logins
 
 
 
@@ -41,8 +34,10 @@ Route::middleware('auth')->group(function () {
 
     //Volt::route('admin-dashboard', 'admin.dashboard')->name('admin.dashboard');
 
-
-    Volt::route('scratch', 'scratch')->name('scratch');
+    //ADMIN ROUTES
+    Volt::route('admin/dashboard', 'pages.admin.admin-dashboard')->name('admin.dashboard');
+    Volt::route('admin/create/patient', 'pages.admin.create-patient')->name('admin.create.patient');
+    Volt::route('admin/index/patient', 'pages.admin.index-patient')->name('admin.index.patient');
 });
 
 

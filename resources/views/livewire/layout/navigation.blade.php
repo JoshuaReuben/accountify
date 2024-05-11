@@ -11,7 +11,7 @@ new class extends Component {
     {
         $logout();
 
-        $this->redirect('/', navigate: true);
+        $this->redirect('/');
     }
 }; ?>
 
@@ -24,7 +24,7 @@ new class extends Component {
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo
-                            class="block w-auto h-[70px] text-gray-800 fill-current dark:text-gray-200" />
+                            class="block w-auto h-[50px] text-gray-800 fill-current dark:text-gray-200" />
                     </a>
                 </div>
 
@@ -34,8 +34,8 @@ new class extends Component {
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('scratch')" :active="request()->routeIs('scratch')">
-                        {{ __('SCRATCH') }}
+                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                        {{ __('ADMIN DASHBOARD') }}
                     </x-nav-link>
                 </div>
             </div>

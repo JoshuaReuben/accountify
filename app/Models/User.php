@@ -50,4 +50,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function hasVerifiedEmail()
+    {
+        return $this->email_verified_at !== null;
+    }
 }

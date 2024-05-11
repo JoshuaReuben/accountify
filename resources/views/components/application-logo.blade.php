@@ -3,4 +3,14 @@
 </svg> --}}
 
 
-<img src="{{ asset('images/app-logo.png') }}" alt="Logo" {{ $attributes->merge(['class' => 'h-[100px] w-[100px]']) }}>
+{{-- <img src="{{ asset('images/app-logo.png') }}" alt="Logo" {{ $attributes->merge(['class' => 'h-[100px] w-[100px]']) }}> --}}
+{{-- 
+<img src="https://flowbite.s3.amazonaws.com/logo.svg" {{ $attributes->merge(['class' => 'h-[70px] w-[70px]']) }}
+    alt="MediConnect Logo" /> --}}
+
+
+<a href="#" class="flex items-center justify-between mr-4">
+    <img src="https://flowbite.s3.amazonaws.com/logo.svg" {{ $attributes->merge(['class' => 'h-[40px] w-[40px] mr-3']) }}
+        alt="MediConnect Logo" />
+    <span class="self-center sm:text-lg md:text-2xl font-semibold whitespace-nowrap dark:text-white">MediConnect</span>
+</a>
