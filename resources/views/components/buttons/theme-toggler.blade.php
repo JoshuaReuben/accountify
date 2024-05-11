@@ -19,7 +19,7 @@
     <div>
         {{-- START - MOON ICON --}}
         <button @click="setLightMode()" data-tooltip-target="tooltip-moon" x-show="theme === 'dark'">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" id="moon" class="h-6 w-6">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" id="moon" class="h-5 w-5 md:h-6 md:w-6">
                 <path fill="#ffac33" stroke="#ffac33" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M20.63 20a9 9 0 0 1-9.12-8.78A8.61 8.61 0 0 1 14.17 5 10.17 10.17 0 0 0 5 15a10.23 10.23 0 0 0 10.42 10A10.43 10.43 0 0 0 25 18.9a9.3 9.3 0 0 1-4.37 1.1Z">
                 </path>
@@ -43,7 +43,7 @@
     <div>
         {{-- START - SUN ICON  --}}
         <button @click="setDarkMode()" data-tooltip-target="tooltip-sun" x-show="theme!== 'dark'">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5" id="sun" class="h-6 w-6">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5" id="sun"class="h-5 w-5 md:h-6 md:w-6">
                 <defs>
                     <clipPath id="a">
                         <path d="M0 38h38V0H0v38Z"></path>
