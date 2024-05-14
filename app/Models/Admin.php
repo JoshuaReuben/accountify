@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\AdminEmailVerifyNotif;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 
 
@@ -20,6 +22,7 @@ class Admin extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'token',
         'provider_id_google',
         'provider_id_facebook',
         'provider_token',
@@ -39,8 +42,22 @@ class Admin extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    //Overriding the default method for the user verification email
+    // public function sendEmailVerificationNotification()
+    // {
+    //     $this->notify(new AdminEmailVerifyNotif($this->token, $this->id));
+    // }
+
+    //Include this method to check if the user has verified their email
     public function hasVerifiedEmail()
     {
         return $this->email_verified_at !== null;
+    }
+
+    //Method for creating tokens
+    public function generateVerificationToken()
+    {
+        $this->token = Str::random(60); // Use Laravel's Str helper to generate a random string
+        $this->save();
     }
 }

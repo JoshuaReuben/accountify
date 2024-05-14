@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\ProviderController;
-use Illuminate\Support\Facades\Route;
+use App\Models\Admin;
 use Livewire\Volt\Volt;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\ProviderController;
+use App\Http\Controllers\AdminEmailVerifyController;
 
 
 Route::view('/', 'welcome');
@@ -13,17 +15,20 @@ Route::get('auth/{provider}/redirect', [ProviderController::class, 'redirect']);
 Route::get('auth/{provider}/callback', [ProviderController::class, 'callback']);
 
 
-// Admin Logins
+Route::get('/test', function () {
+    //dd('hehe');
+
+});
 
 
 
 
 Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['customauth', 'verified'])
     ->name('dashboard');
 
 Route::view('profile', 'profile')
-    ->middleware(['auth'])
+    ->middleware(['customauth'])
     ->name('profile');
 
 
@@ -34,10 +39,18 @@ Route::middleware('auth')->group(function () {
 
     //Volt::route('admin-dashboard', 'admin.dashboard')->name('admin.dashboard');
 
-    //ADMIN ROUTES
-    Volt::route('admin/dashboard', 'pages.admin.admin-dashboard')->name('admin.dashboard');
-    Volt::route('admin/create/patient', 'pages.admin.create-patient')->name('admin.create.patient');
-    Volt::route('admin/index/patient', 'pages.admin.index-patient')->name('admin.index.patient');
+
+});
+
+
+Route::prefix('admin')->middleware('admin')->group(function () {
+    //ADMIN ROUTES (PRE-PENDED WORD ADMIN ON NAMED ROUTES )
+    Volt::route('dashboard', 'pages.admin.admin-dashboard')->name('admin.dashboard');
+    Volt::route('create/patient', 'pages.admin.create-patient')->name('admin.create.patient');
+    Volt::route('index/patient', 'pages.admin.index-patient')->name('admin.index.patient');
+
+
+    Route::get('verify-email/{id}/{token}', [AdminEmailVerifyController::class, 'verifyEmail'])->name('admin.verify.email');
 });
 
 

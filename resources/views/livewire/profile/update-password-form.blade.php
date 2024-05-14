@@ -27,9 +27,17 @@ new class extends Component {
             throw $e;
         }
 
-        Auth::user()->update([
-            'password' => Hash::make($validated['password']),
-        ]);
+        if (Auth::guard('admin')->check()) {
+            Auth::guard('admin')
+                ->user()
+                ->update([
+                    'password' => Hash::make($validated['password']),
+                ]);
+        } else {
+            Auth::user()->update([
+                'password' => Hash::make($validated['password']),
+            ]);
+        }
 
         $this->reset('current_password', 'password', 'password_confirmation');
 

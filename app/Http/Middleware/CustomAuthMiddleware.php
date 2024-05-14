@@ -16,6 +16,7 @@ class CustomAuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         if (Auth::guard('admin')->check() || Auth::guard('web')->check()) {
             return $next($request);
         }
