@@ -1,9 +1,10 @@
 <?php
 
+
 use Illuminate\Foundation\Application;
+use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Symfony\Component\HttpFoundation\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,7 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'customauth' => \App\Http\Middleware\CustomAuthMiddleware::class,
+        ]);
 
         //Trusting the Load Balancer for Heroku Proxies
         $middleware->trustProxies(at: '*');

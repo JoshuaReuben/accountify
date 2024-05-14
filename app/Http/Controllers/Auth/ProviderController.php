@@ -4,19 +4,29 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 use App\Mail\SendPasswordMail;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 
 class ProviderController extends Controller
 {
-    public function redirect($provider)
+
+    public function redirect(Request $request, $provider)
     {
+        $adminParam = $request->input('admin', false);
+
+        if ($adminParam == true) {
+            session(['logging_in_as_admin' => true]);
+        } else {
+            session(['logging_in_as_admin' => false]);
+        }
+        //dd($this->logging_in_as_admin);
         return Socialite::driver($provider)->redirect();
     }
 
@@ -24,6 +34,54 @@ class ProviderController extends Controller
     {
         // Get the user
         $user = Socialite::driver($provider)->user();
+
+        // Retrieve the value from the session
+        $loggingInAsAdmin = session('logging_in_as_admin', false);
+
+        // Check if the user tries to login as Admin
+        if ($loggingInAsAdmin == true) {
+            $existingAdmin = Admin::where('email', $user->email)->first();
+            //Fail the login attempt if no email is found in the admin table.
+            if (!$existingAdmin) {
+                // No admin account found with the given email
+                return redirect()->route('admin.login')->with('message', 'No admin email account was found registered.');
+                exit;
+            }
+
+            if ($existingAdmin) {
+                // If the user already exists (it means they registered initially via email then tried to log in with provider account), 
+                //Next step is to update their provider details so they can login with that provider also. 
+                //Check the Provider Platform then register their id accordingly
+                // Next prevent the user from logging in if they don't have an existing email.
+                if ($provider == 'google') {
+                    $existingAdmin->update([
+                        'provider_id_google' => $user->id,
+                        'provider_token' => $user->token,
+
+                    ]);
+                } elseif ($provider == 'facebook') {
+                    $existingAdmin->update([
+                        'provider_id_facebook' => $user->id,
+                        'provider_token' => $user->token,
+
+                    ]);
+                } else {
+                    dd('Some error occured on UPDATING provider details of ADMIN ACCOUNT, provider platform is not google nor facebook');
+                }
+
+                // Update email_verified_at only if it's currently null
+                if ($existingAdmin->email_verified_at === null) {
+                    $existingAdmin->update(['email_verified_at' => now()]);
+                }
+
+                $user = $existingAdmin;
+                Auth::guard('admin')->login($user);
+                return redirect()->route('admin.dashboard');
+                exit;
+            }
+        }
+
+        //---------------------------- PROCEED BELOW IF USER IS NOT ADMIN ---------------------------
 
         // Attempt to find the user by email
         $existingUser = User::where('email', $user->email)->first();
@@ -36,22 +94,28 @@ class ProviderController extends Controller
                 $existingUser->update([
                     'provider_id_google' => $user->id,
                     'provider_token' => $user->token,
-                    'email_verified_at' => now(),
+
                 ]);
             } elseif ($provider == 'facebook') {
                 $existingUser->update([
                     'provider_id_facebook' => $user->id,
                     'provider_token' => $user->token,
-                    'email_verified_at' => now(),
+
                 ]);
             } else {
-                dd('Some error occured on UPDATING provider details, provider platform is not google nor facebook');
+                dd('Some error occured on UPDATING provider details of USER ACCOUNT, provider platform is not google nor facebook');
+            }
+
+            // Update email_verified_at only if it's currently null
+            if ($existingUser->email_verified_at === null) {
+                $existingUser->update(['email_verified_at' => now()]);
             }
 
 
             $user = $existingUser;
             Auth::login($user);
             return redirect()->route('dashboard');
+            exit;
         } else {
 
             //Prepare a new password for the user

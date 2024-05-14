@@ -11,6 +11,9 @@ Route::middleware('guest')->group(function () {
     Volt::route('login', 'pages.auth.login')
         ->name('login');
 
+    Volt::route('admin/login', 'pages.auth.admin-login')
+        ->name('admin.login');
+
     Volt::route('forgot-password', 'pages.auth.forgot-password')
         ->name('password.request');
 
@@ -18,7 +21,7 @@ Route::middleware('guest')->group(function () {
         ->name('password.reset');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('customauth')->group(function () {
     Volt::route('verify-email', 'pages.auth.verify-email')
         ->name('verification.notice');
 

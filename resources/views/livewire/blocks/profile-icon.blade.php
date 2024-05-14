@@ -30,10 +30,12 @@ new class extends Component {
         id="dropdown">
         <div class="py-3 px-4">
             <span class="block text-sm font-semibold text-gray-900 dark:text-white">
-                <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name">
+                <div x-data="{{ json_encode(['name' => auth()->user()->name ?? auth('admin')->user()->name]) }}" x-text="name"
+                    x-on:admin-profile-updated.window="name = $event.detail.name">
                 </div>
             </span>
-            <span class="block text-sm text-gray-900 truncate dark:text-slate-400">{{ auth()->user()->email }}</span>
+            <span
+                class="block text-sm text-gray-900 truncate dark:text-slate-400">{{ auth()->user()->email ?? auth('admin')->user()->email }}</span>
         </div>
         <ul class=" text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
             <li>

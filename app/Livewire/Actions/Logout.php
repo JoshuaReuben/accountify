@@ -12,7 +12,14 @@ class Logout
      */
     public function __invoke(): void
     {
-        Auth::guard('web')->logout();
+        if (Auth::guard('admin')->check()) {
+            Auth::guard('admin')->logout();
+        } elseif (Auth::guard('web')->check()) {
+            Auth::guard('web')->logout();
+        } else {
+            dd("Some error occured on LOGOUT, no current user is logged in");
+        }
+
 
         Session::invalidate();
         Session::regenerateToken();
