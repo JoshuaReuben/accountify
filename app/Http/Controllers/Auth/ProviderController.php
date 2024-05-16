@@ -32,9 +32,16 @@ class ProviderController extends Controller
 
     public function callback($provider)
     {
-        // Get the user
-        $user = Socialite::driver($provider)->user();
-
+        try {  // Get the user
+            $user = Socialite::driver($provider)->user();
+        } catch (\Exception $e) {
+            if (session('logging_in_as_admin') == true) {
+                return redirect()->route('admin.login');
+            } else {
+                return redirect()->route('login');
+            }
+        }
+        dd($user);
         // Retrieve the value from the session
         $loggingInAsAdmin = session('logging_in_as_admin', false);
 
