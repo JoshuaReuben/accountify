@@ -31,6 +31,7 @@ class ProviderController extends Controller
     }
 
     public function callback($provider)
+
     {
         try {  // Get the user
             $user = Socialite::driver($provider)->user();
@@ -41,7 +42,7 @@ class ProviderController extends Controller
                 return redirect()->route('login');
             }
         }
-        dd($user);
+        //dd($user);
         // Retrieve the value from the session
         $loggingInAsAdmin = session('logging_in_as_admin', false);
 

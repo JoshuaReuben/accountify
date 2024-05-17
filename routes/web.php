@@ -5,7 +5,7 @@ use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\AdminEmailVerifyController;
-
+use App\Http\Controllers\PaypalController;
 
 Route::view('/', 'welcome');
 
@@ -49,9 +49,20 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Volt::route('create/patient', 'pages.admin.create-patient')->name('admin.create.patient');
     Volt::route('index/patient', 'pages.admin.index-patient')->name('admin.index.patient');
 
+    Volt::route('/paypal', 'pages.admin.paypal')->name('admin.paypal');
+
+
 
     Route::get('verify-email/{id}/{token}', [AdminEmailVerifyController::class, 'verifyEmail'])->name('admin.verify.email');
 });
+
+
+
+//Paypal API Routes
+Route::get('paypal/payment/paypal', [PaypalController::class, 'paypal'])->name('paypal.payment.paypal');
+Route::get('paypal/payment/success', [PaypalController::class, 'success'])->name('paypal.payment.success');
+Route::get('paypal/payment/cancel', [PaypalController::class, 'cancel'])->name('paypal.payment.cancel');
+
 
 
 require __DIR__ . '/auth.php';
