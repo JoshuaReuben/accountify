@@ -22,6 +22,16 @@ new class extends Component {
         <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
 
             <ul class="space-y-2">
+
+                {{-- CALENDAR --}}
+                <li class="mt-4">
+                    <a href="{{ route('admin.calendar') }}"
+                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <x-svgs.pie-chart-icon />
+                        <span class="ml-3">CALENDAR</span>
+                    </a>
+                </li>
+
                 {{-- PAYPAL --}}
                 <li class="mt-4">
                     <a href="{{ route('admin.paypal') }}"

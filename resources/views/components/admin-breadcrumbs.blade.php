@@ -16,6 +16,13 @@
         {{-- Succeeding - 2nd level --}}
         {{-- request()->routeIs('dashboard') --}}
 
+        {{-- CALENDAR --}}
+        @if (request()->routeIs('admin.calendar'))
+            <x-crumb href="{{ route('admin.calendar') }}">
+                <x-svgs.pie-chart-icon class="mr-2 h-[15px] w-[15px]" />
+                Calendar
+            </x-crumb>
+        @endif
 
         {{-- PAYPAL --}}
         @if (request()->routeIs('admin.paypal'))
