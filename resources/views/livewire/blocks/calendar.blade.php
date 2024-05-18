@@ -7,6 +7,7 @@ new class extends Component {
     public $year;
     public $daysInMonth;
     public $firstDayOfMonth;
+    public $selectedDay;
 
     public $daysInWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     public $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // Full name of the months
@@ -49,6 +50,11 @@ new class extends Component {
     {
         $this->daysInMonth = now()->create($this->year, $this->month, 1)->daysInMonth;
         $this->firstDayOfMonth = now()->create($this->year, $this->month, 1)->dayOfWeek; // Sunday = 0, Monday = 1, ..., Saturday = 6
+    }
+
+    public function selectDay($year, $month, $day)
+    {
+        $this->selectedDay = now()->create($year, $month, $day)->format('Y-m-d');
     }
 }; ?>
 
@@ -98,6 +104,7 @@ new class extends Component {
 
                 @for ($day = 1; $day <= $daysInMonth; $day++)
                     <div wire:loading.remove wire:target="prevMonth, nextMonth, today"
+                        wire:click="selectDay({{ $year }}, {{ $month }}, {{ $day }})"
                         class='py-1 border border-gray-600 cursor-pointer md:p-4 dark:border-gray-500 dark:hover:bg-gray-900 hover:bg-slate-200 hover:font-bold'>
                         {{ now()->create($year, $month, $day)->format('j') }}
                     </div>
@@ -106,7 +113,7 @@ new class extends Component {
 
         </div>
 
-        <h1>Current Full Date: </h1>
+        <h1>Selected Full Date: {{ $selectedDay ?? now()->format('Y-m-d') }} </h1>
     </div>
 
 </div>
