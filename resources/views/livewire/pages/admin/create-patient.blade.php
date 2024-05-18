@@ -12,9 +12,7 @@ new #[Layout('layouts.admin')] class extends Component {};
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
             {{-- START - BREADCRUMBS --}}
             <x-admin-breadcrumbs>
-                <x-crumb href="{{ route('admin.create.patient') }}">
-                    <x-svgs.user-icon class="mr-2 h-[12px] w-[12px]" />
-                    Register Patient </x-crumb>
+
             </x-admin-breadcrumbs>
             {{-- END - BREADCRUMBS --}}
         </h2>
