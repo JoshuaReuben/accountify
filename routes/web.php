@@ -50,7 +50,10 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Volt::route('index/patient', 'pages.admin.index-patient')->name('admin.index.patient');
 
     Volt::route('/paypal', 'pages.admin.paypal')->name('admin.paypal');
+
+    // Experimental Routes
     Volt::route('/calendar', 'pages.admin.calendar')->name('admin.calendar');
+    Volt::route('/pomodoro', 'pages.admin.pomodoro')->name('admin.pomodoro');
 
 
 
