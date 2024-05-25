@@ -57,77 +57,7 @@ new #[Layout('layouts.admin')] class extends Component {};
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- START SECTION --}}
-                    <p id="countdown">1:00</p>
-                    {{-- NOT YET CONFIGURED TO BECOME A RESET --}}
-
-
-                    <div x-data="{ open: true }" class="flex  items-center">
-                        <button @click="open = true " onclick="resetCountdown()"><x-svgs.reset-button-icon /></button>
-                        <button @click="open = ! open" x-show="open"
-                            onclick="startCountdown()"><x-svgs.play-button-icon /></button>
-                        <button @click="open = ! open" x-show="!open"
-                            onclick="pauseCountdown()"><x-svgs.pause-button-icon /></button>
-                    </div>
-
-
-
-
-                    <script>
-                        const countdownEl = document.getElementById('countdown');
-                        const startingMinutes = 1;
-                        let time = startingMinutes * 60;
-                        let intervalID = null;
-
-                        // If there is a key 'time' stored in storage, then use that value as the time then update the innerHTML
-                        if (localStorage.getItem('time')) {
-                            time = parseInt(localStorage.getItem('time'));
-                            updateCountdown();
-                        }
-
-                        function startCountdown() {
-                            clearInterval(intervalID); // Clear any existing interval before setting a new one
-                            intervalID = setInterval(updateCountdown, 1000);
-                        }
-
-                        // Pause the timer
-                        function pauseCountdown() {
-                            if (intervalID !== null) {
-                                clearInterval(intervalID);
-                            }
-                        }
-                        // Countdown timer function
-                        function updateCountdown() {
-                            const minutes = Math.floor(time / 60);
-                            let seconds = time % 60;
-                            seconds = seconds < 10 ? '0' + seconds : seconds;
-
-                            countdownEl.innerHTML = `${minutes}:${seconds}`;
-
-                            localStorage.setItem('time', time);
-
-                            if (time == 0 || time < 0) {
-                                clearInterval(intervalID); // Stop the interval
-
-                                // Reset the timer back to 1 minute and unset the 'time' key from storage
-                                resetCountdown();
-                            } else {
-                                time--;
-                            }
-                        }
-
-                        // Reset the timer back to 1 minute and unset the 'time' key from storage
-                        function resetCountdown() {
-                            time = startingMinutes * 60;
-                            if (typeof intervalID !== 'undefined' && intervalID !== null) {
-                                clearInterval(intervalID);
-                            }
-
-                            localStorage.removeItem('time');
-                            countdownEl.innerHTML = '1:00';
-                            console.log(time);
-
-                        }
-                    </script>
+                    <x-pomodoro-timer />
 
                     {{-- END SECTION --}}
 
