@@ -46,8 +46,8 @@ new class extends Component {
     <div class="antialiased bg-gray-50 dark:bg-gray-900">
         <nav
             class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
-            <div class="flex flex-wrap justify-between items-center">
-                <div class="flex justify-start items-center">
+            <div class="flex flex-wrap items-center justify-between">
+                <div class="flex items-center justify-start">
 
                     <button data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation"
                         aria-controls="drawer-navigation"
@@ -67,22 +67,32 @@ new class extends Component {
                         <span class="sr-only">Toggle sidebar</span>
                     </button>
                     <a href="#" class="flex items-center justify-between mr-4">
-                        <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" alt="Accountify Logo" />
+                        <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="h-8 mr-3" alt="Accountify Logo" />
                         <span
-                            class="self-center sm:text-lg md:text-2xl font-semibold whitespace-nowrap dark:text-white">Accountify</span>
+                            class="self-center font-semibold sm:text-lg md:text-2xl whitespace-nowrap dark:text-white">Accountify</span>
                     </a>
                 </div>
                 <div class="flex items-center lg:order-2">
 
+                    {{-- Timer --}}
+                    <x-buttons.timer-button />
+
+
+                    {{-- Stop Watch --}}
+                    {{-- <div
+                        class="p-2 mr-0 text-gray-500 rounded-lg cursor-pointer group md:mr-1 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                        <x-svgs.stopwatch-icon />
+                    </div> --}}
+
                     <!-- THEME TOGGLER -->
                     <div
-                        class="p-2 pt-4 mr-0 md:mr-1 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                        class="p-2 pt-4 mr-0 text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
                         <x-buttons.theme-toggler />
                     </div>
 
                     <!-- NOTIFICATIONS -->
                     <div
-                        class="p-2 pt-4 mr-0 md:mr-1  text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                        class="p-2 pt-4 mr-0 text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
                         <x-buttons.notifications />
                     </div>
 
@@ -96,7 +106,7 @@ new class extends Component {
         <livewire:layout.admin-sidebar-nav />
         <!-- End of Sidebar -->
 
-        <main class="p-4 mt-6 md:ml-64 h-auto pt-20">
+        <main class="h-auto p-4 pt-20 mt-6 md:ml-64">
             {{-- CONTENT SECTION TEMPORARY --}}
             <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
                 {{-- NAVBAR --}}
@@ -104,7 +114,7 @@ new class extends Component {
 
                 <!-- Page Heading -->
                 @if (isset($header))
-                    <header class="bg-white shadow dark:bg-gray-800 rounded-lg">
+                    <header class="bg-white rounded-lg shadow dark:bg-gray-800">
                         <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                             {{ $header }}
                         </div>

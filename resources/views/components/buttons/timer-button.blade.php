@@ -1,33 +1,42 @@
 <div>
-
-    {{-- COUNTDOWN INDICATOR --}}
-    <p id="countdown">25:00</p>
-
-
-
-
-    <div x-data="{ open: true }" class="flex  items-center">
-
-        {{-- Reset --}}
-        <button class="mx-2" @click="open = true " onclick="resetCountdown()">
-            <x-svgs.reset-button-icon />
+    <div data-dropdown-toggle="dropdown-timer" data-dropdown-trigger="hover">
+        <button type="button" id="countdown"
+            class="w-fit text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-bold rounded-lg text-md px-5 py-2.5 text-center me-2 mb-2">
+            25:00
         </button>
+    </div>
 
-        {{-- Play --}}
-        <button class="mx-2" @click="open = ! open" x-show="open" onclick="startCountdown()">
-            <x-svgs.play-button-icon />
-        </button>
+    <!-- Dropdown menu -->
+    <div id="dropdown-timer" class="z-10 hidden bg-white rounded-lg shadow w-44 dark:bg-gray-700">
+        <ul class="text-sm text-gray-700 dark:text-gray-200">
+            <button id="timer-reset-btn" onclick="resetCountdown(); toggleResetforPlayBtn()"
+                class="flex items-center w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
+                {{-- Reset --}}
+                <x-svgs.reset-button-icon />
+                &nbsp; Reset
+            </button>
 
-        {{-- Pause --}}
-        <button class="mx-2" @click="open = ! open" x-show="!open" onclick="pauseCountdown()">
-            <x-svgs.pause-button-icon />
-        </button>
+            <button id="timer-play-btn" onclick="startCountdown(); toggleTimerOpen()"
+                class="flex items-center w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
+                {{-- Play --}}
+                <x-svgs.play-button-icon />
+                Play
+            </button>
 
-        {{-- Edit Modal --}}
-        <button class="mx-2" data-modal-target="edit-timer" data-modal-toggle="edit-timer">
-            <x-svgs.edit-icon />
-        </button>
+            <button id="timer-pause-btn" onclick="pauseCountdown(); toggleTimerOpen()"
+                class="items-center hidden w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
+                {{-- Pause --}}
+                <x-svgs.pause-button-icon />
+                Pause
+            </button>
 
+            <button data-modal-target="edit-timer" data-modal-toggle="edit-timer"
+                class="flex items-center w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
+                {{-- Edit Modal --}}
+                <x-svgs.edit-icon />
+                Edit Timer
+            </button>
+        </ul>
     </div>
 
 
@@ -37,16 +46,16 @@
     <!-- Main modal -->
     <div id="edit-timer" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <div class="relative w-full max-w-2xl max-h-full p-4">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                         Edit Timer
                     </h3>
                     <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white"
                         data-modal-hide="edit-timer">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
@@ -57,7 +66,7 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <div class="p-4 md:p-5 space-y-4">
+                <div class="p-4 space-y-4 md:p-5">
                     <p class="text-base leading-relaxed text-center text-gray-500 dark:text-gray-400">
                         The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late
                         1980s. It uses a kitchen timer to break work into intervals, typically 25 minutes in length,
@@ -67,7 +76,7 @@
                     <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-900">
                     {{-- HR - END --}}
 
-                    <form class="w-full  mx-auto flex flex-wrap justify-center items-center">
+                    <form class="flex flex-wrap items-center justify-center w-full mx-auto">
                         {{-- MINUTES --}}
                         <div class="mx-2">
                             <label for="minutes-input" class="sr-only">Choose Minutes:</label>
@@ -75,7 +84,7 @@
                                 {{-- Minus Icon --}}
                                 <button type="button" id="decrement-button"
                                     data-input-counter-decrement="minutes-input"
-                                    class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                    class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-s-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                     <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -84,16 +93,16 @@
                                 </button>
                                 <input type="text" id="minutes-input" data-input-counter data-input-counter-min="1"
                                     data-input-counter-max="60"
-                                    class="bg-gray-50 border-x-0 border-gray-300 h-11 font-medium text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full pb-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    class="block w-full pb-6 text-sm font-medium text-center text-gray-900 border-gray-300 bg-gray-50 border-x-0 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="" value="25" required />
                                 <div
-                                    class="absolute bottom-1 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 flex items-center text-xs text-gray-400 space-x-1 rtl:space-x-reverse">
+                                    class="absolute flex items-center space-x-1 text-xs text-gray-400 -translate-x-1/2 bottom-1 start-1/2 rtl:translate-x-1/2 rtl:space-x-reverse">
                                     <span>MINUTES</span>
                                 </div>
                                 {{-- Plus Icon --}}
                                 <button type="button" id="increment-button"
                                     data-input-counter-increment="minutes-input"
-                                    class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                    class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-e-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                     <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -109,7 +118,7 @@
                             <div class="relative flex items-center mb-2">
                                 <button type="button" id="decrement-button"
                                     data-input-counter-decrement="seconds-input"
-                                    class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                    class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-s-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                     {{-- Minus Icon --}}
                                     <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
@@ -117,17 +126,17 @@
                                             stroke-width="2" d="M1 1h16" />
                                     </svg>
                                 </button>
-                                <input type="text" id="seconds-input" data-input-counter data-input-counter-min="0"
-                                    data-input-counter-max="59"
-                                    class="bg-gray-50 border-x-0 border-gray-300 h-11 font-medium text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full pb-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                <input type="text" id="seconds-input" data-input-counter
+                                    data-input-counter-min="0" data-input-counter-max="59"
+                                    class="block w-full pb-6 text-sm font-medium text-center text-gray-900 border-gray-300 bg-gray-50 border-x-0 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="" value="0" required />
                                 <div
-                                    class="absolute bottom-1 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 flex items-center text-xs text-gray-400 space-x-1 rtl:space-x-reverse">
+                                    class="absolute flex items-center space-x-1 text-xs text-gray-400 -translate-x-1/2 bottom-1 start-1/2 rtl:translate-x-1/2 rtl:space-x-reverse">
                                     <span>SECONDS</span>
                                 </div>
                                 <button type="button" id="increment-button"
                                     data-input-counter-increment="seconds-input"
-                                    class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                    class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-e-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                     <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -142,7 +151,7 @@
 
                 </div>
                 <!-- Modal footer -->
-                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <div class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
                     <button onclick="updateStartingTime()" data-modal-hide="edit-timer" type="button"
                         class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                         Save Changes
@@ -162,9 +171,42 @@
 
     <script>
         const countdownEl = document.getElementById('countdown');
-        let startingMinutes = 25;
+        let timerPlayBtn = document.getElementById('timer-play-btn');
+        let timerPauseBtn = document.getElementById('timer-pause-btn');
 
-        let time = startingMinutes * 60;
+        function toggleResetforPlayBtn() {
+
+
+            // Always show back to play button, hide the pause button then show the play button
+            if (timerPauseBtn.classList.contains('flex')) {
+                // if pause is show, hide it then show play
+                timerPauseBtn.classList.remove('flex');
+                timerPauseBtn.classList.add('hidden');
+
+                //show the play
+                timerPlayBtn.classList.remove('hidden');
+                timerPlayBtn.classList.add('flex');
+            }
+        }
+
+        // Function to toggle the open state
+        function toggleTimerOpen() {
+            timerPlayBtn.classList.toggle('hidden');
+
+            //Handling the toggle for Pause Button - i did it this way because it shows csslint error for displaying hiden and flex at the same time
+            if (timerPauseBtn.classList.contains('hidden')) {
+                timerPauseBtn.classList.remove('hidden');
+                timerPauseBtn.classList.add('flex');
+            } else {
+                timerPauseBtn.classList.remove('flex');
+                timerPauseBtn.classList.add('hidden');
+            }
+
+        }
+
+        let startingMinutes = 25;
+        let startingSeconds = 0;
+        let time = (startingMinutes * 60) + startingSeconds;
         let intervalID = null;
 
 
@@ -202,11 +244,14 @@
             countdownEl.innerHTML = `${minutes}:${seconds}`;
             localStorage.setItem('time', time);
 
-            if (time == 0 || time < 0) {
+            if (time < 0) {
                 clearInterval(intervalID); // Stop the interval
+                alert('Time is up! Take a short break!');
 
-                // Reset the timer back to 1 minute and unset the 'time' key from storage
+                // Reset the timer back 
                 resetCountdown();
+                toggleResetforPlayBtn()
+
             } else {
                 time--;
             }
@@ -227,7 +272,7 @@
                 time = startingMinutes * 60;
             }
             updateCountdown();
-
+            toggleResetforPlayBtn();
 
         }
 
@@ -242,8 +287,13 @@
             time += parseInt(secondsInput.value);
             updateCountdown(); // Update the countdown display immediately
 
+
             localStorage.setItem('set:Minutes', minutesInput.value);
             localStorage.setItem('set:Seconds', secondsInput.value);
+
+            resetCountdown();
         }
     </script>
+
+
 </div>
