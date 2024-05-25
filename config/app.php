@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'MediConnect'),
+    'name' => env('APP_NAME', 'Accountify'),
 
     /*
     |--------------------------------------------------------------------------

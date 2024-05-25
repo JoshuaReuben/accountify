@@ -24,7 +24,7 @@ new class extends Component {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'MediConnect') }}</title>
+    <title>{{ config('app.name', 'Accountify') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -67,9 +67,9 @@ new class extends Component {
                         <span class="sr-only">Toggle sidebar</span>
                     </button>
                     <a href="#" class="flex items-center justify-between mr-4">
-                        <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" alt="MediConnect Logo" />
+                        <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" alt="Accountify Logo" />
                         <span
-                            class="self-center sm:text-lg md:text-2xl font-semibold whitespace-nowrap dark:text-white">MediConnect</span>
+                            class="self-center sm:text-lg md:text-2xl font-semibold whitespace-nowrap dark:text-white">Accountify</span>
                     </a>
                 </div>
                 <div class="flex items-center lg:order-2">

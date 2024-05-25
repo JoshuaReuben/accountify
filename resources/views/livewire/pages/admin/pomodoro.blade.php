@@ -59,9 +59,15 @@ new #[Layout('layouts.admin')] class extends Component {};
                     {{-- START SECTION --}}
                     <p id="countdown">1:00</p>
                     {{-- NOT YET CONFIGURED TO BECOME A RESET --}}
-                    <button onclick="resetCountdown()">RESET</button>
-                    <button onclick="startCountdown()">PLAY</button>
-                    <button onclick="pauseCountdown()">PAUSE</button>
+
+
+                    <div x-data="{ open: true }" class="flex  items-center">
+                        <button @click="open = true " onclick="resetCountdown()"><x-svgs.reset-button-icon /></button>
+                        <button @click="open = ! open" x-show="open"
+                            onclick="startCountdown()"><x-svgs.play-button-icon /></button>
+                        <button @click="open = ! open" x-show="!open"
+                            onclick="pauseCountdown()"><x-svgs.pause-button-icon /></button>
+                    </div>
 
 
 
@@ -70,6 +76,7 @@ new #[Layout('layouts.admin')] class extends Component {};
                         const countdownEl = document.getElementById('countdown');
                         const startingMinutes = 1;
                         let time = startingMinutes * 60;
+                        let intervalID = null;
 
                         // If there is a key 'time' stored in storage, then use that value as the time then update the innerHTML
                         if (localStorage.getItem('time')) {
@@ -77,8 +84,8 @@ new #[Layout('layouts.admin')] class extends Component {};
                             updateCountdown();
                         }
 
-                        // Start the timer
                         function startCountdown() {
+                            clearInterval(intervalID); // Clear any existing interval before setting a new one
                             intervalID = setInterval(updateCountdown, 1000);
                         }
 
@@ -98,19 +105,18 @@ new #[Layout('layouts.admin')] class extends Component {};
 
                             localStorage.setItem('time', time);
 
-                            if (time == 0) {
+                            if (time == 0 || time < 0) {
                                 clearInterval(intervalID); // Stop the interval
+
+                                // Reset the timer back to 1 minute and unset the 'time' key from storage
+                                resetCountdown();
+                            } else {
+                                time--;
                             }
-                            time--;
                         }
-
-                        //problem, reset is not working properly, does not reset the timer back to 1 minute
-
 
                         // Reset the timer back to 1 minute and unset the 'time' key from storage
                         function resetCountdown() {
-                            console.log(time);
-
                             time = startingMinutes * 60;
                             if (typeof intervalID !== 'undefined' && intervalID !== null) {
                                 clearInterval(intervalID);
