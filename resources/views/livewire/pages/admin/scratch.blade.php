@@ -58,6 +58,39 @@ new #[Layout('layouts.admin')] class extends Component {};
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- START SECTION --}}
 
+                    <audio controls>
+                        <source src="{{ asset('storage/musics/music1.mp3') }}" type="audio/mpeg" />
+                    </audio>
+
+
+
+
+
+
+                    {{--  EXPERIMENT --}}
+                    <x-music-player-template />
+
+                    {{-- END OF EXPERIMENT --}}
+
+
+                    <script>
+                        const playPauseIconForMusic = document.getElementById('playPauseIconForMusic');
+
+                        function togglePlayPauseForMusic() {
+
+                            // Play Icon is showing, Music is Playing
+                            if (playPauseIconForMusic.classList.contains('fa-play')) {
+                                playPauseIconForMusic.classList.remove('fa-play');
+                                playPauseIconForMusic.classList.add('fa-pause');
+                            } else {
+
+                                // Pause Icon is showing, Music is Playing 
+                                playPauseIconForMusic.classList.remove('fa-pause');
+                                playPauseIconForMusic.classList.add('fa-play');
+                            }
+                        }
+                    </script>
+
 
                     {{-- END SECTION --}}
 

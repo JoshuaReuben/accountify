@@ -3,3 +3,18 @@
 @tailwind utilities;
 
 
+
+/* Custom CSS FOR RANGE SLIDER */
+
+/* MUSIC PLAYLIST */
+#music-progress-slider {
+    @apply appearance-none w-full h-2 rounded-full cursor-pointer bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200;
+}
+
+#music-progress-slider::-webkit-slider-thumb {
+    @apply appearance-none rounded-full w-5 h-5 bg-green-600 hover:bg-green-700 ring-4 ring-inset ring-white;
+  
+}
+
+
+

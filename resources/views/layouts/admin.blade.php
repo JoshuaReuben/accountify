@@ -78,17 +78,17 @@ new class extends Component {
                     <x-buttons.timer-button />
 
 
-                    {{-- Stop Watch --}}
-                    {{-- <div
-                        class="p-2 mr-0 text-gray-500 rounded-lg cursor-pointer group md:mr-1 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
-                        <x-svgs.stopwatch-icon />
-                    </div> --}}
+
+
 
                     <!-- THEME TOGGLER -->
                     <div
                         class="p-2 pt-4 mr-0 text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
                         <x-buttons.theme-toggler />
                     </div>
+
+                    {{-- Timer --}}
+                    <i class="fa-solid fa-music text-white"></i>
 
                     <!-- NOTIFICATIONS -->
                     <div

@@ -53,7 +53,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     // Experimental Routes
 
-    Volt::route('/pomodoro', 'pages.admin.pomodoro')->name('admin.pomodoro');
+    Volt::route('/scratch', 'pages.admin.scratch')->name('admin.scratch');
 
 
 
