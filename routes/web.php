@@ -5,6 +5,7 @@ use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\AdminEmailVerifyController;
+use App\Http\Controllers\AudioController;
 use App\Http\Controllers\PaypalController;
 
 Route::view('/', 'welcome');
@@ -15,10 +16,7 @@ Route::get('auth/{provider}/redirect', [ProviderController::class, 'redirect']);
 Route::get('auth/{provider}/callback', [ProviderController::class, 'callback']);
 
 
-Route::get('/test', function () {
-    //dd('hehe');
-
-});
+Route::get('/audio/{filename}', [AudioController::class, 'serveAudio']);
 
 
 

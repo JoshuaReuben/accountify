@@ -1,64 +1,72 @@
 <div>
-    <!-- This is an example component -->
+
+    {{-- Audio --}}
+    <audio controls id="musicAudio">
+        <source src="{{ asset('storage/musics/music1.wav') }}" type="audio/mpeg" />
+    </audio>
+
+
+    {{-- Music Layout Design --}}
     <div class="w-full ">
         <div
-            class='flex w-full bg-gray-100 dark:bg-gray-800 dark:ring-1 dark:ring-gray-600  shadow-md drop-shadow-2xl rounded-xl overflow-hidden mx-auto '>
+            class='flex w-full mx-auto overflow-hidden bg-gray-100 shadow-md dark:bg-gray-800 dark:ring-1 dark:ring-gray-600 drop-shadow-2xl rounded-xl '>
             <div class="flex flex-col w-full">
                 <div class="flex p-5 border-b">
-                    <img class='w-20 h-20 object-cover' alt='User avatar'
+                    <img class='object-cover w-20 h-20' alt='User avatar'
                         src='https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200'>
-                    <div class="flex flex-col px-2 w-full">
+                    <div class="flex flex-col w-full px-2">
 
                         {{-- Status --}}
-                        <span class="text-xs text-gray-700 dark:text-white uppercase font-medium ">
+                        <span class="text-xs font-medium text-gray-700 uppercase dark:text-white ">
                             now playing
                         </span>
 
                         {{-- Title --}}
-                        <span class="text-sm text-green-500 capitalize font-semibold pt-1">
+                        <span class="pt-1 text-sm font-semibold text-green-500 capitalize">
                             I think I need a sunrise, I'm tired of the sunset
                         </span>
 
                         {{-- Author --}}
-                        <span class="text-xs text-gray-500 font-medium  dark:text-gray-400 ">
+                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
                             -"Boston," Augustana
                         </span>
 
                     </div>
                 </div>
 
-                <div class="flex flex-col-reverse sm:flex-row items-center p-5">
+                <div class="flex flex-col-reverse items-center p-5 sm:flex-row">
                     <div class="flex items-center">
-                        <div class="  flex space-x-3 p-2 mt-5 sm:mt-0">
+                        <div class="flex p-2 mt-5 space-x-3 sm:mt-0">
                             {{-- Previous --}}
-                            <button class="group focus:outline-none  hover:scale-125">
+                            <button class="group focus:outline-none hover:scale-125">
                                 <i
-                                    class="transition fa-solid fa-backward-step text-green-400 group-hover:text-green-500 "></i>
+                                    class="text-green-400 transition fa-solid fa-backward-step group-hover:text-green-500 "></i>
                             </button>
 
                             {{-- Play --}}
                             <button onclick="togglePlayPauseForMusic()"
                                 class=" group rounded-full focus:outline-none w-10 h-10 flex items-center justify-center pl-0.5 ring-1 ring-green-400 hover:ring-green-500 hover:ring-2">
                                 <i id="playPauseIconForMusic"
-                                    class="fa-solid fa-play text-green-400 group-hover:text-green-500 group-hover:scale-125"></i>
+                                    class="text-green-400 fa-solid fa-play group-hover:text-green-500 group-hover:scale-125"></i>
                             </button>
 
                             {{-- Next --}}
-                            <button class="  group focus:outline-none hover:scale-125">
+                            <button class=" group focus:outline-none hover:scale-125">
                                 <i
-                                    class="transition fa-solid fa-forward-step text-green-400 group-hover:text-green-500 "></i>
+                                    class="text-green-400 transition fa-solid fa-forward-step group-hover:text-green-500 "></i>
                             </button>
                         </div>
                     </div>
 
-                    <div class="relative w-full sm:w-1/2 md:w-7/12 lg:w-4/6 ml-2">
+                    <div class="relative w-full ml-2 sm:w-1/2 md:w-7/12 lg:w-4/6">
+                        {{-- Music Progress Slider --}}
                         <input id="music-progress-slider" type="range" value="0" class="">
                     </div>
 
-                    <div class="flex justify-end w-full sm:w-auto pt-1 sm:pt-0">
+                    <div class="flex justify-end w-full pt-1 sm:w-auto sm:pt-0">
                         {{-- Time --}}
-                        <span class="text-xs text-gray-700 uppercase font-medium pl-2 dark:text-white">
-                            02:00/04:00
+                        <span id="musicCurrentTime"
+                            class="pl-2 text-xs font-medium text-gray-700 uppercase dark:text-white">
                         </span>
                     </div>
 
@@ -66,8 +74,8 @@
 
                 <div class="flex flex-col p-5">
                     {{-- Volume Adjuster --}}
-                    <div class="border-b pb-1 flex justify-between items-center mb-2">
-                        <span class=" text-base font-semibold uppercase text-gray-700 dark:text-white"> play list</span>
+                    <div class="flex items-center justify-between pb-1 mb-2 border-b">
+                        <span class="text-base font-semibold text-gray-700 uppercase dark:text-white"> play list</span>
                         <span class="flex items-center space-x-2">
                             <i class="fa-solid fa-volume-high text-slate-500 dark:text-white"></i>
                             <i class="fa-solid fa-volume-xmark text-slate-500 dark:text-white"></i>
@@ -77,16 +85,16 @@
 
                     {{-- Playlist --}}
                     <div
-                        class=" transition-all ease-in duration-100 flex border-b dark:border dark:border-gray-700 py-3 cursor-pointer hover:shadow-sm hover:bg-gray-100 hover:rounded-xl dark:hover:bg-gray-900 px-2 ">
+                        class="flex px-2 py-3 transition-all duration-100 ease-in border-b cursor-pointer dark:border dark:border-gray-700 hover:shadow-sm hover:bg-gray-100 hover:rounded-xl dark:hover:bg-gray-900">
                         {{-- Avatar --}}
-                        <img class='w-10 h-10 object-cover rounded-lg' alt='User avatar'
+                        <img class='object-cover w-10 h-10 rounded-lg' alt='User avatar'
                             src='https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200'>
-                        <div class="flex flex-col px-2 w-full">
+                        <div class="flex flex-col w-full px-2">
 
-                            <span class="text-sm text-green-500 capitalize font-semibold pt-1">
+                            <span class="pt-1 text-sm font-semibold text-green-500 capitalize">
                                 I think I need a sunrise, I'm tired of the sunset
                             </span>
-                            <span class="text-xs text-gray-500 font-medium dark:text-gray-400  ">
+                            <span class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
                                 -"Boston," Augustana
                             </span>
                         </div>
@@ -96,4 +104,70 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        let musicAudio = new Audio('/audio/music1.wav'); // Adjust the URL as necessary
+
+        let playPauseIconForMusic = document.getElementById('playPauseIconForMusic');
+        let musicProgressSlider = document.getElementById('music-progress-slider');
+        // let musicAudio = document.getElementById('musicAudio');
+        let musicCurrentTime = document.getElementById('musicCurrentTime');
+        let musicIntervalID;
+
+        musicAudio.onloadedmetadata = function() {
+            musicProgressSlider.max = musicAudio.duration;
+            musicProgressSlider.value = musicAudio.currentTime;
+        }
+
+
+        function togglePlayPauseForMusic() {
+            // Play Icon is showing, Music is Playing
+            if (playPauseIconForMusic.classList.contains('fa-play')) {
+                playPauseIconForMusic.classList.remove('fa-play');
+                playPauseIconForMusic.classList.add('fa-pause');
+                musicAudio.play();
+                musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
+
+            } else {
+                // Pause Icon is showing, Music is Playing 
+                playPauseIconForMusic.classList.remove('fa-pause');
+                playPauseIconForMusic.classList.add('fa-play');
+                musicAudio.pause();
+                clearInterval(musicIntervalID);
+            }
+        }
+
+
+        function updateMusicIntervalDetails() {
+            if (musicAudio.play()) {
+                musicProgressSlider.value = musicAudio.currentTime;
+                musicCurrentTime.innerText =
+                    `${formatMusicTime(musicAudio.currentTime)} / ${formatMusicTime(musicAudio.duration)}`;
+            }
+        }
+
+
+        musicProgressSlider.onchange = function() {
+
+            musicAudio.currentTime = musicProgressSlider.value;
+
+            console.log("SONG current time: " + musicAudio.currentTime);
+            console.log("Song duration: " + musicAudio.duration);
+            console.log("Sliders value: " + musicProgressSlider.value);
+
+            playPauseIconForMusic.classList.remove('fa-play');
+            playPauseIconForMusic.classList.add('fa-pause');
+            clearInterval(musicIntervalID);
+            musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
+        }
+
+
+        // Function to format time
+        function formatMusicTime(seconds) {
+            let minutes = Math.floor(seconds / 60);
+            let remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+    </script>
 </div>
