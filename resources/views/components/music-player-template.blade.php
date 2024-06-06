@@ -1,11 +1,5 @@
 <div>
 
-    {{-- Audio --}}
-    <audio controls id="musicAudio">
-        <source src="{{ asset('storage/musics/music1.wav') }}" type="audio/mpeg" />
-    </audio>
-
-
     {{-- Music Layout Design --}}
     <div class="w-full ">
         <div
@@ -79,8 +73,15 @@
                         <span class="flex items-center space-x-2">
                             <i class="fa-solid fa-volume-high text-slate-500 dark:text-white"></i>
                             <i class="fa-solid fa-volume-xmark text-slate-500 dark:text-white"></i>
-                            <input type="range" name="" id="" style="accent-color: rgb(74 222 128);">
+                            <input type="range" id="musicVolumeControl" min="0" max="1" step="0.01"
+                                value="0.9" onchange="adjustMusicVolume()" style="accent-color: rgb(74 222 128);">
+                            {{-- Label --}}
+                            <span id="musicCurrentVolumeTxt"
+                                class=" text-xs font-medium text-gray-700 uppercase dark:text-white">
+                                90%
+                            </span>
                         </span>
+
                     </div>
 
                     {{-- Playlist --}}
@@ -115,6 +116,19 @@
         let musicCurrentTime = document.getElementById('musicCurrentTime');
         let musicIntervalID;
 
+
+        // Music Volume -------------------------------------------------------------
+        let musicVolumeControl = document.getElementById("musicVolumeControl");
+        let musicCurrentVolumeTxt = document.getElementById("musicCurrentVolumeTxt");
+
+
+        function adjustMusicVolume() {
+            musicAudio.volume = musicVolumeControl.value;
+            console.log(musicAudio.volume);
+            musicCurrentVolumeTxt.innerText = `${Math.floor(musicAudio.volume * 100)}%`;
+        }
+
+        // Music On Start ------------------------------------------------------------
         musicAudio.onloadedmetadata = function() {
             musicProgressSlider.max = musicAudio.duration;
             musicProgressSlider.value = musicAudio.currentTime;
@@ -149,13 +163,7 @@
 
 
         musicProgressSlider.onchange = function() {
-
             musicAudio.currentTime = musicProgressSlider.value;
-
-            console.log("SONG current time: " + musicAudio.currentTime);
-            console.log("Song duration: " + musicAudio.duration);
-            console.log("Sliders value: " + musicProgressSlider.value);
-
             playPauseIconForMusic.classList.remove('fa-play');
             playPauseIconForMusic.classList.add('fa-pause');
             clearInterval(musicIntervalID);
