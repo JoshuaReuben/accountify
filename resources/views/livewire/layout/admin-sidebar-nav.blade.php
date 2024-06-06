@@ -23,7 +23,7 @@ new class extends Component {
 
             <ul class="space-y-2">
 
-                {{-- CALENDAR --}}
+                {{-- SCRATCH --}}
                 <li class="mt-4">
                     <a href="{{ route('admin.scratch') }}"
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -38,6 +38,17 @@ new class extends Component {
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <x-svgs.pie-chart-icon />
                         <span class="ml-3">PAYPAL</span>
+                    </a>
+                </li>
+
+
+                {{-- UPLOAD A MUSIC --}}
+                <li class="mt-4 group">
+                    <a href="{{ route('admin.create.music') }}"
+                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <i
+                            class="fa-solid fa-cloud-arrow-up text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <span class="ml-3">UPLOAD A MUSIC</span>
                     </a>
                 </li>
 

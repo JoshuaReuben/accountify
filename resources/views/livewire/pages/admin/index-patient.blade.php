@@ -11,9 +11,8 @@ new #[Layout('layouts.admin')] class extends Component {};
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
             {{-- START - BREADCRUMBS --}}
-            <x-admin-breadcrumbs>
+            <x-admin-breadcrumbs />
 
-            </x-admin-breadcrumbs>
             {{-- END - BREADCRUMBS --}}
         </h2>
     </x-slot>

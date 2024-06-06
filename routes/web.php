@@ -49,6 +49,9 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     Volt::route('/paypal', 'pages.admin.paypal')->name('admin.paypal');
 
+    // MUSISC
+    Volt::route('/create/music', 'pages.admin.create-music')->name('admin.create.music');
+
     // Experimental Routes
 
     Volt::route('/scratch', 'pages.admin.scratch')->name('admin.scratch');

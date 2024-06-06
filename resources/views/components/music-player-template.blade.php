@@ -11,8 +11,8 @@
                     <div class="flex flex-col w-full px-2">
 
                         {{-- Status --}}
-                        <span class="text-xs font-medium text-gray-700 uppercase dark:text-white ">
-                            now playing
+                        <span id="musicStatus" class="text-xs font-medium text-gray-700 uppercase dark:text-white ">
+                            Paused
                         </span>
 
                         {{-- Title --}}
@@ -32,7 +32,7 @@
                     <div class="flex items-center">
                         <div class="flex p-2 mt-5 space-x-3 sm:mt-0">
                             {{-- Previous --}}
-                            <button class="group focus:outline-none hover:scale-125">
+                            <button onclick="previousSongForMusic()" class="group focus:outline-none hover:scale-125">
                                 <i
                                     class="text-green-400 transition fa-solid fa-backward-step group-hover:text-green-500 "></i>
                             </button>
@@ -45,7 +45,7 @@
                             </button>
 
                             {{-- Next --}}
-                            <button class=" group focus:outline-none hover:scale-125">
+                            <button onclick="nextSongForMusic()" class=" group focus:outline-none hover:scale-125">
                                 <i
                                     class="text-green-400 transition fa-solid fa-forward-step group-hover:text-green-500 "></i>
                             </button>
@@ -71,8 +71,8 @@
                     <div class="flex items-center justify-between pb-1 mb-2 border-b">
                         <span class="text-base font-semibold text-gray-700 uppercase dark:text-white"> play list</span>
                         <span class="flex items-center space-x-2">
-                            <i class="fa-solid fa-volume-high text-slate-500 dark:text-white"></i>
-                            <i class="fa-solid fa-volume-xmark text-slate-500 dark:text-white"></i>
+                            <i id="volumeIconForMusic"
+                                class="fa-solid fa-volume-high text-slate-500 dark:text-white"></i>
                             <input type="range" id="musicVolumeControl" min="0" max="1" step="0.01"
                                 value="0.9" onchange="adjustMusicVolume()" style="accent-color: rgb(74 222 128);">
                             {{-- Label --}}
@@ -108,24 +108,34 @@
 
 
     <script>
-        let musicAudio = new Audio('/audio/music1.wav'); // Adjust the URL as necessary
+        let musicPlayList = ['/music1.wav', '/music2.wav', '/music3.wav', '/music4.mp3'];
+        let musicAudio = new Audio('/audio' + musicPlayList[3]); // Adjust the URL as necessary
 
         let playPauseIconForMusic = document.getElementById('playPauseIconForMusic');
         let musicProgressSlider = document.getElementById('music-progress-slider');
-        // let musicAudio = document.getElementById('musicAudio');
         let musicCurrentTime = document.getElementById('musicCurrentTime');
         let musicIntervalID;
+        let musicStatus = document.getElementById('musicStatus');
 
 
         // Music Volume -------------------------------------------------------------
         let musicVolumeControl = document.getElementById("musicVolumeControl");
         let musicCurrentVolumeTxt = document.getElementById("musicCurrentVolumeTxt");
+        let volumeIconForMusic = document.getElementById("volumeIconForMusic");
 
 
         function adjustMusicVolume() {
             musicAudio.volume = musicVolumeControl.value;
-            console.log(musicAudio.volume);
             musicCurrentVolumeTxt.innerText = `${Math.floor(musicAudio.volume * 100)}%`;
+
+            //Icon Change for Volume
+            if (musicAudio.volume == 0) {
+                volumeIconForMusic.classList.remove('fa-volume-high');
+                volumeIconForMusic.classList.add('fa-volume-xmark');
+            } else {
+                volumeIconForMusic.classList.remove('fa-volume-xmark');
+                volumeIconForMusic.classList.add('fa-volume-high');
+            }
         }
 
         // Music On Start ------------------------------------------------------------
@@ -142,6 +152,7 @@
                 playPauseIconForMusic.classList.add('fa-pause');
                 musicAudio.play();
                 musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
+                musicStatus.innerText = 'Now Playing';
 
             } else {
                 // Pause Icon is showing, Music is Playing 
@@ -149,6 +160,8 @@
                 playPauseIconForMusic.classList.add('fa-play');
                 musicAudio.pause();
                 clearInterval(musicIntervalID);
+                musicStatus.innerText = 'Paused';
+
             }
         }
 
@@ -177,5 +190,8 @@
             let remainingSeconds = Math.floor(seconds % 60);
             return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
         }
+
+
+        // Music Play List -------------------------------------------------------------
     </script>
 </div>
