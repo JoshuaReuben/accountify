@@ -31,13 +31,46 @@ new #[Layout('layouts.admin')] class extends Component {
             [
                 // Custom validation messages
                 'songcoverimage.required' => 'The Cover Photo is required.',
-                'songaudiofile.required' => 'The Uploaded Audio is required.',
+                'songaudiofile.required' => 'The Audio is not yet properly uploaded. Please try again.',
                 'songcoverimage.mimes' => 'The Cover Photo must be a file of type: jpeg, jpg, png, webp.',
                 'songaudiofile.mimes' => 'The Uploaded Audio must be a .wav or .mp3 file.',
             ],
         );
-        dd('success');
-        //$this->dispatch('new-song-uploaded');
+
+        //Get The File Name and Extension then Sanitize
+        $coverphoto_filename = $this->songcoverimage->getClientOriginalName();
+        $music_filename = $this->songaudiofile->getClientOriginalName();
+
+        //Get The Base Name
+        $coverphoto_basename = pathinfo($coverphoto_filename, PATHINFO_FILENAME);
+        $music_basename = pathinfo($music_filename, PATHINFO_FILENAME);
+
+        //Get The Extension
+        $coverphoto_ext = pathinfo($coverphoto_filename, PATHINFO_EXTENSION);
+        $music_ext = pathinfo($music_filename, PATHINFO_EXTENSION);
+
+        //Sanitize the Base Name using Filter Var of FILTER_SANITIZE_STRING then assign back value to orig var
+        $coverphoto_filename = filter_var($coverphoto_basename, FILTER_SANITIZE_STRING);
+        $music_filename = filter_var($music_basename, FILTER_SANITIZE_STRING);
+
+        //Add Unique Identifiers to the Base Name
+        $coverphoto_filename = $coverphoto_filename . '-' . uniqid();
+        $music_filename = $music_filename . '-' . uniqid();
+
+        //Merge Back the Extension for the Final File Name
+        $coverphoto_filename = $coverphoto_filename . '.' . $coverphoto_ext;
+        $music_filename = $music_filename . '.' . $music_ext;
+
+        //Store the song in the database
+        $song = Music::create([
+            'song_title' => $this->songtitle,
+            'song_artist' => $this->songartist,
+            'song_cover_photo' => $this->songcoverimage->storeAs('musics_cover_photos', $coverphoto_filename, 'public'),
+            'song_file_path' => $this->songaudiofile->storeAs('musics', $music_filename, 'public'),
+        ]);
+
+        $this->reset(['songtitle', 'songartist', 'songcoverimage', 'songaudiofile']);
+        $this->dispatch('new-song-uploaded');
     }
 };
 
@@ -104,12 +137,34 @@ new #[Layout('layouts.admin')] class extends Component {
                         </div>
 
 
-                        <div class="flex items-center gap-4">
-                            <x-buttons.primary-button>{{ __('Upload') }}</x-buttons.primary-button>
+                        <div wire:target="songaudiofile, songcoverimage" class="flex items-center gap-4">
+                            <x-buttons.primary-button wire:loading.attr="disabled"
+                                wire:target="songaudiofile, songcoverimage"
+                                wire:loading.class="cursor-not-allowed opacity-50">{{ __('Upload') }}</x-buttons.primary-button>
 
                             <x-action-message class="me-3" on="new-song-uploaded">
                                 {{ __('New Song Uploaded.') }}
                             </x-action-message>
+                        </div>
+
+                        <div wire:loading wire:target="storeANewSong">
+                            <div class="flex items-center">
+                                <div role="status">
+                                    <svg aria-hidden="true"
+                                        class="w-6 h-6 me-2 text-gray-200 animate-spin dark:text-gray-700 fill-gray-600"
+                                        viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                            fill="currentColor" />
+                                        <path
+                                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                            fill="currentFill" />
+                                    </svg>
+                                </div>
+                                Uploading your files...
+                            </div>
+
+
                         </div>
                     </form>
 
