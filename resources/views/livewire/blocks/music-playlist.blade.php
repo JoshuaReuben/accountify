@@ -127,26 +127,30 @@ new class extends Component {
                         </div>
 
                         {{-- Playlist --}}
-                        <div
-                            class="flex px-2 py-3 transition-all duration-100 ease-in border-b cursor-pointer dark:border dark:border-gray-700 hover:shadow-sm hover:bg-gray-100 hover:rounded-xl dark:hover:bg-gray-900">
-                            {{-- Avatar --}}
-                            <img class='object-cover w-10 h-10 rounded-lg' alt='User avatar'
-                                src='https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200'>
-                            <div class="flex flex-col w-full px-2">
 
-                                <span class="pt-1 text-sm font-semibold text-green-500 capitalize">
-                                    I think I need a sunrise, I'm tired of the sunset
-                                </span>
-                                <span class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
-                                    -"Boston," Augustana
-                                </span>
+                        @foreach ($songs as $song)
+                            <div
+                                class="flex px-2 py-3 transition-all duration-100 ease-in border-b cursor-pointer dark:border dark:border-gray-700 hover:shadow-sm hover:bg-gray-100 hover:rounded-xl dark:hover:bg-gray-900">
+                                {{-- Avatar --}}
+                                <img class='object-cover w-10 h-10 rounded-lg' alt='User avatar'
+                                    src='/storage/{{ $song->song_cover_photo }}'>
+                                <div class="flex flex-col w-full px-2">
+
+                                    <span class="pt-1 text-sm font-semibold text-green-500 capitalize">
+                                        {{ $song->song_title }}
+                                    </span>
+                                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
+                                        - {{ $song->song_artist }}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        @endforeach
 
                     </div>
                 </div>
             </div>
         </div>
+
 
 
         <script>
@@ -220,6 +224,7 @@ new class extends Component {
             }
 
 
+
             function togglePlayPauseForMusic() {
                 // Play Icon is showing, Music is Playing
                 if (playPauseIconForMusic.classList.contains('fa-play')) {
@@ -244,8 +249,16 @@ new class extends Component {
             function updateMusicIntervalDetails() {
                 if (musicAudio.play()) {
                     musicProgressSlider.value = musicAudio.currentTime;
-                    musicCurrentTime.innerText =
-                        `${formatMusicTime(musicAudio.currentTime)} / ${formatMusicTime(musicAudio.duration)}`;
+
+                    //if audio metadata is loaded
+                    if (musicAudio.duration) {
+                        musicCurrentTime.innerText =
+                            `${formatMusicTime(musicAudio.currentTime)} / ${formatMusicTime(musicAudio.duration)}`;
+                    } else {
+                        musicCurrentTime.innerText = '00:00 / --:--';
+                    }
+
+
                 }
             }
 
@@ -269,11 +282,15 @@ new class extends Component {
 
             // Music Play List -------------------------------------------------------------
             function previousSongForMusic() {
-                ///
+                currentMusicIndex = (currentMusicIndex - 1) % totalMusicCount;
+                musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
+                renderMusicInfo();
             }
 
             function nextSongForMusic() {
-                ///
+                currentMusicIndex = (currentMusicIndex + 1) % totalMusicCount;
+                musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
+                renderMusicInfo();
             }
         </script>
     </div>
