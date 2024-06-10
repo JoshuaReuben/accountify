@@ -130,7 +130,7 @@ new class extends Component {
 
                         @foreach ($songs as $song)
                             <div
-                                class="flex px-2 py-3 transition-all duration-100 ease-in border-b cursor-pointer dark:border dark:border-gray-700 hover:shadow-sm hover:bg-gray-100 hover:rounded-xl dark:hover:bg-gray-900">
+                                class="song-playlist flex px-2 py-3 transition-all duration-100 ease-in border-b cursor-pointer dark:border dark:border-gray-700 hover:shadow-sm hover:bg-gray-100 hover:rounded-xl dark:hover:bg-gray-900">
                                 {{-- Avatar --}}
                                 <img class='object-cover w-10 h-10 rounded-lg' alt='User avatar'
                                     src='/storage/{{ $song->song_cover_photo }}'>
@@ -282,15 +282,33 @@ new class extends Component {
 
             // Music Play List -------------------------------------------------------------
             function previousSongForMusic() {
-                currentMusicIndex = (currentMusicIndex - 1) % totalMusicCount;
+                currentMusicIndex = currentMusicIndex % totalMusicCount;
+                currentMusicIndex = ((currentMusicIndex - 1) + totalMusicCount) % totalMusicCount;
+
+                console.log(currentMusicIndex);
                 musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
                 renderMusicInfo();
             }
 
             function nextSongForMusic() {
                 currentMusicIndex = (currentMusicIndex + 1) % totalMusicCount;
+                currentMusicIndex = Math.abs(currentMusicIndex);
+                console.log(currentMusicIndex);
                 musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
                 renderMusicInfo();
+            }
+
+
+
+            // Playlist via click
+            let songPlaylist = document.querySelectorAll('.song-playlist');
+
+            for (let i = 0; i < songPlaylist.length; i++) {
+                songPlaylist[i].addEventListener('click', function() {
+                    currentMusicIndex = Math.abs(i);
+                    musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
+                    renderMusicInfo();
+                });
             }
         </script>
     </div>
