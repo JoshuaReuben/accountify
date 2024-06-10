@@ -87,7 +87,11 @@ new class extends Component {
                     {{-- Music Icon --}}
                     <div
                         class="p-2 pt-4 mr-0 text-center text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
-                        <i class="w-5 h-5 fa-solid fa-music md:h-6 md:w-6"></i>
+                        <button type="button" data-drawer-target="drawer-music-playlist"
+                            data-drawer-show="drawer-music-playlist" data-drawer-placement="right"
+                            aria-controls="drawer-music-playlist">
+                            <i class="w-5 h-5 fa-solid fa-music md:h-6 md:w-6"></i>
+                        </button>
                     </div>
 
 
