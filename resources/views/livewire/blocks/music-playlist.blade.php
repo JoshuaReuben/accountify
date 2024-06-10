@@ -67,40 +67,41 @@ new class extends Component {
                     </div>
 
 
-                    <div class="flex flex-col-reverse items-center p-5 sm:flex-row">
+                    <div class="flex flex-col-reverse items-center p-5">
                         <div class="flex items-center">
-                            <div class="flex p-2 mt-5 space-x-3 sm:mt-0">
+                            <div class="flex p-2 mt-2 space-x-3">
                                 {{-- Previous --}}
                                 <button onclick="previousSongForMusic()"
                                     class="group focus:outline-none hover:scale-125">
                                     <i
-                                        class="text-green-400 transition fa-solid fa-backward-step group-hover:text-green-500 "></i>
+                                        class="text-green-400 transition fa-solid fa-backward-step group-hover:text-green-500 text-2xl "></i>
                                 </button>
 
                                 {{-- Play --}}
                                 <button onclick="togglePlayPauseForMusic()"
-                                    class=" group rounded-full focus:outline-none w-10 h-10 flex items-center justify-center pl-0.5 ring-1 ring-green-400 hover:ring-green-500 hover:ring-2">
+                                    class=" group rounded-full focus:outline-none w-14 h-14 flex items-center justify-center pl-0.5 ring-1 ring-green-400 hover:ring-green-500 hover:ring-2">
                                     <i id="playPauseIconForMusic"
-                                        class="text-green-400 fa-solid fa-play group-hover:text-green-500 group-hover:scale-125"></i>
+                                        class="text-green-400 fa-solid fa-play group-hover:text-green-500 group-hover:scale-125 text-2xl"></i>
                                 </button>
 
                                 {{-- Next --}}
                                 <button onclick="nextSongForMusic()" class=" group focus:outline-none hover:scale-125">
                                     <i
-                                        class="text-green-400 transition fa-solid fa-forward-step group-hover:text-green-500 "></i>
+                                        class="text-green-400 transition fa-solid fa-forward-step group-hover:text-green-500 text-2xl "></i>
                                 </button>
                             </div>
                         </div>
 
-                        <div class="relative w-full ml-2 sm:w-1/2 md:w-7/12 lg:w-4/6">
+                        <div class="relative w-full ml-2">
                             {{-- Music Progress Slider --}}
                             <input id="music-progress-slider" type="range" value="0" class="">
                         </div>
 
-                        <div class="flex justify-end w-full pt-1 sm:w-auto sm:pt-0">
+                        <div class="flex justify-end w-full pt-1 sm:pt-0">
                             {{-- Time --}}
                             <span id="musicCurrentTime"
                                 class="pl-2 text-xs font-medium text-gray-700 uppercase dark:text-white">
+                                00:00 / --:--
                             </span>
                         </div>
 
@@ -127,24 +128,26 @@ new class extends Component {
                         </div>
 
                         {{-- Playlist --}}
+                        <div class="flex flex-col h-[40vh] overflow-y-auto">
+                            @foreach ($songs as $song)
+                                <div
+                                    class="song-playlist flex px-2 py-3 transition-all duration-100 ease-in border-b cursor-pointer dark:border dark:border-gray-700 hover:shadow-sm hover:bg-gray-100 hover:rounded-xl dark:hover:bg-gray-900">
+                                    {{-- Avatar --}}
+                                    <img class='object-cover w-10 h-10 rounded-lg' alt='User avatar'
+                                        src='/storage/{{ $song->song_cover_photo }}'>
+                                    <div class="flex flex-col w-full px-2">
 
-                        @foreach ($songs as $song)
-                            <div
-                                class="song-playlist flex px-2 py-3 transition-all duration-100 ease-in border-b cursor-pointer dark:border dark:border-gray-700 hover:shadow-sm hover:bg-gray-100 hover:rounded-xl dark:hover:bg-gray-900">
-                                {{-- Avatar --}}
-                                <img class='object-cover w-10 h-10 rounded-lg' alt='User avatar'
-                                    src='/storage/{{ $song->song_cover_photo }}'>
-                                <div class="flex flex-col w-full px-2">
-
-                                    <span class="pt-1 text-sm font-semibold text-green-500 capitalize">
-                                        {{ $song->song_title }}
-                                    </span>
-                                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
-                                        - {{ $song->song_artist }}
-                                    </span>
+                                        <span class="pt-1 text-sm font-semibold text-green-500 capitalize">
+                                            {{ $song->song_title }}
+                                        </span>
+                                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
+                                            - {{ $song->song_artist }}
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
+
 
                     </div>
                 </div>
@@ -223,6 +226,20 @@ new class extends Component {
                 musicProgressSlider.value = musicAudio.currentTime;
             }
 
+            // When clicking a new song to play, update the play-pause icon
+            musicAudio.onplaying = function() {
+                playPauseIconForMusic.classList.remove('fa-play');
+                playPauseIconForMusic.classList.add('fa-pause');
+                clearInterval(musicIntervalID);
+                musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
+                musicStatus.innerText = 'Now Playing';
+            }
+
+            // When the song ends, increment the currentMusicIndex then play
+            musicAudio.onended = function() {
+                nextSongForMusic();
+            }
+
 
 
             function togglePlayPauseForMusic() {
@@ -293,7 +310,7 @@ new class extends Component {
             function nextSongForMusic() {
                 currentMusicIndex = (currentMusicIndex + 1) % totalMusicCount;
                 currentMusicIndex = Math.abs(currentMusicIndex);
-                console.log(currentMusicIndex);
+
                 musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
                 renderMusicInfo();
             }
@@ -307,6 +324,7 @@ new class extends Component {
                 songPlaylist[i].addEventListener('click', function() {
                     currentMusicIndex = Math.abs(i);
                     musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
+                    musicAudio.play();
                     renderMusicInfo();
                 });
             }
