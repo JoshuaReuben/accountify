@@ -77,7 +77,7 @@
                                 value="0.9" onchange="adjustMusicVolume()" style="accent-color: rgb(74 222 128);">
                             {{-- Label --}}
                             <span id="musicCurrentVolumeTxt"
-                                class=" text-xs font-medium text-gray-700 uppercase dark:text-white">
+                                class="text-xs font-medium text-gray-700 uppercase  dark:text-white">
                                 90%
                             </span>
                         </span>

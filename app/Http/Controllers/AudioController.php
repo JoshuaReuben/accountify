@@ -10,6 +10,8 @@ class AudioController extends Controller
 {
     public function serveAudio(Request $request, $filename)
     {
+
+
         $filePath = storage_path('app/public/musics/' . $filename);
         $file = new File($filePath);
 

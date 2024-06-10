@@ -16,7 +16,7 @@ Route::get('auth/{provider}/redirect', [ProviderController::class, 'redirect']);
 Route::get('auth/{provider}/callback', [ProviderController::class, 'callback']);
 
 
-Route::get('/audio/{filename}', [AudioController::class, 'serveAudio']);
+Route::get('/audio/musics/{filename}', [AudioController::class, 'serveAudio']);
 
 
 
@@ -49,7 +49,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     Volt::route('/paypal', 'pages.admin.paypal')->name('admin.paypal');
 
-    // MUSISC
+    // MUSIC
     Volt::route('/create/music', 'pages.admin.create-music')->name('admin.create.music');
 
     // Experimental Routes

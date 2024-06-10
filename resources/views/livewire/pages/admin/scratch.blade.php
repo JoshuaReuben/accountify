@@ -59,7 +59,7 @@ new #[Layout('layouts.admin')] class extends Component {};
                     {{-- START SECTION --}}
 
                     {{--  EXPERIMENT --}}
-                    <x-music-player-template />
+                    <livewire:blocks.music-playlist />
 
                     {{-- END OF EXPERIMENT --}}
 
