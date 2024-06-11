@@ -115,8 +115,17 @@ new #[Layout('layouts.admin')] class extends Component {
         $this->songs = Music::all();
     }
 
-    public function deleteSong(Music $music)
+    public function deleteSong($musicID)
     {
+        $music = Music::find($musicID);
+
+        //Check if $music exists in the database, if not, reload the page
+        $musicExists = Music::where('id', $musicID)->exists();
+        if (!$musicExists) {
+            return redirect()->back();
+            exit();
+        }
+
         $fileExists = Storage::exists('public/' . $music->song_file_path);
         // dd($fileExists);
         if ($fileExists) {
