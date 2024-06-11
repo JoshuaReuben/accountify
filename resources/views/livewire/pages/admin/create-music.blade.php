@@ -7,6 +7,7 @@ use App\Models\Music;
 use Illuminate\Http\Request;
 use Livewire\Attributes\On;
 use Kiwilan\Audio\Audio;
+use Illuminate\Support\Facades\Storage;
 
 new #[Layout('layouts.admin')] class extends Component {
     use WithFileUploads;
@@ -15,6 +16,8 @@ new #[Layout('layouts.admin')] class extends Component {
     public string $songartist = '';
     public $songcoverimage;
     public $songaudiofile;
+
+    public $music_search = '';
 
     public $songs;
 
@@ -110,6 +113,23 @@ new #[Layout('layouts.admin')] class extends Component {
     public function updateMusicList()
     {
         $this->songs = Music::all();
+    }
+
+    public function deleteSong(Music $music)
+    {
+        $fileExists = Storage::exists('public/' . $music->song_file_path);
+        // dd($fileExists);
+        if ($fileExists) {
+            Storage::delete('public/' . $music->song_cover_photo);
+            Storage::delete('public/' . $music->song_file_path);
+        } else {
+            //reload the browser
+            return redirect()->back();
+            exit();
+        }
+
+        $music->delete();
+        $this->updateMusicList();
     }
 };
 
@@ -293,8 +313,9 @@ new #[Layout('layouts.admin')] class extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     @forelse ($songs as $song)
-                                        <tr
+                                        <tr wire:loading.class="hidden" wire:target="storeANewSong, deleteSong"
                                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
 
                                             <td class="px-6 py-4">
@@ -316,14 +337,17 @@ new #[Layout('layouts.admin')] class extends Component {
                                             </td>
                                             <td class="px-6 py-4 text-center">
 
-                                                <a href="#"
-                                                    class="font-medium text-blue-600 dark:text-blue-500">
+                                                {{-- Edit --}}
+                                                <button class="font-medium text-blue-600 dark:text-blue-500">
                                                     <i class="fa-solid fa-pen-to-square text-md lg:text-lg mx-1 "></i>
-                                                </a>
+                                                </button>
 
-                                                <a href="#" class="font-medium text-red-600 dark:text-red-500 ">
+                                                {{-- Delete --}}
+                                                <button wire:confirm="Are you sure you want to delete this song?"
+                                                    wire:click="deleteSong({{ $song->id }})"
+                                                    class="font-medium text-red-600 dark:text-red-500">
                                                     <i class="fa-solid fa-trash-can text-md lg:text-lg mx-1 "></i>
-                                                </a>
+                                                </button>
 
                                             </td>
                                         </tr>
