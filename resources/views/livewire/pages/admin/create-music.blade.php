@@ -4,6 +4,9 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\WithFileUploads;
 use App\Models\Music;
+use Illuminate\Http\Request;
+use Livewire\Attributes\On;
+use Kiwilan\Audio\Audio;
 
 new #[Layout('layouts.admin')] class extends Component {
     use WithFileUploads;
@@ -13,10 +16,14 @@ new #[Layout('layouts.admin')] class extends Component {
     public $songcoverimage;
     public $songaudiofile;
 
+    public $songs;
+
     public function mount()
     {
         $this->songcoverimage = '';
         $this->songaudiofile = '';
+
+        $this->songs = Music::all();
     }
 
     public function storeANewSong()
@@ -61,16 +68,48 @@ new #[Layout('layouts.admin')] class extends Component {
         $coverphoto_filename = $coverphoto_filename . '.' . $coverphoto_ext;
         $music_filename = $music_filename . '.' . $music_ext;
 
+        ////////////////////////// STORING THE MUSIC TO DATABASE
+
+        $music_saved_file_path = $this->songaudiofile->storeAs('musics', $music_filename, 'public');
+
+        //Get the metadata of the song
+
+        //Get the audio path
+        $fullUrl = 'storage/' . $music_saved_file_path;
+        $audio = Audio::get($fullUrl);
+
+        $audio_filesize = $audio->getAudio()->getFilesize();
+        //convert the filesize into mb
+        $audio_filesize_in_MB = round($audio_filesize / 1024 / 1024, 2);
+        $audio_filesize_in_MB = $audio_filesize_in_MB . ' MB';
+
+        $audio_duration = $audio->getDuration();
+        // convert the duration into minutes and seconds
+        $audio_duration = gmdate('i:s', $audio_duration);
+
         //Store the song in the database
         $song = Music::create([
             'song_title' => $this->songtitle,
             'song_artist' => $this->songartist,
             'song_cover_photo' => $this->songcoverimage->storeAs('musics_cover_photos', $coverphoto_filename, 'public'),
-            'song_file_path' => $this->songaudiofile->storeAs('musics', $music_filename, 'public'),
+            'song_file_path' => $music_saved_file_path,
+            'song_duration' => $audio_duration,
+            'song_filesize' => $audio_filesize_in_MB,
         ]);
+
+        ////////////////////////// Get the File Size and File Duration //////////////////////////
 
         $this->reset(['songtitle', 'songartist', 'songcoverimage', 'songaudiofile']);
         $this->dispatch('new-song-uploaded');
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // TABLE LIST OF MUSICS
+
+    #[On('new-song-uploaded')]
+    public function updateMusicList()
+    {
+        $this->songs = Music::all();
     }
 };
 
@@ -85,12 +124,12 @@ new #[Layout('layouts.admin')] class extends Component {
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="py-6">
+        <div class="mx-auto max-w-8xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- START SECTION --}}
-
+                    <h1 class="text-xl font-bold uppercase">Upload a New Song</h1>
                     <form wire:submit="storeANewSong" class="mt-6 space-y-6">
                         {{-- SONG TITLE --}}
                         <div>
@@ -124,7 +163,7 @@ new #[Layout('layouts.admin')] class extends Component {
                         {{-- SHOW IMAGE PREVIEW --}}
                         @if ($this->songcoverimage)
                             <div class="">
-                                <img class="h-[200px] max-w-lg mx-auto rounded-lg"
+                                <img class="h-[200px] max-w-md mx-auto rounded-lg"
                                     src="{{ $this->songcoverimage->temporaryUrl() }}" alt="Cover Photo">
                                 <p class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Image Preview</p>
                             </div>
@@ -139,7 +178,7 @@ new #[Layout('layouts.admin')] class extends Component {
                                 required />
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help_for_audio">
                                 Accepts .wav and .mp3
-                                file only.
+                                file only. (Max. 8MB)
                             </p>
                             <p wire:loading wire:target="songaudiofile"
                                 class="mt-1 text-xs text-gray-500 dark:text-gray-300">Uploading...</p>
@@ -158,9 +197,9 @@ new #[Layout('layouts.admin')] class extends Component {
                         </div>
 
 
-                        <div wire:target="songaudiofile, songcoverimage" class="flex items-center gap-4">
+                        <div wire:target="songaudiofile, songcoverimage, storeANewSong" class="flex items-center gap-4">
                             <x-buttons.primary-button wire:loading.attr="disabled"
-                                wire:target="songaudiofile, songcoverimage"
+                                wire:target="songaudiofile, songcoverimage, storeANewSong"
                                 wire:loading.class="opacity-50 cursor-not-allowed">{{ __('Upload') }}</x-buttons.primary-button>
 
                             <x-action-message class="me-3" on="new-song-uploaded">
@@ -191,10 +230,126 @@ new #[Layout('layouts.admin')] class extends Component {
 
                     {{-- END SECTION --}}
 
-
-                    {{-- ---------------------- --}}
                 </div>
             </div>
         </div>
     </div>
+
+
+
+
+    <div class="py-6">
+        <div class="mx-auto max-w-8xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <h1 class="text-xl font-bold uppercase mb-4">PLAYLIST OF SONGS</h1>
+                    {{-- START SECTION 2 --}}
+
+
+
+                    <div class="relative  shadow-md sm:rounded-lg">
+                        <div class="flex items-center justify-end space-y-4 pb-4 bg-white dark:bg-gray-800">
+
+                            <label for="table-search" class="sr-only">Search</label>
+                            <div class="relative">
+                                <div
+                                    class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                    </svg>
+                                </div>
+                                <input type="text" id="table-search-musics"
+                                    class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-48 md:w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Search for musics">
+                            </div>
+
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400  ">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Cover Photo
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Title
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Artist
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Duration
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Size
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-center">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($songs as $song)
+                                        <tr
+                                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+
+                                            <td class="px-6 py-4">
+                                                <img class="w-10 h-10 rounded-lg"
+                                                    src="/storage/{{ $song->song_cover_photo }}" alt="">
+                                            </td>
+
+                                            <td class="px-6 py-4 text-sm lg:text-md ">
+                                                {{ $song->song_title }}
+                                            </td>
+                                            <td class="px-6 py-4 text-sm lg:text-md">
+                                                {{ $song->song_artist }}
+                                            </td>
+                                            <td class="px-6 py-4 text-sm lg:text-md">
+                                                {{ $song->song_duration }}
+                                            </td>
+                                            <td class="px-6 py-4 text-sm lg:text-md">
+                                                {{ $song->song_filesize }}
+                                            </td>
+                                            <td class="px-6 py-4 text-center">
+
+                                                <a href="#"
+                                                    class="font-medium text-blue-600 dark:text-blue-500">
+                                                    <i class="fa-solid fa-pen-to-square text-md lg:text-lg mx-1 "></i>
+                                                </a>
+
+                                                <a href="#" class="font-medium text-red-600 dark:text-red-500 ">
+                                                    <i class="fa-solid fa-trash-can text-md lg:text-lg mx-1 "></i>
+                                                </a>
+
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr
+                                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                            <td colspan="6" class="px-6 py-4">
+                                                <p class="text-sm lg:text-md text-center italic">No songs found.</p>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    {{-- END SECTION  2 --}}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>

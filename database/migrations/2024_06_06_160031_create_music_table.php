@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('song_artist');
             $table->string('song_cover_photo');
             $table->string('song_file_path')->unique();
+            $table->string('song_duration')->nullable();
+            $table->string('song_filesize')->nullable();
             $table->timestamps();
         });
     }

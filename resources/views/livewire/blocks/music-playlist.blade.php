@@ -4,11 +4,6 @@ use Livewire\Volt\Component;
 use App\Models\Music;
 
 new class extends Component {
-    // public $song_title;
-    // public $song_artist;
-    // public $song_cover_photo;
-    // public $song_file_path;
-
     public $songs = [];
 
     public $songs_title = [];
@@ -37,6 +32,8 @@ new class extends Component {
 
 <div>
 
+
+    {{-- MUSIC PLAYER ----------------------------------------------------------------------------------------------------------- --}}
     <div>
 
         {{-- Music Layout Design --}}

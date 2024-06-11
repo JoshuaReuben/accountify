@@ -15,5 +15,7 @@ class Music extends Model
         'song_artist',
         'song_cover_photo',
         'song_file_path',
+        'song_duration',
+        'song_filesize',
     ];
 }
