@@ -22,11 +22,6 @@ new class extends Component {
             $this->songs_cover_photo[] = $song->song_cover_photo;
             $this->songs_filepath[] = $song->song_file_path;
         }
-
-        $this->songs_filepath = json_encode($this->songs_filepath);
-        $this->songs_title = json_encode($this->songs_title);
-        $this->songs_artist = json_encode($this->songs_artist);
-        $this->songs_cover_photo = json_encode($this->songs_cover_photo);
     }
 
     #[On('new-song-uploaded')]
@@ -151,8 +146,7 @@ new class extends Component {
                                     <i id="volumeIconForMusic"
                                         class="fa-solid fa-volume-high text-slate-500 dark:text-white"></i>
                                     <input type="range" id="musicVolumeControl" min="0" max="1"
-                                        step="0.01" value="0.9" onchange="adjustMusicVolume()"
-                                        style="accent-color: rgb(74 222 128);">
+                                        step="0.01" value="0.9" style="accent-color: rgb(74 222 128);">
                                     {{-- Label --}}
                                     <span id="musicCurrentVolumeTxt"
                                         class="text-xs font-medium text-gray-700 uppercase dark:text-white">
@@ -199,6 +193,11 @@ new class extends Component {
 
 
         <script>
+            // Logs:
+            // remove json encode so you don't need to json parse it at client side, 
+            // convert the whole js process into callable function
+
+
             // Variables
 
             let passedPlaylist = @json($songs_filepath);
@@ -206,22 +205,22 @@ new class extends Component {
             let passedSongsArtist = @json($songs_artist);
             let passedSongsCover = @json($songs_cover_photo);
 
-            // Parse the JSON string into a JavaScript array
-            let playlistArray = JSON.parse(passedPlaylist);
-            let songsTitleArray = JSON.parse(passedSongsTitle);
-            let songsArtistArray = JSON.parse(passedSongsArtist);
-            let songsCoverArray = JSON.parse(passedSongsCover);
+            let playlistArray;
+            let songsTitleArray;
+            let songsArtistArray;
+            let songsCoverArray;
+            let totalMusicCount;
 
-            let currentMusicIndex = 0;
-            let totalMusicCount = playlistArray.length;
 
-            let musicAudio = new Audio('/audio/' + playlistArray[currentMusicIndex]); // Adjust the Web URL as necessary
+
             let playPauseIconForMusic = document.getElementById('playPauseIconForMusic');
             let musicProgressSlider = document.getElementById('music-progress-slider');
             let musicCurrentTime = document.getElementById('musicCurrentTime');
-            let musicIntervalID;
             let musicStatus = document.getElementById('musicStatus');
 
+            let musicAudio = new Audio();
+            let currentMusicIndex;
+            let musicIntervalID;
 
 
             // Rendering Music Info
@@ -229,28 +228,51 @@ new class extends Component {
             let musicAuthor = document.getElementById('musicAuthor');
             let musicCover = document.getElementById('musicCoverPhoto');
 
-            function renderMusicInfo() {
-                musicTitle.innerText = songsTitleArray[currentMusicIndex];
-                musicAuthor.innerText = songsArtistArray[currentMusicIndex];
-
-                let currentCover = songsCoverArray[currentMusicIndex];
-                let imageUrl = "/storage/" + currentCover;
-                musicCover.src = imageUrl;
-            }
-
-            renderMusicInfo();
-
-
-
-
-
             // Music Volume -------------------------------------------------------------
             let musicVolumeControl = document.getElementById("musicVolumeControl");
             let musicCurrentVolumeTxt = document.getElementById("musicCurrentVolumeTxt");
             let volumeIconForMusic = document.getElementById("volumeIconForMusic");
 
 
-            function adjustMusicVolume() {
+            function startMusicPlayer(paths, titles, artists, covers) {
+                playlistArray = paths;
+                songsTitleArray = titles;
+                songsArtistArray = artists;
+                songsCoverArray = covers;
+
+                currentMusicIndex = 0;
+                totalMusicCount = playlistArray.length;
+
+                // Start the music player
+                musicAudio = new Audio('/audio/' + playlistArray[currentMusicIndex]); // Adjust the Web URL as necessary
+
+                // Music On Start ------------------------------------------------------------
+                musicAudio.onloadedmetadata = function() {
+                    musicProgressSlider.max = musicAudio.duration;
+                    musicProgressSlider.value = musicAudio.currentTime;
+                }
+
+                renderMusicInfo();
+            }
+
+            startMusicPlayer(passedPlaylist, passedSongsTitle, passedSongsArtist, passedSongsCover);
+
+            /////////////////////////////////////////////////////////////////////////////////
+
+            // When the song ends, increment the currentMusicIndex then play
+            musicAudio.onended = function() {
+                nextSongForMusic();
+            }
+
+            musicProgressSlider.onchange = function() {
+                musicAudio.currentTime = musicProgressSlider.value;
+                playPauseIconForMusic.classList.remove('fa-play');
+                playPauseIconForMusic.classList.add('fa-pause');
+                clearInterval(musicIntervalID);
+                musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
+            }
+
+            musicVolumeControl.onchange = function() {
                 musicAudio.volume = musicVolumeControl.value;
                 musicCurrentVolumeTxt.innerText = `${Math.floor(musicAudio.volume * 100)}%`;
 
@@ -264,12 +286,6 @@ new class extends Component {
                 }
             }
 
-            // Music On Start ------------------------------------------------------------
-            musicAudio.onloadedmetadata = function() {
-                musicProgressSlider.max = musicAudio.duration;
-                musicProgressSlider.value = musicAudio.currentTime;
-            }
-
             // When clicking a new song to play, update the play-pause icon
             musicAudio.onplaying = function() {
                 playPauseIconForMusic.classList.remove('fa-play');
@@ -278,13 +294,6 @@ new class extends Component {
                 musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
                 musicStatus.innerText = 'Now Playing';
             }
-
-            // When the song ends, increment the currentMusicIndex then play
-            musicAudio.onended = function() {
-                nextSongForMusic();
-            }
-
-
 
             function togglePlayPauseForMusic() {
                 // Play Icon is showing, Music is Playing
@@ -324,13 +333,16 @@ new class extends Component {
             }
 
 
-            musicProgressSlider.onchange = function() {
-                musicAudio.currentTime = musicProgressSlider.value;
-                playPauseIconForMusic.classList.remove('fa-play');
-                playPauseIconForMusic.classList.add('fa-pause');
-                clearInterval(musicIntervalID);
-                musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
+            // Rendering Music Info
+            function renderMusicInfo() {
+                musicTitle.innerText = songsTitleArray[currentMusicIndex];
+                musicAuthor.innerText = songsArtistArray[currentMusicIndex];
+
+                let currentCover = songsCoverArray[currentMusicIndex];
+                let imageUrl = "/storage/" + currentCover;
+                musicCover.src = imageUrl;
             }
+
 
 
             // Function to format time
@@ -338,6 +350,22 @@ new class extends Component {
                 let minutes = Math.floor(seconds / 60);
                 let remainingSeconds = Math.floor(seconds % 60);
                 return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }
+
+
+
+
+
+            // Playlist via click
+            let songPlaylist = document.querySelectorAll('.song-playlist');
+
+            for (let i = 0; i < songPlaylist.length; i++) {
+                songPlaylist[i].addEventListener('click', function() {
+                    currentMusicIndex = Math.abs(i);
+                    musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
+                    musicAudio.play();
+                    renderMusicInfo();
+                });
             }
 
 
@@ -358,22 +386,6 @@ new class extends Component {
                 musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
                 renderMusicInfo();
             }
-
-
-
-            // Playlist via click
-            let songPlaylist = document.querySelectorAll('.song-playlist');
-
-            for (let i = 0; i < songPlaylist.length; i++) {
-                songPlaylist[i].addEventListener('click', function() {
-                    currentMusicIndex = Math.abs(i);
-                    musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
-                    musicAudio.play();
-                    renderMusicInfo();
-                });
-            }
-
-
 
 
             // Event Listeners
