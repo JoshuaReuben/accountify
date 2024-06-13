@@ -40,6 +40,8 @@ new #[Layout('layouts.admin')] class extends Component {
             ],
             [
                 // Custom validation messages
+                'songtitle.required' => 'The Song Title is required.',
+                'songartist.required' => 'The Song Artist is required.',
                 'songcoverimage.required' => 'The Cover Photo is required.',
                 'songaudiofile.required' => 'The Audio is not yet properly uploaded. Please try again.',
                 'songcoverimage.mimes' => 'The Cover Photo must be a file of type: jpeg, jpg, png, webp.',
@@ -138,7 +140,7 @@ new #[Layout('layouts.admin')] class extends Component {
         }
 
         $music->delete();
-        $this->updateMusicList();
+        $this->dispatch('new-song-uploaded');
     }
 };
 

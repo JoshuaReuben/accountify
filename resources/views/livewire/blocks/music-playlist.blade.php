@@ -2,6 +2,7 @@
 
 use Livewire\Volt\Component;
 use App\Models\Music;
+use Livewire\Attributes\On;
 
 new class extends Component {
     public $songs = [];
@@ -27,6 +28,39 @@ new class extends Component {
         $this->songs_artist = json_encode($this->songs_artist);
         $this->songs_cover_photo = json_encode($this->songs_cover_photo);
     }
+
+    #[On('new-song-uploaded')]
+    public function updateMusicList()
+    {
+        // $this->songs = Music::all();
+
+        // foreach ($this->songs as $song) {
+        //     //Recreate the array, empty it first
+        //     $this->songs_title = [];
+        //     $this->songs_artist = [];
+        //     $this->songs_cover_photo = [];
+        //     $this->songs_filepath = [];
+
+        //     $this->songs_title[] = $song->song_title;
+        //     $this->songs_artist[] = $song->song_artist;
+        //     $this->songs_cover_photo[] = $song->song_cover_photo;
+        //     $this->songs_filepath[] = $song->song_file_path;
+        // }
+
+        // $this->songs_filepath = json_encode($this->songs_filepath);
+        // $this->songs_title = json_encode($this->songs_title);
+        // $this->songs_artist = json_encode($this->songs_artist);
+        // $this->songs_cover_photo = json_encode($this->songs_cover_photo);
+
+        // $this->emit('update-music-list-on-js', [
+        //     'filepath' => $this->songs_filepath,
+        //     'title' => $this->songs_title,
+        //     'artist' => $this->songs_artist,
+        //     'cover_photo' => $this->songs_cover_photo,
+        // ]);
+
+        $this->dispatch('reload-page');
+    }
 }; ?>
 
 
@@ -40,120 +74,133 @@ new class extends Component {
         <div class="w-full ">
             <div
                 class='flex w-full mx-auto overflow-hidden bg-gray-100 shadow-md dark:bg-gray-800 dark:ring-1 dark:ring-gray-600 drop-shadow-2xl rounded-xl '>
-                <div class="flex flex-col w-full">
-                    <div class="flex p-5 border-b">
-                        <img id="musicCoverPhoto" class='object-cover w-20 h-20' alt='User avatar' src="">
-                        <div class="flex flex-col w-full px-2">
 
-                            {{-- Status --}}
-                            <span id="musicStatus" class="text-xs font-medium text-gray-700 uppercase dark:text-white ">
-                                Paused
-                            </span>
+                {{-- Show if Music Count is Greater than 0 --}}
+                @if (count($this->songs) > 0)
+                    <div class="flex flex-col w-full">
+                        <div class="flex p-5 border-b">
+                            <img id="musicCoverPhoto" class='object-cover w-20 h-20' alt='User avatar' src="">
+                            <div class="flex flex-col w-full px-2">
 
-                            {{-- Title --}}
-                            <span id="musicTitle" class="pt-1 text-sm font-semibold text-green-500 capitalize">
-                                I think I need a sunrise, I'm tired of the sunset
-                            </span>
+                                {{-- Status --}}
+                                <span id="musicStatus"
+                                    class="text-xs font-medium text-gray-700 uppercase dark:text-white ">
+                                    Paused
+                                </span>
 
-                            {{-- Author --}}
-                            <span id="musicAuthor" class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
-                                -"Boston," Augustana
-                            </span>
+                                {{-- Title --}}
+                                <span id="musicTitle" class="pt-1 text-sm font-semibold text-green-500 capitalize">
+                                    I think I need a sunrise, I'm tired of the sunset
+                                </span>
 
-                        </div>
-                    </div>
-
-
-                    <div class="flex flex-col-reverse items-center p-5">
-                        <div class="flex items-center">
-                            <div class="flex p-2 mt-2 space-x-3">
-                                {{-- Previous --}}
-                                <button onclick="previousSongForMusic()"
-                                    class="group focus:outline-none hover:scale-125">
-                                    <i
-                                        class="text-green-400 transition fa-solid fa-backward-step group-hover:text-green-500 text-2xl "></i>
-                                </button>
-
-                                {{-- Play --}}
-                                <button onclick="togglePlayPauseForMusic()"
-                                    class=" group rounded-full focus:outline-none w-14 h-14 flex items-center justify-center pl-0.5 ring-1 ring-green-400 hover:ring-green-500 hover:ring-2">
-                                    <i id="playPauseIconForMusic"
-                                        class="text-green-400 fa-solid fa-play group-hover:text-green-500 group-hover:scale-125 text-2xl"></i>
-                                </button>
-
-                                {{-- Next --}}
-                                <button onclick="nextSongForMusic()" class=" group focus:outline-none hover:scale-125">
-                                    <i
-                                        class="text-green-400 transition fa-solid fa-forward-step group-hover:text-green-500 text-2xl "></i>
-                                </button>
+                                {{-- Author --}}
+                                <span id="musicAuthor" class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
+                                    -"Boston," Augustana
+                                </span>
                             </div>
                         </div>
 
-                        <div class="relative w-full ml-2">
-                            {{-- Music Progress Slider --}}
-                            <input id="music-progress-slider" type="range" value="0" class="">
-                        </div>
 
-                        <div class="flex justify-end w-full pt-1 sm:pt-0">
-                            {{-- Time --}}
-                            <span id="musicCurrentTime"
-                                class="pl-2 text-xs font-medium text-gray-700 uppercase dark:text-white">
-                                00:00 / --:--
-                            </span>
-                        </div>
+                        <div class="flex flex-col-reverse items-center p-5">
+                            <div class="flex items-center">
+                                <div class="flex p-2 mt-2 space-x-3">
+                                    {{-- Previous --}}
+                                    <button onclick="previousSongForMusic()"
+                                        class="group focus:outline-none hover:scale-125">
+                                        <i
+                                            class="text-green-400 transition fa-solid fa-backward-step group-hover:text-green-500 text-2xl "></i>
+                                    </button>
 
-                    </div>
+                                    {{-- Play --}}
+                                    <button onclick="togglePlayPauseForMusic()"
+                                        class=" group rounded-full focus:outline-none w-14 h-14 flex items-center justify-center pl-0.5 ring-1 ring-green-400 hover:ring-green-500 hover:ring-2">
+                                        <i id="playPauseIconForMusic"
+                                            class="text-green-400 fa-solid fa-play group-hover:text-green-500 group-hover:scale-125 text-2xl"></i>
+                                    </button>
 
-                    <div class="flex flex-col p-5">
-                        {{-- Volume Adjuster --}}
-                        <div class="flex items-center justify-between pb-1 mb-2 border-b">
-                            <span class="text-base font-semibold text-gray-700 uppercase dark:text-white"> play
-                                list</span>
-                            <span class="flex items-center space-x-2">
-                                <i id="volumeIconForMusic"
-                                    class="fa-solid fa-volume-high text-slate-500 dark:text-white"></i>
-                                <input type="range" id="musicVolumeControl" min="0" max="1"
-                                    step="0.01" value="0.9" onchange="adjustMusicVolume()"
-                                    style="accent-color: rgb(74 222 128);">
-                                {{-- Label --}}
-                                <span id="musicCurrentVolumeTxt"
-                                    class="text-xs font-medium text-gray-700 uppercase dark:text-white">
-                                    90%
-                                </span>
-                            </span>
-
-                        </div>
-
-                        {{-- Playlist --}}
-                        <div class="flex flex-col h-[40vh] overflow-y-auto">
-                            @foreach ($songs as $song)
-                                <div
-                                    class="song-playlist flex px-2 py-3 transition-all duration-100 ease-in border-b cursor-pointer dark:border dark:border-gray-700 hover:shadow-sm hover:bg-gray-100 hover:rounded-xl dark:hover:bg-gray-900">
-                                    {{-- Avatar --}}
-                                    <img class='object-cover w-10 h-10 rounded-lg' alt='User avatar'
-                                        src='/storage/{{ $song->song_cover_photo }}'>
-                                    <div class="flex flex-col w-full px-2">
-
-                                        <span class="pt-1 text-sm font-semibold text-green-500 capitalize">
-                                            {{ $song->song_title }}
-                                        </span>
-                                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
-                                            - {{ $song->song_artist }}
-                                        </span>
-                                    </div>
+                                    {{-- Next --}}
+                                    <button onclick="nextSongForMusic()"
+                                        class=" group focus:outline-none hover:scale-125">
+                                        <i
+                                            class="text-green-400 transition fa-solid fa-forward-step group-hover:text-green-500 text-2xl "></i>
+                                    </button>
                                 </div>
-                            @endforeach
+                            </div>
+
+                            <div class="relative w-full ml-2">
+                                {{-- Music Progress Slider --}}
+                                <input id="music-progress-slider" type="range" value="0" class="">
+                            </div>
+
+                            <div class="flex justify-end w-full pt-1 sm:pt-0">
+                                {{-- Time --}}
+                                <span id="musicCurrentTime"
+                                    class="pl-2 text-xs font-medium text-gray-700 uppercase dark:text-white">
+                                    00:00 / --:--
+                                </span>
+                            </div>
+
                         </div>
 
+                        <div class="flex flex-col p-5">
+                            {{-- Volume Adjuster --}}
+                            <div class="flex items-center justify-between pb-1 mb-2 border-b">
+                                <span class="text-base font-semibold text-gray-700 uppercase dark:text-white"> play
+                                    list</span>
+                                <span class="flex items-center space-x-2">
+                                    <i id="volumeIconForMusic"
+                                        class="fa-solid fa-volume-high text-slate-500 dark:text-white"></i>
+                                    <input type="range" id="musicVolumeControl" min="0" max="1"
+                                        step="0.01" value="0.9" onchange="adjustMusicVolume()"
+                                        style="accent-color: rgb(74 222 128);">
+                                    {{-- Label --}}
+                                    <span id="musicCurrentVolumeTxt"
+                                        class="text-xs font-medium text-gray-700 uppercase dark:text-white">
+                                        90%
+                                    </span>
+                                </span>
 
+                            </div>
+
+                            {{-- Playlist --}}
+                            <div class="flex flex-col h-[40vh] overflow-y-auto">
+                                @foreach ($songs as $song)
+                                    <div
+                                        class="song-playlist flex px-2 py-3 transition-all duration-100 ease-in border-b cursor-pointer dark:border dark:border-gray-700 hover:shadow-sm hover:bg-gray-100 hover:rounded-xl dark:hover:bg-gray-900">
+                                        {{-- Avatar --}}
+                                        <img class='object-cover w-10 h-10 rounded-lg' alt='User avatar'
+                                            src='/storage/{{ $song->song_cover_photo }}'>
+                                        <div class="flex flex-col w-full px-2">
+
+                                            <span class="pt-1 text-sm font-semibold text-green-500 capitalize">
+                                                {{ $song->song_title }}
+                                            </span>
+                                            <span class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
+                                                - {{ $song->song_artist }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+
+                        </div>
                     </div>
-                </div>
+                @else
+                    {{-- No songs found --}}
+                    <div
+                        class="text-sm font-medium text-gray-500 dark:text-gray-400 text-center mx-auto h-[200px] flex items-center">
+                        No songs found
+                    </div>
+                @endif
             </div>
         </div>
 
 
 
         <script>
+            // Variables
+
             let passedPlaylist = @json($songs_filepath);
             let passedSongsTitle = @json($songs_title);
             let passedSongsArtist = @json($songs_artist);
@@ -325,6 +372,35 @@ new class extends Component {
                     renderMusicInfo();
                 });
             }
+
+
+
+
+            // Event Listeners
+            // document.addEventListener('DOMContentLoaded', () => {
+            //     Livewire.on('update-music-list-on-js', (data) => {
+            //         // Update your JavaScript variables with the new data
+            //         passedPlaylist = data.filepath;
+            //         passedSongsTitle = data.title;
+            //         passedSongsArtist = data.artist;
+            //         passedSongsCover = data.cover_photo;
+            //         console.log(passedPlaylist);
+            //         console.log(typeof passedPlaylist);
+
+            //         currentMusicIndex = 0;
+            //         totalMusicCount = playlistArray.length
+            //         // Functions to handle these updates
+            //         renderMusicInfo();
+            //     });
+            // });
+
+            // Add Event Listener to the document to listen for $this->emit('reload-page') then reload the page using javascript
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('reload-page', () => {
+                    alert('hi');
+                    //location.reload();
+                });
+            })
         </script>
     </div>
 
