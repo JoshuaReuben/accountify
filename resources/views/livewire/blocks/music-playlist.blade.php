@@ -27,34 +27,7 @@ new class extends Component {
     #[On('new-song-uploaded')]
     public function updateMusicList()
     {
-        // $this->songs = Music::all();
-
-        // foreach ($this->songs as $song) {
-        //     //Recreate the array, empty it first
-        //     $this->songs_title = [];
-        //     $this->songs_artist = [];
-        //     $this->songs_cover_photo = [];
-        //     $this->songs_filepath = [];
-
-        //     $this->songs_title[] = $song->song_title;
-        //     $this->songs_artist[] = $song->song_artist;
-        //     $this->songs_cover_photo[] = $song->song_cover_photo;
-        //     $this->songs_filepath[] = $song->song_file_path;
-        // }
-
-        // $this->songs_filepath = json_encode($this->songs_filepath);
-        // $this->songs_title = json_encode($this->songs_title);
-        // $this->songs_artist = json_encode($this->songs_artist);
-        // $this->songs_cover_photo = json_encode($this->songs_cover_photo);
-
-        // $this->emit('update-music-list-on-js', [
-        //     'filepath' => $this->songs_filepath,
-        //     'title' => $this->songs_title,
-        //     'artist' => $this->songs_artist,
-        //     'cover_photo' => $this->songs_cover_photo,
-        // ]);
-
-        $this->dispatch('reload-page');
+        $this->dispatch('update-music-list-on-js');
     }
 }; ?>
 
@@ -196,6 +169,7 @@ new class extends Component {
             // Logs:
             // remove json encode so you don't need to json parse it at client side, 
             // convert the whole js process into callable function
+            // try passing new values as a parameter to the callable function after a dispatched event
 
 
             // Variables
@@ -368,7 +342,6 @@ new class extends Component {
                 });
             }
 
-
             // Music Play List -------------------------------------------------------------
             function previousSongForMusic() {
                 currentMusicIndex = currentMusicIndex % totalMusicCount;
@@ -388,32 +361,12 @@ new class extends Component {
             }
 
 
-            // Event Listeners
-            // document.addEventListener('DOMContentLoaded', () => {
-            //     Livewire.on('update-music-list-on-js', (data) => {
-            //         // Update your JavaScript variables with the new data
-            //         passedPlaylist = data.filepath;
-            //         passedSongsTitle = data.title;
-            //         passedSongsArtist = data.artist;
-            //         passedSongsCover = data.cover_photo;
-            //         console.log(passedPlaylist);
-            //         console.log(typeof passedPlaylist);
-
-            //         currentMusicIndex = 0;
-            //         totalMusicCount = playlistArray.length
-            //         // Functions to handle these updates
-            //         renderMusicInfo();
-            //     });
-            // });
-
             // Add Event Listener to the document to listen for $this->emit('reload-page') then reload the page using javascript
-            document.addEventListener('livewire:init', () => {
-                Livewire.on('reload-page', () => {
-                    alert('hi');
-                    //location.reload();
-                });
+            document.addEventListener('update-music-list-on-js', () => {
+                window.location.reload();
             })
         </script>
+
     </div>
 
 

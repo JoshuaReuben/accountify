@@ -17,9 +17,21 @@ new #[Layout('layouts.admin')] class extends Component {
     public $songcoverimage;
     public $songaudiofile;
 
+    public $songs;
+
     public $music_search = '';
 
-    public $songs;
+    public function updatedMusicSearch($value)
+    {
+        // If the search value is not empty
+        if (!empty($value)) {
+            $this->songs = Music::where('song_title', 'LIKE', '%' . $value . '%')
+                ->orWhere('song_artist', 'LIKE', '%' . $value . '%')
+                ->get();
+        } else {
+            $this->songs = Music::all();
+        }
+    }
 
     public function mount()
     {
@@ -27,6 +39,7 @@ new #[Layout('layouts.admin')] class extends Component {
         $this->songaudiofile = '';
 
         $this->songs = Music::all();
+        // dd($this->songs[0]->song_file_path);
     }
 
     public function storeANewSong()
@@ -291,7 +304,7 @@ new #[Layout('layouts.admin')] class extends Component {
                                             stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                     </svg>
                                 </div>
-                                <input type="text" id="table-search-musics"
+                                <input type="text" wire:model.live="music_search" id="table-search-musics"
                                     class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-48 md:w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Search for musics">
                             </div>
