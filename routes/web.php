@@ -42,7 +42,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::view('/music/home', 'pages.admin.music')->name('pages.admin.music');
     Route::get('/music/delete/{musicID}', [MusicController::class, 'destroy']);
     Route::get('/music/edit/{musicID}', [MusicController::class, 'edit']);
-    Route::view('/music/edit/page', 'pages.admin.music-edit')->name('pages.admin.music.edit');
+    // Route::view('/music/edit/page', 'pages.admin.music-edit')->name('pages.admin.music.edit');
 
     // Experimental Routes
 
