@@ -1,22 +1,3 @@
-<?php
-
-use App\Livewire\Actions\Logout;
-use Livewire\Volt\Component;
-use App\Models\Music;
-
-new class extends Component {
-    /**
-     * Log the current user out of the application.
-     */
-
-    public function logout(Logout $logout): void
-    {
-        $logout();
-
-        $this->redirect('/');
-    }
-}; ?>
-
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="">
@@ -74,6 +55,8 @@ new class extends Component {
                             class="self-center font-semibold sm:text-lg md:text-2xl whitespace-nowrap dark:text-white">Accountify</span>
                     </a>
                 </div>
+
+
                 <div class="flex items-center lg:order-2">
 
                     {{-- Timer --}}
@@ -145,14 +128,13 @@ new class extends Component {
         </nav>
 
         <!-- Start of Sidebar -->
-        <livewire:layout.admin-sidebar-nav />
+        <x-layouts.admin-sidebar-nav />
         <!-- End of Sidebar -->
 
         <main class="h-auto p-4 pt-20 mt-6 md:ml-64">
             {{-- CONTENT SECTION TEMPORARY --}}
             <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
                 {{-- NAVBAR --}}
-                {{-- <livewire:layout.navigation /> --}}
 
                 <!-- Page Heading -->
                 @if (isset($header))

@@ -1,11 +1,12 @@
 <?php
 
-use App\Models\Admin;
+
 use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\AdminEmailVerifyController;
 use App\Http\Controllers\AudioController;
+use App\Http\Controllers\MusicDeleteController;
 use App\Http\Controllers\PaypalController;
 
 Route::view('/', 'welcome');
@@ -19,8 +20,6 @@ Route::get('auth/{provider}/callback', [ProviderController::class, 'callback']);
 Route::get('/audio/musics/{filename}', [AudioController::class, 'serveAudio']);
 
 
-
-
 Route::view('dashboard', 'dashboard')
     ->middleware(['customauth', 'verified'])
     ->name('dashboard');
@@ -29,16 +28,6 @@ Route::view('profile', 'profile')
     ->middleware(['customauth'])
     ->name('profile');
 
-
-
-
-// AFTER AUTHENTICATION
-Route::middleware('auth')->group(function () {
-
-    //Volt::route('admin-dashboard', 'admin.dashboard')->name('admin.dashboard');
-
-
-});
 
 
 Route::prefix('admin')->middleware('admin')->group(function () {
@@ -50,7 +39,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Volt::route('/paypal', 'pages.admin.paypal')->name('admin.paypal');
 
     // MUSIC
-    Volt::route('/create/music', 'pages.admin.create-music')->name('admin.create.music');
+    Route::view('/music/home', 'pages.admin.music')->name('pages.admin.music');
+    Route::get('/music/delete/{musicID}', [MusicDeleteController::class, 'destroy'])->name('pages.admin.music.destroy');
 
     // Experimental Routes
 

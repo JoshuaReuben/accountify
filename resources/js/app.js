@@ -11,3 +11,9 @@ if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.match
   localStorage.theme = 'light'
 }
 
+
+
+// Reload the Webpage
+    document.addEventListener('reload-page', () => {
+        window.location.reload();
+    })

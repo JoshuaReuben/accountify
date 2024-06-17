@@ -44,8 +44,9 @@ new class extends Component {
                     profile</a>
             </li>
             <li class="hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white rounded-b-xl">
-                <button wire:click="logout" href="#" class="block py-2 px-4 text-sm ">Sign
-                    Out</button>
+                <button wire:click="logout" class="block py-2 px-4 text-sm w-full h-full text-left">
+                    Sign Out
+                </button>
             </li>
         </ul>
 

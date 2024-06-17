@@ -23,12 +23,6 @@ new class extends Component {
             $this->songs_filepath[] = $song->song_file_path;
         }
     }
-
-    #[On('new-song-uploaded')]
-    public function updateMusicList()
-    {
-        $this->dispatch('update-music-list-on-js');
-    }
 }; ?>
 
 
@@ -359,12 +353,6 @@ new class extends Component {
                 musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
                 renderMusicInfo();
             }
-
-
-            // Add Event Listener to the document to listen for $this->emit('reload-page') then reload the page using javascript
-            document.addEventListener('update-music-list-on-js', () => {
-                window.location.reload();
-            })
         </script>
 
     </div>
