@@ -71,17 +71,21 @@
                             <td class="px-6 py-4 text-sm lg:text-md">
                                 {{ $song->song_filesize }}
                             </td>
+
                             <td class="px-6 py-4 text-center">
+
                                 {{-- Edit - MODAL PART BUTTON --}}
-                                <button wire:click="editSong({{ $song->id }})"
+                                <button onclick="editMusicRow({{ $song->id }})"
                                     class="font-medium text-blue-600 dark:text-blue-500">
                                     <i class="mx-1 fa-solid fa-pen-to-square text-md lg:text-lg "></i>
                                 </button>
+
                                 {{-- Delete --}}
                                 <button onclick="deleteMusicRow(this, {{ $song->id }})"
                                     class="font-medium text-red-600 dark:text-red-500">
                                     <i class="mx-1 fa-solid fa-trash-can text-md lg:text-lg "></i>
                                 </button>
+
                             </td>
                         </tr>
                     @empty
@@ -105,8 +109,10 @@
                 el.closest('tr').classList.add('hidden');
                 window.location.href = 'delete/' + musicID;
             }
+        }
 
-
+        function editMusicRow(musicID) {
+            window.location.href = 'edit/' + musicID;
         }
     </script>
 

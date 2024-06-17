@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\AdminEmailVerifyController;
 use App\Http\Controllers\AudioController;
-use App\Http\Controllers\MusicDeleteController;
+use App\Http\Controllers\MusicController;
 use App\Http\Controllers\PaypalController;
 
 Route::view('/', 'welcome');
@@ -40,7 +40,9 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     // MUSIC
     Route::view('/music/home', 'pages.admin.music')->name('pages.admin.music');
-    Route::get('/music/delete/{musicID}', [MusicDeleteController::class, 'destroy'])->name('pages.admin.music.destroy');
+    Route::get('/music/delete/{musicID}', [MusicController::class, 'destroy']);
+    Route::get('/music/edit/{musicID}', [MusicController::class, 'edit']);
+    Route::view('/music/edit/page', 'pages.admin.music-edit')->name('pages.admin.music.edit');
 
     // Experimental Routes
 

@@ -6,7 +6,7 @@ use App\Models\Music;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class MusicDeleteController extends Controller
+class MusicController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -43,9 +43,11 @@ class MusicDeleteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $musicID)
     {
-        //
+        $passedMusic = Music::find($musicID);
+
+        return view('pages.admin.music-edit', ['passedMusic' => $passedMusic]);
     }
 
     /**

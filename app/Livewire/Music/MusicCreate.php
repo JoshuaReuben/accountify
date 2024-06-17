@@ -8,7 +8,6 @@ use Livewire\Component;
 use App\Models\Music;
 
 use Livewire\WithFileUploads;
-use Livewire\Attributes\On;
 
 use Kiwilan\Audio\Audio;
 

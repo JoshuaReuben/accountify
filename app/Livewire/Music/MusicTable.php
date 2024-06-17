@@ -8,10 +8,8 @@ use App\Models\Music;
 use Livewire\Component;
 
 
-use Livewire\Attributes\On;
 
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class MusicTable extends Component
 {
@@ -41,29 +39,7 @@ class MusicTable extends Component
         }
     }
 
-    public function deleteSong($musicID)
-    {
-    }
 
-    public function editSong($musicID)
-    {
-
-        $music = Music::find($musicID);
-        //Check if $music exists in the database, if not, reload the page
-        $musicExists = Music::where('id', $musicID)->exists();
-        if (!$musicExists) {
-            return redirect()->back();
-            exit();
-        }
-
-        $this->dispatch(
-            'edit-music',
-            [
-                'passedMusic' => $music,
-                'isEditActive' => true
-            ]
-        );
-    }
 
     public function render()
     {
