@@ -10,83 +10,82 @@
 
 
     <h1 class="text-xl font-bold uppercase">Create a New Course</h1>
-    <form wire:submit.prevent="storeANewSong" class="mt-6 space-y-6">
-        {{-- SONG TITLE --}}
+    <form wire:submit.prevent="storeNewCourse" class="mt-6 space-y-6">
+        {{-- COURSE NAME --}}
         <div>
-            <x-input-label for="songtitle" :value="__('Song Title')" class="uppercase" />
-            <x-text-input wire:model="songtitle" id="songtitle" name="songtitle" type="text" class="block w-full mt-1"
-                required autofocus minLength="5" maxLength="150" />
-            <x-input-error class="mt-2" :messages="$errors->get('songtitle')" />
+            <x-input-label for="course_name" :value="__('Course Name')" class="uppercase" />
+            <x-text-input wire:model="course_name" id="course_name" name="course_name" type="text"
+                class="block w-full mt-1" required autofocus minLength="5" maxLength="150" />
+            <x-input-error class="mt-2" :messages="$errors->get('course_name')" />
         </div>
 
-        {{-- SONG ARTIST --}}
+        {{-- COURSE DESCRIPTION --}}
         <div>
-            <x-input-label for="songartist" :value="__('Song Artist')" class="uppercase" />
-            <x-text-input wire:model="songartist" id="songartist" name="songartist" type="text"
-                class="block w-full mt-1" required autofocus minLength="5" maxLength="255" />
-            <x-input-error class="mt-2" :messages="$errors->get('songartist')" />
+            <x-input-label for="course_description" :value="__('COURSE DESCRIPTION')" class="uppercase" />
+            <x-text-input wire:model="course_description" id="course_description" name="course_description"
+                type="text" class="block w-full mt-1" required autofocus minLength="5" maxLength="255" />
+            <x-input-error class="mt-2" :messages="$errors->get('course_description')" />
         </div>
 
-        {{-- SONG COVER / IMAGE PREVIEW --}}
+        {{-- COURSE DIFFICULTY --}}
         <div>
-            <x-input-label for="songcoverimage" :value="__('Cover Photo')" class="uppercase" />
-            <x-text-input wire:model="songcoverimage" id="songcoverimage" name="songcoverimage" accept="image/*"
-                class="block w-full mt-1" type="file" required />
-            <p class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help_for_cover_photo">Accepts
+            <x-input-label for="course_difficulty" :value="__('COURSE DIFFICULTY')" class="uppercase" />
+            <x-text-input wire:model="course_difficulty" id="course_difficulty" name="course_difficulty" type="text"
+                class="block w-full mt-1" required autofocus minLength="5" maxLength="50" />
+            <x-input-error class="mt-2" :messages="$errors->get('course_difficulty')" />
+        </div>
+
+        {{-- COURSE OVERVIEW --}}
+        <div>
+            <x-input-label for="course_overview" :value="__('COURSE OVERVIEW')" class="mb-1 uppercase" />
+            {{-- TEXT BOX --}}
+            <textarea wire:model="course_overview" id="course_overview" name="course_overview"
+                class="block w-full border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
+                required autofocus minLength="5" rows="4" placeholder="Overview Description of the Course..."></textarea>
+
+
+
+
+            <x-input-error class="mt-2" :messages="$errors->get('course_overview')" />
+        </div>
+
+        {{-- COURSE COVER / IMAGE  --}}
+        <div>
+            <x-input-label for="course_cover_photo" :value="__('COURSE COVER PHOTO')" class="uppercase" />
+            <x-text-input wire:model="course_cover_photo" id="course_cover_photo" name="course_cover_photo"
+                accept="image/*" class="block w-full mt-1" type="file" required />
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help_for_course_cover_photo">Accepts
                 JPEG, JPG, WEBP or PNG (Max. 4MB)
             </p>
-            <p wire:loading wire:target="songcoverimage" class="mt-1 text-xs text-gray-500 dark:text-gray-300">
+            <p wire:loading wire:target="course_cover_photo" class="mt-1 text-xs text-gray-500 dark:text-gray-300">
                 Uploading...</p>
-            <x-input-error class="mt-2" :messages="$errors->get('songcoverimage')" />
+            <x-input-error class="mt-2" :messages="$errors->get('course_cover_photo')" />
         </div>
 
         {{-- SHOW IMAGE PREVIEW --}}
-        @if ($this->songcoverimage)
+        @if ($this->course_cover_photo)
             <div class="">
-                <img class="h-[200px] max-w-md mx-auto rounded-lg" src="{{ $this->songcoverimage->temporaryUrl() }}"
+                <img class="h-[200px] max-w-md mx-auto rounded-lg" src="{{ $this->course_cover_photo->temporaryUrl() }}"
                     alt="Cover Photo">
                 <p class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Image Preview</p>
             </div>
         @endif
 
-
-        {{-- UPLOAD SONG / AUDIO FILE --}}
+        {{-- COURSE DURATION --}}
         <div>
-            <x-input-label for="songaudiofile" :value="__('Upload Audio')" class="uppercase" />
-            <x-text-input wire:model="songaudiofile" id="songaudiofile" name="songaudiofile" type="file"
-                accept="audio/wav, audio/mpeg, audio/mp3" class="block w-full mt-1" required />
-            <p class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help_for_audio">
-                Accepts .wav and .mp3
-                file only. (Max. 8MB)
-            </p>
-            <p wire:loading wire:target="songaudiofile" class="mt-1 text-xs text-gray-500 dark:text-gray-300">
-                Uploading...</p>
-            <x-input-error class="mt-2" :messages="$errors->get('songaudiofile')" />
-        </div>
-
-        {{-- AUDIO PREVIEW --}}
-        <div>
-            @if ($this->songaudiofile)
-                <audio class="w-full mt-1 rounded-lg" controls>
-                    <source src="{{ $this->songaudiofile->temporaryUrl() }}" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-                <p class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Audio Preview</p>
-            @endif
+            <x-input-label for="course_duration" :value="__('COURSE DURATION IN HOURS')" class="uppercase" />
+            <x-text-input wire:model="course_duration" id="course_duration" name="course_duration" type="number"
+                class="block w-full mt-1" required autofocus min="1" max="500" />
+            <x-input-error class="mt-2" :messages="$errors->get('course_duration')" />
         </div>
 
 
-        <div wire:target="songaudiofile, songcoverimage, storeANewSong" class="flex items-center gap-4">
-            <x-buttons.primary-button wire:loading.attr="disabled"
-                wire:target="songaudiofile, songcoverimage, storeANewSong"
+        <div wire:target="course_cover_photo, storeNewCourse" class="flex items-center gap-4">
+            <x-buttons.primary-button wire:loading.attr="disabled" wire:target="course_cover_photo, storeNewCourse"
                 wire:loading.class="opacity-50 cursor-not-allowed">{{ __('Upload') }}</x-buttons.primary-button>
-
-            <x-action-message class="me-3" on="new-song-uploaded">
-                {{ __('New Song Uploaded.') }}
-            </x-action-message>
         </div>
 
-        <div wire:loading wire:target="storeANewSong">
+        <div wire:loading wire:target="storeNewCourse">
             <div class="flex items-center">
                 <div role="status">
                     <svg aria-hidden="true"
@@ -102,8 +101,6 @@
                 </div>
                 Uploading your files...
             </div>
-
-
         </div>
     </form>
 

@@ -27,10 +27,10 @@ class CourseCreate extends Component
             [
                 'course_name' => 'required|string|min:5|max:150',
                 'course_description' => 'required|string|min:5|max:255',
-                'course_difficulty' => 'required|string',
+                'course_difficulty' => 'required|string|min:5|max:50',
                 'course_overview' => 'required|string|min:5',
                 'course_cover_photo' => 'required|image|max:4096',
-                'course_duration' => 'required',
+                'course_duration' => 'required|numeric',
             ],
             [
                 'course_name.required' => 'Course Name is required',
@@ -53,63 +53,42 @@ class CourseCreate extends Component
 
 
         //Get The File Name and Extension then Sanitize
-        $coverphoto_filename = $this->songcoverimage->getClientOriginalName();
-        $music_filename = $this->songaudiofile->getClientOriginalName();
+        $coverphoto_filename = $this->course_cover_photo->getClientOriginalName();
 
         //Get The Base Name
         $coverphoto_basename = pathinfo($coverphoto_filename, PATHINFO_FILENAME);
-        $music_basename = pathinfo($music_filename, PATHINFO_FILENAME);
 
         //Get The Extension
         $coverphoto_ext = pathinfo($coverphoto_filename, PATHINFO_EXTENSION);
-        $music_ext = pathinfo($music_filename, PATHINFO_EXTENSION);
 
         //Sanitize the Base Name using Filter Var of FILTER_SANITIZE_STRING then assign back value to orig var
         $coverphoto_filename = filter_var($coverphoto_basename, FILTER_SANITIZE_STRING);
-        $music_filename = filter_var($music_basename, FILTER_SANITIZE_STRING);
 
         //Add Unique Identifiers to the Base Name
         $coverphoto_filename = $coverphoto_filename . '-' . uniqid();
-        $music_filename = $music_filename . '-' . uniqid();
 
         //Merge Back the Extension for the Final File Name
         $coverphoto_filename = $coverphoto_filename . '.' . $coverphoto_ext;
-        $music_filename = $music_filename . '.' . $music_ext;
 
-        ////////////////////////// STORING THE MUSIC TO DATABASE
-
-        $music_saved_file_path = $this->songaudiofile->storeAs('musics', $music_filename, 'public');
-
-        //Get the metadata of the song
-
-        //Get the audio path
-        $fullUrl = 'storage/' . $music_saved_file_path;
-        $audio = Audio::get($fullUrl);
-
-        $audio_filesize = $audio->getAudio()->getFilesize();
-        //convert the filesize into mb
-        $audio_filesize_in_MB = round($audio_filesize / 1024 / 1024, 2);
-        $audio_filesize_in_MB = $audio_filesize_in_MB . ' MB';
-
-        $audio_duration = $audio->getDuration();
-        // convert the duration into minutes and seconds
-        $audio_duration = gmdate('i:s', $audio_duration);
+        ////////////////////////// STORING THE COURSE TO DATABASE //////////////////////////
 
         //Store the song in the database
-        Music::create([
-            'song_title' => $this->songtitle,
-            'song_artist' => $this->songartist,
-            'song_cover_photo' => $this->songcoverimage->storeAs('musics_cover_photos', $coverphoto_filename, 'public'),
-            'song_file_path' => $music_saved_file_path,
-            'song_duration' => $audio_duration,
-            'song_filesize' => $audio_filesize_in_MB,
+        Course::create([
+            'course_name' => $this->course_name,
+            'course_description' => $this->course_description,
+            'course_difficulty' => $this->course_difficulty,
+            'course_overview' => $this->course_overview,
+            'course_cover_photo' => $this->course_cover_photo->storeAs('courses_cover_photos', $coverphoto_filename, 'public'),
+            'course_duration' => $this->course_duration,
+            'course_publish_date' => $this->course_publish_date,
         ]);
 
         ////////////////////////// Get the File Size and File Duration //////////////////////////
 
-        $this->reset(['songtitle', 'songartist', 'songcoverimage', 'songaudiofile']);
-        session()->flash('message', 'Music Added Successfully!');
-        $this->dispatch('reload-page');
+        $this->reset(['course_name', 'course_description', 'course_difficulty', 'course_overview', 'course_cover_photo', 'course_duration', 'course_publish_date']);
+        // session()->flash('message', 'Music Added Successfully!');
+        // $this->dispatch('reload-page');
+        return redirect()->route('pages.admin.course')->with('message', 'Course Added Successfully!');
     }
 
     public function render()

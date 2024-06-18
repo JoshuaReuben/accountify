@@ -80,10 +80,6 @@
             <x-buttons.primary-button wire:loading.attr="disabled"
                 wire:target="songaudiofile, songcoverimage, storeANewSong"
                 wire:loading.class="opacity-50 cursor-not-allowed">{{ __('Upload') }}</x-buttons.primary-button>
-
-            <x-action-message class="me-3" on="new-song-uploaded">
-                {{ __('New Song Uploaded.') }}
-            </x-action-message>
         </div>
 
         <div wire:loading wire:target="storeANewSong">
