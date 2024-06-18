@@ -15,11 +15,46 @@
                     </a>
                 </li>
 
+                {{-- SALES DROPDOWN --}}
+                <li>
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-link-resources" data-collapse-toggle="dropdown-link-resources">
+
+                        {{-- ICON - START --}}
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        {{-- ICON - END  --}}
+
+                        <span class="flex-1 ml-3 text-left uppercase whitespace-nowrap">RESOURCES</span>
+
+                        {{-- ARROW - START --}}
+                        <x-svgs.dropdown-arrow-icon />
+                        {{-- ARROW - END --}}
+
+                    </button>
+                    <ul id="dropdown-link-resources" class="hidden py-2 space-y-2">
+                        <li>
+                            <a href="{{ route('pages.admin.course') }}"
+                                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">COURSES</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">MODULES</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">LESSONS</a>
+                        </li>
+                    </ul>
+                </li>
+
+
                 {{-- PAYPAL --}}
                 <li class="mt-4">
                     <a href="{{ route('admin.paypal') }}"
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <x-svgs.pie-chart-icon />
+                        {{-- <x-svgs.pie-chart-icon /> --}}
+                        <i class="fa-solid fa-wallet"></i>
                         <span class="ml-3">PAYMENTS</span>
                     </a>
                 </li>
@@ -29,8 +64,9 @@
                 <li class="mt-4 group">
                     <a href="{{ route('pages.admin.music') }}"
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i
-                            class="text-gray-500 fa-solid fa-cloud-arrow-up dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        {{-- <i
+                            class="text-gray-500 fa-solid fa-cloud-arrow-up dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i> --}}
+                        <i class="fa-solid fa-cloud-arrow-up "></i>
                         <span class="ml-3">MUSICS</span>
                     </a>
                 </li>
@@ -87,38 +123,6 @@
 
                 {{-- ---------------------------------------------------------- --}}
 
-                {{-- SALES DROPDOWN --}}
-                <li>
-                    <button type="button"
-                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                        aria-controls="dropdown-sales" data-collapse-toggle="dropdown-sales">
-
-                        {{-- ICON - START --}}
-                        <x-svgs.sales-bag-icon />
-                        {{-- ICON - END  --}}
-
-                        <span class="flex-1 ml-3 text-left whitespace-nowrap">SALES</span>
-
-                        {{-- ARROW - START --}}
-                        <x-svgs.dropdown-arrow-icon />
-                        {{-- ARROW - END --}}
-
-                    </button>
-                    <ul id="dropdown-sales" class="hidden py-2 space-y-2">
-                        <li>
-                            <a href="#"
-                                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Products</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Billing</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Invoice</a>
-                        </li>
-                    </ul>
-                </li>
 
 
                 {{-- AUTHENTICATION DROPDOWN --}}
