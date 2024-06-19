@@ -2,12 +2,14 @@
 
 
 use Livewire\Volt\Volt;
+use App\Livewire\Music\MusicEdit;
+use App\Livewire\Course\CourseEdit;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\ProviderController;
-use App\Http\Controllers\AdminEmailVerifyController;
 use App\Http\Controllers\AudioController;
 use App\Http\Controllers\MusicController;
 use App\Http\Controllers\PaypalController;
+use App\Http\Controllers\Auth\ProviderController;
+use App\Http\Controllers\AdminEmailVerifyController;
 
 Route::view('/', 'welcome');
 
@@ -40,12 +42,14 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     // MUSIC
     Route::view('/music/home', 'pages.admin.music')->name('pages.admin.music');
-    Route::get('/music/delete/{musicID}', [MusicController::class, 'destroy']);
-    Route::get('/music/edit/{musicID}', [MusicController::class, 'edit']);
+    // Route::get('/music/delete/{musicID}', [MusicController::class, 'destroy']);
+    Route::get('/music/edit/{musicID}', MusicEdit::class)->name('pages.admin.music.edit');
 
     // COURSES
     Route::view('/courses/home', 'pages.admin.course')->name('pages.admin.course');
     Route::view('/courses/show/{courseID}', 'pages.admin.course')->name('pages.admin.course.show');
+    Route::get('/courses/edit/{courseID}', CourseEdit::class)->name('pages.admin.course.edit');
+
 
 
     // Experimental Routes

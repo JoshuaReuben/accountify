@@ -4,6 +4,7 @@ namespace App\Livewire\Music;
 
 use App\Models\Music;
 
+use Illuminate\Support\Facades\Storage;
 
 use Livewire\Component;
 
@@ -37,6 +38,33 @@ class MusicTable extends Component
         } else {
             $this->songs = Music::all();
         }
+    }
+
+    public function deleteMusic($musicID)
+    {
+        $music = Music::find($musicID);
+        //Check if $music exists in the database, if not, reload the page
+        $musicExists = Music::where('id', $musicID)->exists();
+        if (!$musicExists) {
+            return redirect()->back();
+            exit();
+        }
+
+        //Optional turn this into job for async processing
+        $fileExists = Storage::exists('public/' . $music->song_file_path);
+        // dd($fileExists);
+        if ($fileExists) {
+            Storage::delete('public/' . $music->song_cover_photo);
+            Storage::delete('public/' . $music->song_file_path);
+        } else {
+            //reload the browser
+            return redirect()->back();
+            exit();
+        }
+
+        $music->delete();
+        // $this->dispatch('reload-page');
+        return redirect()->route('pages.admin.music')->with('message', 'Music Deleted Successfully');
     }
 
 

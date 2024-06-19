@@ -5,9 +5,11 @@ namespace App\Livewire\Music;
 use App\Models\Music;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Storage;
 
 
+#[Layout('layouts.admin')]
 class MusicEdit extends Component
 {
 
@@ -20,13 +22,12 @@ class MusicEdit extends Component
     public $songcoverimage;
     public $songaudiofile;
 
-    public function mount($passedMusic)
+    public function mount($musicID)
     {
-        $this->passedMusic = $passedMusic;
-        $this->songtitle = $passedMusic->song_title;
-        $this->songartist = $passedMusic->song_artist;
-        $this->songaudiofile = $passedMusic->song_audio_file;
-        // dd($this->songcoverimage);
+        $this->passedMusic = Music::find($musicID);
+        $this->songtitle = $this->passedMusic->song_title;
+        $this->songartist = $this->passedMusic->song_artist;
+        $this->songaudiofile = $this->passedMusic->song_audio_file;
     }
     public function updateSong()
     {
