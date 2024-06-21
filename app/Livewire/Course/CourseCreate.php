@@ -25,9 +25,9 @@ class CourseCreate extends Component
     {
         $this->validate(
             [
-                'course_name' => 'required|string|min:5|max:150',
+                'course_name' => 'required|string|min:3|max:150',
                 'course_description' => 'required|string|min:5|max:255',
-                'course_difficulty' => 'required|string|min:5|max:50',
+                'course_difficulty' => 'required|string|min:3|max:50',
                 'course_overview' => 'required|string|min:5',
                 'course_cover_photo' => 'required|image|max:4096',
                 'course_duration' => 'required|numeric',

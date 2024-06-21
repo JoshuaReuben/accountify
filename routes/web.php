@@ -47,8 +47,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     // COURSES
     Route::view('/courses/home', 'pages.admin.course')->name('pages.admin.course');
-    Route::view('/courses/show/{courseID}', 'pages.admin.course')->name('pages.admin.course.show');
     Route::get('/courses/edit/{courseID}', CourseEdit::class)->name('pages.admin.course.edit');
+    Route::view('/courses/show/{courseID}', 'pages.admin.course')->name('pages.admin.course.show');
 
 
 

@@ -14,6 +14,12 @@ class CourseTable extends Component
         $this->courses = Course::all();
     }
 
+    public function deleteACourse(Course $course)
+    {
+        $course->delete();
+        return redirect()->route('pages.admin.course')->with('message', 'Course Deleted Successfully');
+    }
+
 
     public function render()
     {

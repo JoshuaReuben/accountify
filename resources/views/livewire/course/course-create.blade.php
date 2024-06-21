@@ -15,7 +15,7 @@
         <div>
             <x-input-label for="course_name" :value="__('Course Name')" class="uppercase" />
             <x-text-input wire:model="course_name" id="course_name" name="course_name" type="text"
-                class="block w-full mt-1" required autofocus minLength="5" maxLength="150" />
+                class="block w-full mt-1" required autofocus minLength="3" maxLength="150" />
             <x-input-error class="mt-2" :messages="$errors->get('course_name')" />
         </div>
 
@@ -31,7 +31,7 @@
         <div>
             <x-input-label for="course_difficulty" :value="__('COURSE DIFFICULTY')" class="uppercase" />
             <x-text-input wire:model="course_difficulty" id="course_difficulty" name="course_difficulty" type="text"
-                class="block w-full mt-1" required autofocus minLength="5" maxLength="50" />
+                class="block w-full mt-1" required autofocus minLength="3" maxLength="50" />
             <x-input-error class="mt-2" :messages="$errors->get('course_difficulty')" />
         </div>
 

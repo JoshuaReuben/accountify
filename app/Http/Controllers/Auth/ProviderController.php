@@ -26,16 +26,15 @@ class ProviderController extends Controller
         } else {
             session(['logging_in_as_admin' => false]);
         }
-        //dd($this->logging_in_as_admin);
         return Socialite::driver($provider)->redirect();
     }
 
     public function callback($provider)
-
     {
         try {  // Get the user
             $user = Socialite::driver($provider)->user();
         } catch (\Exception $e) {
+            dd('For Local Development, download the cacert.pem and add it into your php.ini, this is the self signed certificate');
             if (session('logging_in_as_admin') == true) {
                 return redirect()->route('admin.login');
             } else {
