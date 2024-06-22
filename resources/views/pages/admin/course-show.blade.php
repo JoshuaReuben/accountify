@@ -1,18 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 ">
             {{ __('Course > <Title> Network Fundamentals') }}
         </h2>
     </x-slot>
+    <hr class="dark:border-gray-900">
 
-    {{-- Mobile First View Setup --}}
-    <div>
+    {{-- Image and Course Details --}}
+    <div class="md:flex md:flex-wrap md:flex-row-reverse md:h-[400px]">
         {{-- Cover Photo --}}
-        <div class="h-[200px] mx-auto rounded-lg"
+        <div class="h-[200px] md:h-full md:w-1/2 mx-auto  rounded-lg"
             style="background-image: url('/storage/{{ $course->course_cover_photo }}'); background-size: cover; background-position: center">
         </div>
-        {{-- Title --}}
-        <div class="bg-white shadow dark:bg-gray-800">
+
+        {{-- Course Details --}}
+        <div class="bg-white shadow md:h-full md:w-1/2 dark:bg-gray-800 ">
             <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <h1 class="text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100">{{ $course->course_name }}
                     Netowrk Ffundamentals
@@ -21,7 +23,10 @@
 
             {{-- Short Description --}}
             <div class="p-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <p class="text-gray-700 dark:text-gray-400">{{ $course->short_description }} a very long desciraps
+                <p class="text-gray-700 dark:text-gray-400 line-clamp-6">{{ $course->short_description }} a very long
+                    desciraps Lorem
+                    ipsum dolor sit, amet consectetur adipisicing elit. Vero incidunt, consequatur ducimus sunt nostrum
+                    poss.
                     sfpasfs </p>
             </div>
 
@@ -33,8 +38,6 @@
                 </button>
             </div>
         </div>
-
-
     </div>
 
     {{-- Icons - Self Paced - Hours, Difficulty --}}
