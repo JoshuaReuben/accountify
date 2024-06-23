@@ -93,9 +93,7 @@
                     <!-- Logo -->
                     <div class="flex-shrink-0 py-4">
                         <a href="#">
-                            <img class="w-10 h-auto"
-                                src="https://raw.githubusercontent.com/kamona-ui/dashboard-alpine/main/public/assets/images/logo.png"
-                                alt="K-UI" />
+                            <x-app-logo-image class="w-full mx-auto " />
                         </a>
                     </div>
                     <div class="flex flex-col items-center flex-1 p-2 space-y-4">
@@ -112,6 +110,7 @@
                                     d="M4 6h16M4 12h16M4 18h7" />
                             </svg>
                         </button>
+
                         <!-- Messages button -->
                         <button
                             @click="(isSidebarOpen && currentSidebarTab == 'messagesTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'messagesTab'"
@@ -125,6 +124,7 @@
                                     d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                             </svg>
                         </button>
+
                         <!-- Notifications button -->
                         <button
                             @click="(isSidebarOpen && currentSidebarTab == 'notificationsTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'notificationsTab'"
@@ -170,12 +170,14 @@
                     x-transition:leave="transform transition-transform duration-300"
                     x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full"
                     x-show="isSidebarOpen"
-                    class="fixed inset-y-0 left-0 z-10 flex-shrink-0 w-64 bg-white border-r-2 border-gray-100 shadow-lg sm:left-16 sm:w-72 lg:static lg:w-64">
-                    <nav x-show="currentSidebarTab == 'linksTab'" aria-label="Main" class="flex flex-col h-full">
+                    class="fixed inset-y-0 left-0 z-50 flex-shrink-0 w-64 bg-white border-r-2 border-gray-100 shadow-lg lg:static sm:left-16 sm:w-72 lg:w-64">
+
+                    <nav x-show="currentSidebarTab == 'linksTab'" aria-label="Main"
+                        class="flex flex-col h-full bg-red-600">
                         <!-- Logo -->
                         <div class="flex items-center justify-center flex-shrink-0 py-10">
                             <a href="#">
-                                <x-app-logo-image />
+                                <x-application-logo />
                             </a>
                         </div>
 
@@ -219,112 +221,113 @@
                 </div>
             </div>
 
-            <div class="flex flex-col flex-1">
-                <header class="relative flex items-center justify-between flex-shrink-0 p-4">
-                    <form action="#" class="flex-1">
-                        <!--  -->
-                    </form>
-                    {{-- Settings Icon at Large Screen --}}
-                    <div class="items-center hidden ml-4 sm:flex">
-                        <button @click="isSettingsPanelOpen = true"
-                            class="p-2 mr-4 text-gray-400 bg-white rounded-lg shadow-md hover:text-gray-600 focus:outline-none focus:ring focus:ring-white focus:ring-offset-gray-100 focus:ring-offset-4">
-                            <span class="sr-only">Settings</span>
-                            <svg aria-hidden="true" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </button>
+
+
+
+            <div class="flex flex-col flex-1 overflow-y-hidden">
+                <div class="h-full">
+                    {{-- Top Navbar --}}
+                    <div class="relative z-40">
+                        <nav
+                            class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 sticky top-0">
+                            <div class="flex flex-wrap items-center justify-between">
+
+                                <div class="flex items-center justify-start">
+
+                                    <a href="#" class="flex items-center justify-between mr-4">
+                                        <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="h-8 mr-3"
+                                            alt="Accountify Logo" />
+                                        <span
+                                            class="self-center font-semibold sm:text-lg md:text-2xl whitespace-nowrap dark:text-white">Accountify</span>
+                                    </a>
+                                </div>
+
+                                <div class="flex items-center lg:order-2">
+
+                                    {{-- Timer --}}
+                                    <div @click="if(window.innerWidth < 768) isSidebarOpen = false">
+                                        <x-buttons.timer-button />
+                                    </div>
+
+
+                                    <!-- THEME TOGGLER -->
+                                    <div
+                                        class="p-2 pt-4 mr-0 text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                                        <x-buttons.theme-toggler />
+                                    </div>
+
+                                    {{-- Music Icon --}}
+                                    <div @click="isSidebarOpen = false">
+                                        <div
+                                            class="p-2 pt-4 mr-0 text-center text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                                            <button type="button" data-drawer-target="drawer-music-playlist"
+                                                data-drawer-show="drawer-music-playlist" data-drawer-placement="right"
+                                                aria-controls="drawer-music-playlist">
+                                                <i class="w-5 h-5 fa-solid fa-music md:h-6 md:w-6"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Music Playlist drawer component -->
+                                        <div id="drawer-music-playlist"
+                                            class="fixed right-0 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white top-20 w-96 dark:bg-gray-800"
+                                            tabindex="-1" aria-labelledby="drawer-right-label">
+
+                                            <h5 id="drawer-right-label"
+                                                class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                <svg class="w-4 h-4 me-2.5" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                    viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                                </svg>Playlist
+                                            </h5>
+
+                                            <button type="button" data-drawer-hide="drawer-music-playlist"
+                                                aria-controls="drawer-music-playlist"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                                <svg class="w-3 h-3" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 14 14">
+                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2"
+                                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                </svg>
+                                                <span class="sr-only">Close menu</span>
+                                            </button>
+
+                                            <div class="mt-auto">
+                                                <livewire:blocks.music-playlist />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- NOTIFICATIONS -->
+                                    <div @click="isSidebarOpen = false"
+                                        class="p-2 pt-4 mr-0 text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                                        <x-buttons.notifications />
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </nav>
                     </div>
-
-                    <!-- Mobile View: 3 dot on upper right  -->
-                    <button @click="isSubHeaderOpen = !isSubHeaderOpen"
-                        class="p-2 text-gray-400 bg-white rounded-lg shadow-md sm:hidden hover:text-gray-600 focus:outline-none focus:ring focus:ring-white focus:ring-offset-gray-100 focus:ring-offset-4">
-                        <span class="sr-only">More</span>
-
-                        <svg aria-hidden="true" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                        </svg>
-                    </button>
-
-                    <!-- Mobile sub header -->
-                    <div x-transition:enter="transform transition-transform"
-                        x-transition:enter-start="translate-y-full opacity-0"
-                        x-transition:enter-end="translate-y-0 opacity-100"
-                        x-transition:leave="transform transition-transform"
-                        x-transition:leave-start="translate-y-0 opacity-100"
-                        x-transition:leave-end="translate-y-full opacity-0" x-show="isSubHeaderOpen"
-                        @click.away="isSubHeaderOpen = false"
-                        class="absolute flex items-center justify-between p-2 bg-white rounded-md shadow-lg sm:hidden top-16 left-5 right-5">
-                        <!-- Settings button -->
-                        <button @click="isSettingsPanelOpen = true; isSubHeaderOpen = false"
-                            class="p-2 text-gray-400 bg-white rounded-lg shadow-md hover:text-gray-600 focus:outline-none focus:ring focus:ring-white focus:ring-offset-gray-100 focus:ring-offset-4">
-                            <span class="sr-only">Settings</span>
-                            <svg aria-hidden="true" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </button>
-                        <!-- Messages button -->
-                        <button
-                            @click="isSidebarOpen = true; currentSidebarTab = 'messagesTab'; isSubHeaderOpen = false"
-                            class="p-2 text-gray-400 bg-white rounded-lg shadow-md hover:text-gray-600 focus:outline-none focus:ring focus:ring-white focus:ring-offset-gray-100 focus:ring-offset-4">
-                            <span class="sr-only">Toggle message panel</span>
-                            <svg aria-hidden="true" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                            </svg>
-                        </button>
-                        <!-- Notifications button -->
-                        <button
-                            @click="isSidebarOpen = true; currentSidebarTab = 'notificationsTab'; isSubHeaderOpen = false"
-                            class="p-2 text-gray-400 bg-white rounded-lg shadow-md hover:text-gray-600 focus:outline-none focus:ring focus:ring-white focus:ring-offset-gray-100 focus:ring-offset-4">
-                            <span class="sr-only">Toggle notifications panel</span>
-                            <svg aria-hidden="true" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-                        </button>
-
-                    </div>
-                </header>
-
-                <div class="flex flex-1">
-                    <!-- Main -->
-                    <main class="flex items-center justify-center flex-1 px-4 py-8">
-                        <h1 class="text-5xl font-bold text-gray-500">In progress</h1>
+                    {{-- End of Top Navbar --}}
+                    <div class="h-full overflow-y-auto">
                         <!-- Content -->
-                        {{ $slot ? 'hehe' : $slot }}
-                    </main>
+                        <div
+                            class="h-full min-h-screen overflow-y-auto text-gray-900 bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
+                            <h1 class="text-5xl font-bold ">In progress</h1>
+                            {{ $slot ? 'hehe' : $slot }}
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
 
-        <!-- Panels -->
 
-        <!-- Settings Panel -->
-        <!-- Backdrop -->
-        <div x-show="isSettingsPanelOpen" class="fixed inset-0 bg-black bg-opacity-50"
-            @click="isSettingsPanelOpen = false" aria-hidden="true"></div>
-        <!-- Panel -->
-        <section x-transition:enter="transform transition-transform duration-300"
-            x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
-            x-transition:leave="transform transition-transform duration-300" x-transition:leave-start="translate-x-0"
-            x-transition:leave-end="translate-x-full" x-show="isSettingsPanelOpen"
-            class="fixed inset-y-0 right-0 w-64 bg-white border-l border-gray-100 rounded-l-3xl">
-            <div class="px-4 py-8">
-                <h2 class="text-lg font-semibold">Settings</h2>
-            </div>
-        </section>
 
     </div>
 

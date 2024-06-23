@@ -1,5 +1,5 @@
 <div>
-    <div data-dropdown-toggle="dropdown-timer" data-dropdown-trigger="hover">
+    <div data-dropdown-toggle="dropdown-timer" data-dropdown-trigger="click">
         <button type="button" id="countdown"
             class="w-fit text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-bold rounded-lg text-md px-5 py-2.5 text-center me-2 mb-2">
             25:00
@@ -30,7 +30,7 @@
                 Pause
             </button>
 
-            <button data-modal-target="edit-timer" data-modal-toggle="edit-timer"
+            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'edit-timer')"
                 class="flex items-center w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
                 {{-- Edit Modal --}}
                 <x-svgs.edit-icon />
@@ -44,126 +44,133 @@
     {{-- MODAL --}}
 
     <!-- Main modal -->
-    <div id="edit-timer" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative w-full max-w-2xl max-h-full p-4">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        Edit Timer
-                    </h3>
-                    <button type="button"
-                        class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="edit-timer">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 space-y-4 md:p-5">
-                    <p class="text-base leading-relaxed text-center text-gray-500 dark:text-gray-400">
-                        The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late
-                        1980s. It uses a kitchen timer to break work into intervals, typically 25 minutes in length,
-                        separated by short breaks.
-                    </p>
-                    {{-- HR - START --}}
-                    <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-900">
-                    {{-- HR - END --}}
-
-                    <form class="flex flex-wrap items-center justify-center w-full mx-auto">
-                        {{-- MINUTES --}}
-                        <div class="mx-2">
-                            <label for="minutes-input" class="sr-only">Choose Minutes:</label>
-                            <div class="relative flex items-center mb-2">
-                                {{-- Minus Icon --}}
-                                <button type="button" id="decrement-button"
-                                    data-input-counter-decrement="minutes-input"
-                                    class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-s-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="M1 1h16" />
-                                    </svg>
-                                </button>
-                                <input type="text" id="minutes-input" data-input-counter data-input-counter-min="1"
-                                    data-input-counter-max="60"
-                                    class="block w-full pb-6 text-sm font-medium text-center text-gray-900 border-gray-300 bg-gray-50 border-x-0 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="" value="25" required />
-                                <div
-                                    class="absolute flex items-center space-x-1 text-xs text-gray-400 -translate-x-1/2 bottom-1 start-1/2 rtl:translate-x-1/2 rtl:space-x-reverse">
-                                    <span>MINUTES</span>
-                                </div>
-                                {{-- Plus Icon --}}
-                                <button type="button" id="increment-button"
-                                    data-input-counter-increment="minutes-input"
-                                    class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-e-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="M9 1v16M1 9h16" />
-                                    </svg>
-                                </button>
-                            </div>
+    <x-modal name="edit-timer" focus="true" bgColor="">
+        <div class="w-full h-[90vh]  flex items-center justify-center">
+            <div id="edit-timer" class="items-center justify-center w-full overflow-x-hidden overflow-y-auto">
+                <div class="relative w-full max-w-2xl max-h-full p-4">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <!-- Modal header -->
+                        <div
+                            class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                Edit Timer
+                            </h3>
+                            <button x-on:click="$dispatch('close')" type="button"
+                                class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white">
+                                <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
                         </div>
+                        <!-- Modal body -->
+                        <div class="p-4 space-y-4 md:p-5">
+                            <p class="text-base leading-relaxed text-center text-gray-500 dark:text-gray-400">
+                                The Pomodoro Technique is a time management method developed by Francesco Cirillo in the
+                                late
+                                1980s. It uses a kitchen timer to break work into intervals, typically 25 minutes in
+                                length,
+                                separated by short breaks.
+                            </p>
+                            {{-- HR - START --}}
+                            <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-900">
+                            {{-- HR - END --}}
 
-                        {{-- SECONDS --}}
-                        <div class="mx-2">
-                            <label for="seconds-input" class="sr-only">Choose Seconds:</label>
-                            <div class="relative flex items-center mb-2">
-                                <button type="button" id="decrement-button"
-                                    data-input-counter-decrement="seconds-input"
-                                    class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-s-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                    {{-- Minus Icon --}}
-                                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="M1 1h16" />
-                                    </svg>
-                                </button>
-                                <input type="text" id="seconds-input" data-input-counter
-                                    data-input-counter-min="0" data-input-counter-max="59"
-                                    class="block w-full pb-6 text-sm font-medium text-center text-gray-900 border-gray-300 bg-gray-50 border-x-0 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="" value="0" required />
-                                <div
-                                    class="absolute flex items-center space-x-1 text-xs text-gray-400 -translate-x-1/2 bottom-1 start-1/2 rtl:translate-x-1/2 rtl:space-x-reverse">
-                                    <span>SECONDS</span>
+                            <form class="flex flex-wrap items-center justify-center w-full mx-auto">
+                                {{-- MINUTES --}}
+                                <div class="mx-2">
+                                    <label for="minutes-input" class="sr-only">Choose Minutes:</label>
+                                    <div class="relative flex items-center mb-2">
+                                        {{-- Minus Icon --}}
+                                        <button type="button" id="decrement-button"
+                                            data-input-counter-decrement="minutes-input"
+                                            class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-s-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            <svg class="w-3 h-3 text-gray-900 dark:text-white"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                                            </svg>
+                                        </button>
+                                        <input type="text" id="minutes-input" data-input-counter
+                                            data-input-counter-min="1" data-input-counter-max="60"
+                                            class="block w-full pb-6 text-sm font-medium text-center text-gray-900 border-gray-300 bg-gray-50 border-x-0 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="" value="25" required />
+                                        <div
+                                            class="absolute flex items-center space-x-1 text-xs text-gray-400 -translate-x-1/2 bottom-1 start-1/2 rtl:translate-x-1/2 rtl:space-x-reverse">
+                                            <span>MINUTES</span>
+                                        </div>
+                                        {{-- Plus Icon --}}
+                                        <button type="button" id="increment-button"
+                                            data-input-counter-increment="minutes-input"
+                                            class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-e-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            <svg class="w-3 h-3 text-gray-900 dark:text-white"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
-                                <button type="button" id="increment-button"
-                                    data-input-counter-increment="seconds-input"
-                                    class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-e-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="M9 1v16M1 9h16" />
-                                    </svg>
-                                </button>
-                            </div>
+
+                                {{-- SECONDS --}}
+                                <div class="mx-2">
+                                    <label for="seconds-input" class="sr-only">Choose Seconds:</label>
+                                    <div class="relative flex items-center mb-2">
+                                        <button type="button" id="decrement-button"
+                                            data-input-counter-decrement="seconds-input"
+                                            class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-s-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            {{-- Minus Icon --}}
+                                            <svg class="w-3 h-3 text-gray-900 dark:text-white"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                                            </svg>
+                                        </button>
+                                        <input type="text" id="seconds-input" data-input-counter
+                                            data-input-counter-min="0" data-input-counter-max="59"
+                                            class="block w-full pb-6 text-sm font-medium text-center text-gray-900 border-gray-300 bg-gray-50 border-x-0 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="" value="0" required />
+                                        <div
+                                            class="absolute flex items-center space-x-1 text-xs text-gray-400 -translate-x-1/2 bottom-1 start-1/2 rtl:translate-x-1/2 rtl:space-x-reverse">
+                                            <span>SECONDS</span>
+                                        </div>
+                                        <button type="button" id="increment-button"
+                                            data-input-counter-increment="seconds-input"
+                                            class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-e-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            <svg class="w-3 h-3 text-gray-900 dark:text-white"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 18 18">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+
                         </div>
-
-
-                    </form>
-
-                </div>
-                <!-- Modal footer -->
-                <div class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
-                    <button onclick="updateStartingTime()" data-modal-hide="edit-timer" type="button"
-                        class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                        Save Changes
-                    </button>
-                    <button data-modal-hide="edit-timer" type="button"
-                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                        Cancel
-                    </button>
+                        <!-- Modal footer -->
+                        <div
+                            class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
+                            <button onclick="updateStartingTime()" type="button" x-on:click="$dispatch('close')"
+                                class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                                Save Changes
+                            </button>
+                            <button x-on:click="$dispatch('close')" type="button"
+                                class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </x-modal>
 
 
 
