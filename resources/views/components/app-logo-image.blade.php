@@ -9,8 +9,12 @@
     alt="Accountify Logo" /> --}}
 
 
-<a href="#" class="flex items-center justify-between mr-4">
+{{-- <a href="#" class="flex items-center justify-between mr-4">
     <img src="https://flowbite.s3.amazonaws.com/logo.svg" {{ $attributes->merge(['class' => 'h-[40px] w-[40px] mr-3']) }}
         alt="Accountify Logo" />
     <span class="self-center font-semibold sm:text-lg md:text-2xl whitespace-nowrap dark:text-white">Accountify</span>
-</a>
+</a> --}}
+
+
+<img src="https://flowbite.s3.amazonaws.com/logo.svg" {{ $attributes->merge(['class' => 'h-auto w-10 mr-3']) }}
+    alt="Accountify Logo">

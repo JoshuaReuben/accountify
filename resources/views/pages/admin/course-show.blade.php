@@ -9,7 +9,7 @@
     {{-- Image and Course Details --}}
     <div class="md:flex md:flex-wrap md:flex-row-reverse md:h-[400px]">
         {{-- Cover Photo --}}
-        <div class="h-[200px] md:h-full md:w-1/2 mx-auto  rounded-lg"
+        <div class="h-[200px] md:h-full md:w-1/2 mx-auto "
             style="background-image: url('/storage/{{ $course->course_cover_photo }}'); background-size: cover; background-position: center">
         </div>
 

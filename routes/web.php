@@ -2,6 +2,7 @@
 
 
 use App\Models\Course;
+use App\Models\Module;
 use Livewire\Volt\Volt;
 use App\Livewire\Music\MusicEdit;
 use App\Livewire\Course\CourseEdit;
@@ -53,9 +54,14 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/courses/edit/{courseID}', CourseEdit::class)->name('pages.admin.course.edit');
     //- show
     Route::get('/courses/show/{courseID}', function ($courseID) {
-        $course = Course::find($courseID);
-        return view('pages.admin.course-show', ['course' => $course]);
+        return view('pages.admin.course-show')->with('course', Course::find($courseID));
     })->name('pages.admin.course.show');
+
+    // MODULES
+    Route::get('/modules/home', function () {
+        return view('pages.admin.module');
+    })->name('pages.admin.module');
+
 
 
 
