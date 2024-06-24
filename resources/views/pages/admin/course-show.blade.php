@@ -129,7 +129,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- START SECTION --}}
 
-                    <h1 class="my-2 text-xl uppercase">HERE'S WHAT YOU WILL LEARN</h1>
+                    <h1 class="my-2 text-xl uppercase">HERE'S WHAT YOU WILL LEARN (IN PROGRESS... NOT YET DONE)</h1>
 
                     <div id="accordion-collapse" data-accordion="collapse">
                         <h2 id="accordion-collapse-heading-1">
@@ -144,7 +144,7 @@
                                 </div>
 
                                 {{-- Module Title --}}
-                                <span class="text-xl">What is Flowbite?</span>
+                                <span class="text-xl">What is Accounting? </span>
                                 <svg data-accordion-icon class="w-3 h-3 ml-auto rotate-180 shrink-0" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"

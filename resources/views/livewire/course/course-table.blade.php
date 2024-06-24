@@ -4,7 +4,7 @@
 
 
     <div class="flex flex-wrap justify-center ">
-        @foreach ($courses as $course)
+        @forelse ($courses as $course)
             @php
                 $backgroundUrl = asset('storage/' . $course->course_cover_photo);
             @endphp
@@ -16,7 +16,7 @@
                 <div class="h-[150px] w-[370px] relative dark:border-gray-700 overflow-hidden "
                     style="background-image: url('{{ $backgroundUrl }}'); background-size: cover; background-position: center;">
 
-                    <div class=" h-10 flex justify-between items-center px-2 mt-2">
+                    <div class="flex items-center justify-between h-10 px-2 mt-2 ">
                         {{-- Badge --}}
                         <div>
                             <span
@@ -24,7 +24,7 @@
                         </div>
 
                         {{-- Actions --}}
-                        <div class=" items-center justify-between hidden  group-hover:flex">
+                        <div class="items-center justify-between hidden group-hover:flex">
                             {{-- Edit Button --}}
                             <a href="{{ route('pages.admin.course.edit', $course->id) }}">
                                 <div
@@ -66,7 +66,9 @@
                     </div>
                 </a>
             </div>
-        @endforeach
+        @empty
+            <p class="italic text-center text-gray-500">No courses created yet.</p>
+        @endforelse
     </div>
 
 

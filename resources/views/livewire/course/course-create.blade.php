@@ -29,9 +29,20 @@
 
         {{-- COURSE DIFFICULTY --}}
         <div>
-            <x-input-label for="course_difficulty" :value="__('COURSE DIFFICULTY')" class="uppercase" />
-            <x-text-input wire:model="course_difficulty" id="course_difficulty" name="course_difficulty" type="text"
-                class="block w-full mt-1" required autofocus minLength="3" maxLength="50" />
+            <x-input-label for="course_difficulty" :value="__('COURSE TARGET')" class="mb-2 uppercase" />
+            {{-- <x-text-input wire:model="course_difficulty" id="course_difficulty" name="course_difficulty" type="text"
+                class="block w-full mt-1" required autofocus minLength="3" maxLength="50" /> --}}
+
+            <select id="course_difficulty" wire:model="course_difficulty" name="course_difficulty" required
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option selected>Choose difficulty</option>
+                <option value="1ST YEAR">1ST YEAR</option>
+                <option value="2ND YEAR">2ND YEAR</option>
+                <option value="3RD YEAR">3RD YEAR</option>
+                <option value="4TH YEAR">4TH YEAR</option>
+            </select>
+
+
             <x-input-error class="mt-2" :messages="$errors->get('course_difficulty')" />
         </div>
 

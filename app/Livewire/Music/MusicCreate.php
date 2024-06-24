@@ -38,7 +38,7 @@ class MusicCreate extends Component
                 'songtitle' => 'required|string|min:3|max:200',
                 'songartist' => 'required|string|min:3|max:200',
                 'songcoverimage' => 'required|image|max:4096',
-                'songaudiofile' => 'required|mimes:wav,mp3|max:8192',
+                'songaudiofile' => 'required|mimes:wav,mp3|max:16384',
             ],
             [
                 // Custom validation messages

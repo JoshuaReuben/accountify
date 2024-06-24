@@ -82,7 +82,7 @@
 
                                 {{-- Delete --}}
                                 <button wire:confirm="Are you sure you want to delete this song?"
-                                    wire:click="deleteSong({{ $song->id }})"
+                                    wire:click="deleteMusic({{ $song->id }})"
                                     class="font-medium text-red-600 dark:text-red-500">
                                     <i class="mx-1 fa-solid fa-trash-can text-md lg:text-lg "></i>
                                 </button>

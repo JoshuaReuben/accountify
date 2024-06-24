@@ -57,7 +57,7 @@
                 accept="audio/wav, audio/mpeg, audio/mp3" class="block w-full mt-1" required />
             <p class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help_for_audio">
                 Accepts .wav and .mp3
-                file only. (Max. 8MB)
+                file only. (Max. 16MB)
             </p>
             <p wire:loading wire:target="songaudiofile" class="mt-1 text-xs text-gray-500 dark:text-gray-300">
                 Uploading...</p>
