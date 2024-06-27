@@ -204,7 +204,7 @@
 
 
 
-
+            {{-- Right Side = Navbar + Content --}}
             <div class="flex flex-col flex-1 overflow-y-hidden">
                 <div class="h-full">
                     {{-- Top Navbar --}}
@@ -326,18 +326,6 @@
                         this.isSidebarOpen = false
                     }
                 },
-            }
-        }
-
-        function handleSidebarClick() {
-            // Check if the sidebar is open and the current tab is 'notificationsTab'
-            if (isSidebarOpen && currentSidebarTab === 'notificationsTab') {
-                // If true, close the sidebar
-                isSidebarOpen = false;
-            } else {
-                // If false, open the sidebar and switch to the 'notificationsTab'
-                isSidebarOpen = true;
-                currentSidebarTab = 'notificationsTab';
             }
         }
     </script>
