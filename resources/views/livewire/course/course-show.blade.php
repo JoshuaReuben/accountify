@@ -206,12 +206,12 @@
                     <div id="accordion-collapse-modules" data-accordion="collapse">
                         {{-- Start of Accordion --}}
                         @forelse ($course->modules as $module)
-                            <h2 id="accordion-collapse-modules-heading-1">
+                            <h2 id="accordion-collapse-modules-heading-{{ $loop->iteration }}">
                                 {{-- Accordion Mode --}}
                                 <button x-show="(mode === 'view') || (mode === 'create')" type="button"
                                     class="flex items-center w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 rtl:text-right rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                    data-accordion-target="#accordion-collapse-modules-body-1" aria-expanded="false"
-                                    aria-controls="accordion-collapse-modules-body-1">
+                                    data-accordion-target="#accordion-collapse-modules-body-{{ $loop->iteration }}"
+                                    aria-expanded="false" aria-controls="accordion-collapse-modules-body-1">
                                     {{-- Module Icon --}}
                                     <div
                                         class="p-2 text-center bg-white dark:bg-gray-800 place-content-center h-[75px] w-[75px] shadow-lg dark:border-gray-700 my-2 border rounded-full">
@@ -289,8 +289,10 @@
                                     </button>
 
                                     {{-- View Accordion Button --}}
-                                    <button type="button" data-accordion-target="#accordion-collapse-modules-body-1"
-                                        aria-expanded="false" aria-controls="accordion-collapse-modules-body-1"
+                                    <button type="button"
+                                        data-accordion-target="#accordion-collapse-modules-body-{{ $loop->iteration }}"
+                                        aria-expanded="false"
+                                        aria-controls="accordion-collapse-modules-body-{{ $loop->iteration }}"
                                         class="text-white  bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-700 dark:border-gray-800">
                                         Toggle Contents
                                     </button>
@@ -298,8 +300,8 @@
                                 </div>
                             </h2>
 
-                            <div id="accordion-collapse-modules-body-1" class="hidden"
-                                aria-labelledby="accordion-collapse-modules-heading-1">
+                            <div id="accordion-collapse-modules-body-{{ $loop->iteration }}" class="hidden"
+                                aria-labelledby="accordion-collapse-modules-heading-{{ $loop->iteration }}">
                                 <div class="border border-b-0 border-gray-200 dark:border-gray-700 ">
                                     {{-- Start Module Content --}}
                                     <div
