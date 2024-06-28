@@ -1,11 +1,10 @@
 <?php
 
 
-use App\Models\Course;
-use App\Models\Module;
 use Livewire\Volt\Volt;
 use App\Livewire\Music\MusicEdit;
 use App\Livewire\Course\CourseEdit;
+use App\Livewire\Course\CourseShow;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AudioController;
 use App\Http\Controllers\PaypalController;
@@ -52,10 +51,12 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     // COURSES
     Route::view('/courses/home', 'pages.admin.course')->name('pages.admin.course');
     Route::get('/courses/edit/{courseID}', CourseEdit::class)->name('pages.admin.course.edit');
+    Route::get('/courses/show/{courseID}', CourseShow::class)->name('pages.admin.course.show');
+
     //- show ++ module create
-    Route::get('/courses/show/{courseID}', function ($courseID) {
-        return view('pages.admin.course-show')->with('course', Course::find($courseID));
-    })->name('pages.admin.course.show');
+    // Route::get('/courses/show/{courseID}', function ($courseID) {
+    //     return view('pages.admin.course-show')->with('course', Course::find($courseID));
+    // })->name('pages.admin.course.show');
 
 
 

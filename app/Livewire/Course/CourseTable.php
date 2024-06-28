@@ -21,8 +21,6 @@ class CourseTable extends Component
         return redirect()->route('pages.admin.course')->with('message', 'Course Deleted Successfully');
     }
 
-
-
     // Section for Course Show -- MODULES CRUD
 
 
