@@ -52,10 +52,13 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     // COURSES
     Route::view('/courses/home', 'pages.admin.course')->name('pages.admin.course');
     Route::get('/courses/edit/{courseID}', CourseEdit::class)->name('pages.admin.course.edit');
-    //- show
+    //- show ++ module create
     Route::get('/courses/show/{courseID}', function ($courseID) {
         return view('pages.admin.course-show')->with('course', Course::find($courseID));
     })->name('pages.admin.course.show');
+
+
+
 
     // MODULES
     Route::get('/modules/home', function () {

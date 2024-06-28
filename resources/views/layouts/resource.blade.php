@@ -42,7 +42,7 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                         {{-- Close Icon --}}
-                        {{-- <svg id="close-icon-for-admin-sidebar" class=" w-6 h-6 hidden" fill="currentColor"
+                        {{-- <svg id="close-icon-for-admin-sidebar" class="hidden w-6 h-6 " fill="currentColor"
                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -351,11 +351,11 @@
 
 
         {{-- ################################################################################################### --}}
-        <main class="h-auto pt-20 w-full fixed">
+        <main class="fixed w-full h-auto pt-20">
 
-            <div x-data="{ isSidebarOpen: true }" class="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-row">
+            <div x-data="{ isSidebarOpen: true }" class="flex flex-row min-h-screen bg-gray-100 dark:bg-gray-900">
                 {{-- START RESOURCE NAVBAR --}}
-                <div class="h-screen w-64 bg-green-400 "
+                <div class="h-screen bg-white border-r border-gray-200 w-72 dark:bg-gray-800 dark:border-gray-700"
                     :class="{ ' hidden': !isSidebarOpen, ' block': isSidebarOpen }">
 
                     <div class="px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"
@@ -377,13 +377,13 @@
                     {{-- START PAGE HEADING --}}
                     @if (isset($header))
                         <header class="bg-white shadow dark:bg-gray-800">
-                            <div class="px-4 py-6 mx-auto flex items-center  ">
+                            <div class="flex items-center px-4 py-6 mx-auto ">
                                 <div>
                                     <button @click="isSidebarOpen = !isSidebarOpen">
                                         <i x-show="!isSidebarOpen"
-                                            class="fa-solid fa-bars dark:text-white mx-3 text-2xl cursor-pointer"></i>
+                                            class="mx-3 text-2xl cursor-pointer fa-solid fa-bars dark:text-white"></i>
                                         <i x-show="isSidebarOpen"
-                                            class="fa-solid fa-bars-staggered dark:text-white mx-3 text-2xl cursor-pointer"></i>
+                                            class="mx-3 text-2xl cursor-pointer fa-solid fa-bars-staggered dark:text-white"></i>
                                     </button>
                                 </div>
                                 <div>
@@ -395,7 +395,7 @@
                     {{-- END PAGE HEADING --}}
 
                     {{-- START PAGE CONTENT --}}
-                    <div class=" overflow-y-auto" style="height: calc(100vh - 160px);">
+                    <div class="overflow-y-auto " style="height: calc(100vh - 160px);">
                         {{ $slot }}
                     </div>
                     {{-- END PAGE CONTENT --}}

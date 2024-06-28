@@ -8,6 +8,7 @@ use Livewire\Component;
 class CourseTable extends Component
 {
 
+    public $title = 'Created Courses';
     public $courses;
     public function mount()
     {
@@ -20,6 +21,9 @@ class CourseTable extends Component
         return redirect()->route('pages.admin.course')->with('message', 'Course Deleted Successfully');
     }
 
+
+
+    // Section for Course Show -- MODULES CRUD
 
 
     public function render()
