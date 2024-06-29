@@ -24,6 +24,18 @@ class AdminMiddleware
 
         // For Admin Routes Only
         if (Auth::guard('admin')->check()) {
+
+
+            //Verify Email First
+            $user = Auth::guard('admin')->user();
+            // Check if the email_verified_at field is empty
+            if (empty($user->email_verified_at)) {
+
+                // Redirect to 'admin email notice' if the email is not verified
+                return redirect('/verify-email-notice');
+            }
+
+
             return $next($request);
         }
 

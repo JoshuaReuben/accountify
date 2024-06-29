@@ -4,6 +4,9 @@ use App\Livewire\Forms\AdminLoginForm;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use App\Notifications\AdminEmailVerifyNotif;
+
+// use Illuminate\Support\Facades\Auth;
 
 new #[Layout('layouts.guest')] class extends Component {
     public AdminLoginForm $form;
@@ -19,7 +22,23 @@ new #[Layout('layouts.guest')] class extends Component {
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        $this->checkEmailVerified();
+
+        // $this->redirectIntended(default: route('admin.dashboard', absolute: false), navigate: false);
+    }
+
+    public function checkEmailVerified()
+    {
+        if (Auth::guard('admin')->user()->hasVerifiedEmail()) {
+            $this->redirectIntended(default: route('admin.dashboard', absolute: false), navigate: false);
+        } else {
+            //If not verified, send email then redirect to email notification page
+            $user = Auth::guard('admin')->user();
+            $user->generateVerificationToken();
+
+            $user->notify(new AdminEmailVerifyNotif($user->id, $user->token));
+            $this->redirectIntended(default: route('admin.verification.notice', absolute: false), navigate: false);
+        }
     }
 }; ?>
 
@@ -30,7 +49,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
 
 
-    <h1 class="text-center text-2xl mt-5 mb-7 text-md font-extrabold text-gray-900 dark:text-white md:text-2xl">
+    <h1 class="mt-5 text-2xl font-extrabold text-center text-gray-900 mb-7 text-md dark:text-white md:text-2xl">
         <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">ADMIN</span> LOGIN
     </h1>
 
@@ -42,7 +61,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     {{-- Session Message No Admin Account found --}}
     @if (session('message'))
-        <div class="flex items-center my-4 p-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+        <div class="flex items-center p-4 my-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
             role="alert">
             <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor" viewBox="0 0 20 20">

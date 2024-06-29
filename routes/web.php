@@ -68,12 +68,11 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
 
 
-
-
     // Experimental Routes
     Volt::route('/scratch', 'pages.admin.scratch')->name('admin.scratch');
 
-    Route::get('verify-email/{id}/{token}', [AdminEmailVerifyController::class, 'verifyEmail'])->name('admin.verify.email');
+
+    //Email Routes
 }); //End of Admin Routes
 
 

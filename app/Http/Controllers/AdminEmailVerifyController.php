@@ -15,7 +15,7 @@ class AdminEmailVerifyController extends Controller
 
         // Find the user by ID and token
         $user = Admin::where('id', $userId)->where('token', $token)->first();
-
+        // dd($user);
 
         if ($user && !$user->hasVerifiedEmail()) {
             // Mark the email as verified
