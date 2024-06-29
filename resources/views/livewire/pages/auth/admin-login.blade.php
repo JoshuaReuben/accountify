@@ -32,11 +32,6 @@ new #[Layout('layouts.guest')] class extends Component {
         if (Auth::guard('admin')->user()->hasVerifiedEmail()) {
             $this->redirectIntended(default: route('admin.dashboard', absolute: false), navigate: false);
         } else {
-            //If not verified, send email then redirect to email notification page
-            $user = Auth::guard('admin')->user();
-            $user->generateVerificationToken();
-
-            $user->notify(new AdminEmailVerifyNotif($user->id, $user->token));
             $this->redirectIntended(default: route('admin.verification.notice', absolute: false), navigate: false);
         }
     }

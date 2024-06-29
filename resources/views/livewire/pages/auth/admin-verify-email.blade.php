@@ -8,13 +8,29 @@ use Livewire\Volt\Component;
 use App\Notifications\AdminEmailVerifyNotif;
 
 new #[Layout('layouts.guest')] class extends Component {
+    public function mount()
+    {
+        if (Session::has('initial-verification') && Session::get('initial-verification') === 'done') {
+            return;
+        } else {
+            // If not verified, send email then redirect to email notification page
+            $user = Auth::guard('admin')->user();
+            $user->generateVerificationToken();
+
+            $user->notify(new AdminEmailVerifyNotif($user->id, $user->token));
+
+            // Mark the account that the initial email verification has been sent
+            Session::put('initial-verification', 'done');
+        }
+    }
+
     /**
      * Send an email verification notification to the user.
      */
     public function sendVerification(): void
     {
         if (Auth::guard('admin')->user()->hasVerifiedEmail()) {
-            $this->redirectIntended(default: route('admin.dashboard', absolute: false), navigate: true);
+            $this->redirectIntended(default: route('admin.dashboard', absolute: false), navigate: false);
 
             return;
         }
@@ -51,9 +67,13 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
     @endif
 
+
     <div class="flex items-center justify-between mt-4">
         <x-buttons.primary-button wire:click="sendVerification">
-            {{ __('Resend Verification Email') }}
+            <div wire:loading wire:target="sendVerification">
+                <x-svgs.spinner size="5" message="Sending Email" />
+            </div>
+            <span wire:loading.remove wire:target="sendVerification">{{ __('Resend Verification Email') }}</span>
         </x-buttons.primary-button>
 
         <button wire:click="logout" type="submit"
