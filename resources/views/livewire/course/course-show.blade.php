@@ -119,6 +119,7 @@
     </div>
 
     {{-- Curriculum - Modules  --}}
+
     <div class="py-1">
         <div class="mx-auto max-w-9xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
@@ -127,7 +128,6 @@
 
                     <div class="flex items-center justify-between">
                         <h1 class="my-4 text-xl font-bold uppercase"> CREATED MODULES</h1>
-
                         <div>
                             {{-- Create --}}
                             <button @click="mode = 'create'" x-show="(mode === 'create') || (mode === 'view')"
@@ -166,7 +166,7 @@
                     {{-- Create Form --}}
                     <div x-show="mode === 'create'" class="p-8 my-4 ">
                         <form wire:submit.prevent="createModule" class="max-w-md mx-auto">
-                            <h1 class="text-xl font-bold uppercase my-4">Create New Module</h1>
+                            <h1 class="my-4 text-xl font-bold uppercase">Create New Module</h1>
                             <div class="relative z-0 w-full mb-5 group">
                                 <input type="text" wire:model="module_name" name="create_module" id="create_module"
                                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -184,7 +184,7 @@
                             <button wire:loading wire:target="createModule" type="submit"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg aria-hidden="true" role="status"
-                                    class="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101"
+                                    class="inline w-4 h-4 text-white me-3 animate-spin" viewBox="0 0 100 101"
                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
@@ -196,7 +196,7 @@
                                 Loading...
                             </button>
 
-                            <x-action-message class="mx-3 inline-block" on="module-created">
+                            <x-action-message class="inline-block mx-3" on="module-created">
                                 {{ __('Saved.') }}
                             </x-action-message>
                         </form>
@@ -319,12 +319,11 @@
                                             <span class="text-lg">Profile</span>
                                         </div>
                                     </div>
-
                                     {{-- End Module Content --}}
                                 </div>
                             </div>
                         @empty
-                            <div class="p-6 text-center italic text-gray-900 dark:text-gray-100">
+                            <div class="p-6 italic text-center text-gray-900 dark:text-gray-100">
                                 <p>No Modules Added.</p>
                             </div>
                         @endforelse
@@ -339,6 +338,177 @@
             </div>
         </div>
     </div>
+
+
+    {{-- Alpine Accordion --}}
+    <div class="py-1">
+        <div class="mx-auto max-w-9xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    {{-- START SECTION --}}
+                    <div
+                        class="w-full overflow-hidden border divide-y divide-slate-300 rounded-xl border-slate-300 bg-slate-100/40 text-slate-700 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-300">
+                        @forelse ($course->modules as $module)
+                            <div x-data="{ isExpanded: false }" class="divide-y divide-slate-300 dark:divide-slate-700">
+                                {{-- Accordian Header -- Accordion Mode --}}
+                                <button id="controlsAccordionItem-{{ $loop->iteration }}" type="button"
+                                    class="flex items-center w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 rtl:text-right {{ $loop->first ? 'rounded-t-xl' : '' }} focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                    aria-controls="accordionItem-{{ $loop->iteration }}"
+                                    @click="isExpanded = ! isExpanded" :aria-expanded="isExpanded ? 'true' : 'false'">
+
+                                    {{-- Module Icon --}}
+                                    <div
+                                        class="p-2 text-center bg-white dark:bg-gray-800 place-content-center h-[75px] w-[75px] shadow-lg dark:border-gray-700 my-2 border rounded-full">
+                                        <i class="text-3xl fa-solid fa-book-open-reader"></i>
+                                    </div>
+
+                                    {{-- Module Title --}}
+                                    <span class="text-xl" :class="isExpanded ? 'font-bold text-white' : ''"> Module
+                                        {{ $loop->iteration }}: {{ $module->module_name }}
+                                    </span>
+
+
+                                    {{-- Chevron Icon --}}
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke-width="2" stroke="currentColor"
+                                        class="transition size-5 shrink-0 ml-auto" aria-hidden="true"
+                                        :class="isExpanded ? 'rotate-180' : ''">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </button>
+
+                                {{-- Table Mode -- not yet checked - just repasted --}}
+                                <div x-show="(mode === 'edit') || (mode === 'delete')"
+                                    class="flex items-center w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 rtl:text-right rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                                    {{-- Module Icon --}}
+                                    <div
+                                        class="p-2 text-center bg-white dark:bg-gray-800 place-content-center h-[75px] w-[75px] shadow-lg dark:border-gray-700 my-2 border rounded-full">
+                                        <i class="text-3xl fa-solid fa-book-open-reader"></i>
+                                    </div>
+
+
+                                    {{-- Module Title --}}
+                                    <span class="text-xl"> Module {{ $loop->iteration }}:
+                                        @if ($module->id == $this->currentEditModuleID)
+                                            {{-- Edit Mode Input Field --}}
+                                            @if ($module->id == $this->currentEditModuleID)
+                                                <div class="flex flex-row">
+                                                    <input type="text" wire:model="currentEditModuleName"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <x-buttons.primary-button
+                                                        wire:click="saveCurrentModuleName({{ $module->id }})"
+                                                        class="ms-2"> Save
+                                                    </x-buttons.primary-button>
+                                                    <x-buttons.secondary-button wire:click="cancelEditModule"
+                                                        class="ms-2">Cancel
+                                                    </x-buttons.secondary-button>
+                                                </div>
+                                            @endif
+                                        @else
+                                            {{ $module->module_name }}
+                                        @endif
+
+                                    </span>
+
+
+
+
+                                    {{-- Edit Button --}}
+                                    @if ($module->id != $this->currentEditModuleID)
+                                        <button wire:click="editModule({{ $module->id }})"
+                                            x-show="(mode === 'edit')" type="button"
+                                            class="text-white ml-auto bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                            Edit
+                                        </button>
+                                    @else
+                                        <div class="ml-auto"></div>
+                                    @endif
+
+
+
+
+
+                                    <button x-show="(mode === 'delete')" type="button"
+                                        class="focus:outline-none ml-auto text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                        Delete
+                                    </button>
+
+                                    {{-- View Accordion Button --}}
+                                    <button type="button"
+                                        data-accordion-target="#accordion-collapse-modules-body-{{ $loop->iteration }}"
+                                        aria-expanded="false"
+                                        aria-controls="accordion-collapse-modules-body-{{ $loop->iteration }}"
+                                        class="text-white  bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-700 dark:border-gray-800">
+                                        Toggle Contents
+                                    </button>
+
+                                </div>
+
+                                {{-- Contents of Accordion --}}
+                                <div x-cloak x-show="isExpanded" id="accordionItem-{{ $loop->iteration }}"
+                                    role="region" aria-labelledby="controlsAccordionItem-{{ $loop->iteration }}"
+                                    :class="isExpanded ? 'bg-gray-900' : ''" x-collapse>
+
+                                    {{-- Start Module Content --}}
+                                    <div
+                                        class="w-full h-full text-gray-900 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 dark:text-white">
+                                        <div
+                                            class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:focus:ring-gray-500 dark:focus:text-white">
+                                            <i class="text-2xl fa-solid fa-circle-chevron-right me-3"></i>
+                                            <span class="text-lg">Profile</span>
+                                        </div>
+
+                                        <div
+                                            class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:focus:ring-gray-500 dark:focus:text-white">
+                                            <i class="text-2xl fa-solid fa-circle-chevron-right me-3"></i>
+                                            <span class="text-lg">Profile</span>
+                                        </div>
+                                    </div>
+                                    {{-- End Module Content --}}
+
+                                </div>
+
+                            </div>
+                        @empty
+                            <div class="p-6 italic text-center text-gray-900 dark:text-gray-100">
+                                <p>No Modules Added.</p>
+                            </div>
+                        @endforelse
+
+
+                    </div>
+
+                    {{-- END SECTION --}}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End of Alpine Accordion --}}
+
+
+
+
+
+
+
+
+    {{-- .............................................................. --}}
+    {{-- @script
+        <script>
+            function callFlowbite() {
+                initFlowbite();
+            }
+            $wire.on('sendEvent', () => {
+                initFlowbite();
+                // alert('Success!');
+
+
+                //After 1 second, call Flowbite again
+                setTimeout(callFlowbite, 2000);
+            });
+        </script>
+    @endscript --}}
 
 
 

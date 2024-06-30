@@ -26,6 +26,8 @@ class CourseShow extends Component
         $this->course = Course::find($courseID);
     }
 
+
+
     public function createModule()
     {
         Module::create([
@@ -35,6 +37,7 @@ class CourseShow extends Component
 
         $this->reset(['module_name']);
         $this->dispatch('module-created');
+        $this->dispatch('sendEvent');
     }
 
     public function editModule($moduleID)

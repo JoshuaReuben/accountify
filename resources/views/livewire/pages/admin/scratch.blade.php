@@ -3,7 +3,13 @@
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.admin')] class extends Component {};
+new #[Layout('layouts.admin')] class extends Component {
+    public $data = 'Initial Data';
+    public function updateData()
+    {
+        $this->data = 'Updated Data';
+    }
+};
 
 ?>
 
@@ -62,6 +68,15 @@ new #[Layout('layouts.admin')] class extends Component {};
 
 
                     {{--  EXPERIMENT --}}
+                    <div x-data="{ parentMessage: 'Hello from parent!', childMessage: '' }">
+                        <p x-text="parentMessage"></p>
+
+                        <div x-data="{ childMessage: 'Hello from child!' }" :child-message="parentMessage"
+                            @custom-event="parentMessage = $event.detail">
+                            <p x-text="childMessage"></p>
+                        </div>
+                    </div>
+
 
                     {{-- END OF EXPERIMENT --}}
 

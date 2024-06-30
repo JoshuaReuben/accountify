@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="">
 
@@ -82,7 +81,7 @@
 
                         <!-- Music Playlist drawer component -->
                         <div id="drawer-music-playlist"
-                            class="fixed top-20 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-96 dark:bg-gray-800"
+                            class="fixed right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white top-20 w-96 dark:bg-gray-800"
                             tabindex="-1" aria-labelledby="drawer-right-label">
 
                             <h5 id="drawer-right-label"

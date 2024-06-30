@@ -1,19 +1,37 @@
-import './bootstrap';
-
+import "./bootstrap";
 
 // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+if (
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+) {
     //localstorage is black OR no theme set on local storage but OS prefers dark
-  document.documentElement.classList.add('dark')
-  localStorage.theme = 'dark'
+    document.documentElement.classList.add("dark");
+    localStorage.theme = "dark";
 } else {
-  document.documentElement.classList.remove('dark')
-  localStorage.theme = 'light'
+    document.documentElement.classList.remove("dark");
+    localStorage.theme = "light";
 }
 
-
-
 // Reload the Webpage
-    document.addEventListener('reload-page', () => {
-        window.location.reload();
-    })
+document.addEventListener("reload-page", () => {
+    window.location.reload();
+});
+
+// function observeDOMChanges() {
+//     const observer = new MutationObserver(() => {
+//         // Re-init Flowbite components on DOM changes
+//         initFlowbite();
+//         alert("code reached here");
+//     });
+
+//     observer.observe(document.body, { childList: true, subtree: true });
+// }
+
+// observeDOMChanges();
+
+// document.addEventListener("livewire:navigated", () => {
+//     alert("code reached here");
+//     initFlowbite();
+// });
