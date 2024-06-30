@@ -128,7 +128,7 @@
     <div class="py-1">
         <div class="mx-auto max-w-9xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
-                <div x-data="{ mode: 'view' }" class="p-6 text-gray-900 dark:text-gray-100">
+                <div x-data="{ mode: 'view', moduleID: '', moduleName: '' }" class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- START SECTION --}}
 
                     {{-- Buttons --}}
@@ -257,39 +257,42 @@
                                         <i class="text-3xl fa-solid fa-book-open-reader"></i>
                                     </div>
 
+                                    {{-- Module Title  --}}
+                                    <div x-show="(mode == 'edit') && (moduleID != {{ $module->id }})"
+                                        class="text-xl"> Module
+                                        {{ $loop->iteration }}:
+                                        {{ $module->module_name }}
+                                    </div>
 
-                                    {{-- Module Title --}}
-                                    <span class="text-xl"> Module {{ $loop->iteration }}:
-                                        @if ($module->id == $this->currentEditModuleID)
-                                            {{-- Edit Mode Input Field --}}
-                                            @if ($module->id == $this->currentEditModuleID)
-                                                <div class="flex flex-row">
-                                                    <input type="text" wire:model="currentEditModuleName"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                    <x-buttons.primary-button
-                                                        wire:click="saveCurrentModuleName({{ $module->id }})"
-                                                        class="ms-2"> Save
-                                                    </x-buttons.primary-button>
-                                                    <x-buttons.secondary-button wire:click="cancelEditModule"
-                                                        class="ms-2">Cancel
-                                                    </x-buttons.secondary-button>
-                                                </div>
-                                            @endif
-                                        @else
-                                            {{ $module->module_name }}
-                                        @endif
-                                    </span>
+                                    {{-- Module Title Edit Mode --}}
+                                    <div x-show="(moduleID === {{ $module->id }})"
+                                        class="flex flex-row items-center">
+                                        <span class="text-xl w-[200px] text-center mr-2">Module
+                                            {{ $loop->iteration }}:</span>
+
+                                        <input type="text" wire:model="moduleNameToEdit.{{ $module->id }}"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                                        <x-buttons.primary-button
+                                            wire:click="saveCurrentModuleName({{ $module->id }})" class="ms-2">
+                                            Save
+                                        </x-buttons.primary-button>
+                                        <x-buttons.secondary-button wire:click="cancelEditModule"
+                                            class="ms-2">Cancel
+                                        </x-buttons.secondary-button>
+                                    </div>
+
+
+
 
                                     {{-- Edit Button --}}
-                                    @if ($module->id != $this->currentEditModuleID)
-                                        <button wire:click="editModule({{ $module->id }})"
-                                            x-show="(mode === 'edit')" type="button"
-                                            class="text-white ml-auto bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                            Edit
-                                        </button>
-                                    @else
-                                        <div class="ml-auto"></div>
-                                    @endif
+                                    <button @click="moduleID = {{ $module->id }}"
+                                        x-show="(mode === 'edit') && (moduleID != {{ $module->id }})"
+                                        type="button"
+                                        class="text-white ml-auto bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        Edit
+                                    </button>
+
 
                                     {{--  Delete Button --}}
                                     <button x-show="(mode === 'delete')" type="button"
@@ -300,7 +303,8 @@
                                     {{-- View Accordion Button --}}
                                     <button type="button" @click="isExpanded = ! isExpanded"
                                         :aria-expanded="isExpanded ? 'true' : 'false'"
-                                        class="text-white  bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-700 dark:border-gray-800">
+                                        class="text-white  bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-700 dark:border-gray-800"
+                                        :class="moduleID == {{ $module->id }} ? 'ml-auto' : ''">
                                         Toggle Contents
                                         {{-- Chevron Icon --}}
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"

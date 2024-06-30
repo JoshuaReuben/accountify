@@ -18,12 +18,20 @@ class CourseShow extends Component
     public $module_name = '';
 
     public $currentEditModuleID = null;
-    public $currentEditModuleName = null;
+
+    public $moduleNameToEdit = [];
 
     public function mount($courseID)
     {
         $this->courseID = $courseID;
         $this->course = Course::find($courseID);
+
+        $modules = Module::where('course_id', $courseID)->get();
+        foreach ($modules as $module) {
+            $this->moduleNameToEdit[$module->id] = $module->module_name;
+        }
+
+        // dd($this->moduleNameToEdit, $this->moduleNameToEdit[5]);
     }
 
 
@@ -44,22 +52,22 @@ class CourseShow extends Component
     {
         $module = Module::find($moduleID);
         $this->currentEditModuleID = $module->id;
-        $this->currentEditModuleName = $module->module_name;
+        $this->moduleNameToEdit = $module->module_name;
     }
 
     public function cancelEditModule()
     {
-        $this->reset(['currentEditModuleID', 'currentEditModuleName']);
+        $this->reset(['currentEditModuleID', 'moduleNameToEdit']);
     }
 
     public function saveCurrentModuleName($moduleID)
     {
         $module = Module::find($moduleID);
         $module->update([
-            'module_name' => $this->currentEditModuleName
+            'module_name' => $this->moduleNameToEdit
         ]);
 
-        $this->reset(['currentEditModuleID', 'currentEditModuleName']);
+        $this->reset(['currentEditModuleID', 'moduleNameToEdit']);
     }
 
     public function render()
