@@ -3,19 +3,18 @@
 namespace App\Models;
 
 use App\Models\Course;
-use App\Models\Lesson;
+use App\Models\Module;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Module extends Model
+class Lesson extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
-        'course_id', 'module_name'
+        'module_id',
+        'lesson_title',
     ];
-
 
 
     public function course()
@@ -23,8 +22,8 @@ class Module extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function lessons()
+    public function module()
     {
-        return $this->hasMany(Lesson::class);
+        return $this->belongsTo(Module::class);
     }
 }

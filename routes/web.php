@@ -53,26 +53,17 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/courses/edit/{courseID}', CourseEdit::class)->name('pages.admin.course.edit');
     Route::get('/courses/show/{courseID}', CourseShow::class)->name('pages.admin.course.show');
 
-    //- show ++ module create
-    // Route::get('/courses/show/{courseID}', function ($courseID) {
-    //     return view('pages.admin.course-show')->with('course', Course::find($courseID));
-    // })->name('pages.admin.course.show');
-
-
-
 
     // MODULES
-    Route::get('/modules/home', function () {
-        return view('pages.admin.module');
-    })->name('pages.admin.module');
+    Route::view('/modules/home', 'pages.admin.module')->name('pages.admin.module');
+
+    // LESSONS
+    Route::view('/lessons/home/{courseID}/{moduleID}', 'pages.admin.lesson')->name('pages.admin.lesson');
 
 
 
     // Experimental Routes
     Volt::route('/scratch', 'pages.admin.scratch')->name('admin.scratch');
-
-
-    //Email Routes
 }); //End of Admin Routes
 
 

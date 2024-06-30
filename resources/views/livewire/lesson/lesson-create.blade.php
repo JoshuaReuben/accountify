@@ -1,0 +1,28 @@
+<div>
+
+    {{-- START SECTION --}}
+
+    {{-- Sweet Alert --}}
+    @if (session()->has('message'))
+        <x-sweet-alert :message="session('message')" />
+    @endif
+
+
+
+    <h1 class="text-xl font-bold uppercase">Create a New lesson for: Module {{ $module_position }} -
+        {{ $passed_module->module_name }}</h1>
+    <form wire:submit.prevent="storeNewLesson2" class="mt-6 space-y-6">
+        {{-- lesson title --}}
+        <div>
+            <x-input-label for="lesson_title" :value="__('lesson Name')" class="uppercase" />
+            <x-text-input wire:model="lesson_title" id="lesson_title" name="lesson_title" type="text"
+                class="block w-full mt-1" required autofocus minLength="3" maxLength="150" />
+            <x-input-error class="mt-2" :messages="$errors->get('lesson_title')" />
+        </div>
+
+        <x-buttons.primary-button>{{ __('Save') }}</x-buttons.primary-button>
+    </form>
+
+    {{-- END SECTION --}}
+
+</div>

@@ -355,7 +355,7 @@
 
             <div x-data="{ isSidebarOpen: true }" class="flex flex-row min-h-screen bg-gray-100 dark:bg-gray-900">
                 {{-- START RESOURCE NAVBAR --}}
-                <div class="h-screen bg-white border-r border-gray-200 w-72 dark:bg-gray-800 dark:border-gray-700"
+                <div class="h-screen bg-white border-r border-gray-200 w-96 dark:bg-gray-800 dark:border-gray-700"
                     :class="{ ' hidden': !isSidebarOpen, ' block': isSidebarOpen }">
 
                     <div class="px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"
