@@ -128,7 +128,7 @@
     <div class="py-1">
         <div class="mx-auto max-w-9xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
-                <div x-data="{ mode: 'view', moduleID: '', moduleName: '' }" class="p-6 text-gray-900 dark:text-gray-100">
+                <div x-data="{ mode: 'view', moduleID: '' }" class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- START SECTION --}}
 
                     {{-- Buttons --}}
@@ -159,9 +159,10 @@
                                 Delete Module &nbsp; <i class="fa-solid fa-trash-can"></i>
                             </button>
 
-                            {{-- Save Changes --}}
-                            <button @click="mode = 'view'" x-show="mode != 'view'" type="button"
-                                class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                            {{-- Back to Options --}}
+                            <button @click="mode = 'view'; moduleID = ''" x-show="mode != 'view'" type="button"
+                                class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 disabled:hidden"
+                                :disabled="moduleID !== ''">
                                 Back to Options &nbsp; <i class="fa-solid fa-filter"></i>
                             </button>
                         </div>
@@ -217,7 +218,8 @@
                         class="w-full overflow-hidden border divide-y divide-slate-300 rounded-xl border-slate-300 bg-slate-100/40 text-slate-700 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-300">
 
                         @forelse ($course->modules as $module)
-                            <div x-data="{ isExpanded: false }" class="divide-y divide-slate-300 dark:divide-slate-700">
+                            <div wire:key="module-{{ $module->id }}" x-data="{ isExpanded: false }"
+                                class="divide-y divide-slate-300 dark:divide-slate-700">
                                 {{-- Accordian Header -- Accordion Mode --}}
                                 <button x-show="(mode === 'view') || (mode === 'create')"
                                     id="controlsAccordionItem-{{ $loop->iteration }}" type="button"
@@ -248,7 +250,7 @@
                                 </button>
 
 
-                                {{-- Table Mode -- not yet checked - just repasted --}}
+                                {{-- Table Mode --}}
                                 <div x-show="(mode === 'edit') || (mode === 'delete')"
                                     class="flex items-center w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 rtl:text-right rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">
                                     {{-- Module Icon --}}
@@ -258,7 +260,7 @@
                                     </div>
 
                                     {{-- Module Title  --}}
-                                    <div x-show="(mode == 'edit') && (moduleID != {{ $module->id }})"
+                                    <div x-show="  ((mode == 'edit') && (moduleID != {{ $module->id }})) || (mode == 'delete')"
                                         class="text-xl"> Module
                                         {{ $loop->iteration }}:
                                         {{ $module->module_name }}
@@ -271,14 +273,18 @@
                                             {{ $loop->iteration }}:</span>
 
                                         <input type="text" wire:model="moduleNameToEdit.{{ $module->id }}"
+                                            wire:keydown.enter="saveModuleName({{ $module->id }})"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
-                                        <x-buttons.primary-button
-                                            wire:click="saveCurrentModuleName({{ $module->id }})" class="ms-2">
+                                        {{-- Save Edit --}}
+                                        <x-buttons.primary-button wire:click="saveModuleName({{ $module->id }})"
+                                            @module-name-updated.window="moduleID = ''" class="ms-2">
                                             Save
                                         </x-buttons.primary-button>
-                                        <x-buttons.secondary-button wire:click="cancelEditModule"
-                                            class="ms-2">Cancel
+
+                                        {{-- Cancel Edit --}}
+                                        <x-buttons.secondary-button @click="moduleID = ''"
+                                            wire:click="cancelEditModule()" class="ms-2">Cancel
                                         </x-buttons.secondary-button>
                                     </div>
 
@@ -296,8 +302,14 @@
 
                                     {{--  Delete Button --}}
                                     <button x-show="(mode === 'delete')" type="button"
+                                        wire:click="deleteModule({{ $module->id }})"
                                         class="focus:outline-none ml-auto text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                                        Delete
+                                        <span wire:loading.remove
+                                            wire:target="deleteModule({{ $module->id }})">Delete</span>
+                                        <span wire:loading
+                                            wire:target="deleteModule({{ $module->id }})"><x-svgs.spinner
+                                                message="Deleting..." size="5" /></span>
+
                                     </button>
 
                                     {{-- View Accordion Button --}}

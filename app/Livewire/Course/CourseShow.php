@@ -20,6 +20,7 @@ class CourseShow extends Component
     public $currentEditModuleID = null;
 
     public $moduleNameToEdit = [];
+    public $CopyModuleNameToEdit = [];
 
     public function mount($courseID)
     {
@@ -30,6 +31,8 @@ class CourseShow extends Component
         foreach ($modules as $module) {
             $this->moduleNameToEdit[$module->id] = $module->module_name;
         }
+
+        $this->CopyModuleNameToEdit = $this->moduleNameToEdit;
 
         // dd($this->moduleNameToEdit, $this->moduleNameToEdit[5]);
     }
@@ -57,17 +60,24 @@ class CourseShow extends Component
 
     public function cancelEditModule()
     {
-        $this->reset(['currentEditModuleID', 'moduleNameToEdit']);
+        $this->moduleNameToEdit = $this->CopyModuleNameToEdit;
     }
 
-    public function saveCurrentModuleName($moduleID)
+    public function saveModuleName($moduleID)
     {
         $module = Module::find($moduleID);
         $module->update([
-            'module_name' => $this->moduleNameToEdit
+            'module_name' => $this->moduleNameToEdit[$moduleID]
         ]);
 
-        $this->reset(['currentEditModuleID', 'moduleNameToEdit']);
+        $this->dispatch('module-name-updated');
+    }
+
+    public function deleteModule($moduleID)
+    {
+
+        $module = Module::find($moduleID);
+        $module->delete();
     }
 
     public function render()
