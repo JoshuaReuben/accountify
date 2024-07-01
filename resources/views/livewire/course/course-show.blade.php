@@ -1,5 +1,15 @@
 <div>
 
+
+    {{-- Sweet Alert --}}
+    @if (session()->has('success-msg-on-lesson'))
+        <x-sweet-alert :message="session('success-msg-on-lesson')" />
+
+        @php
+            session()->forget('success-msg-on-lesson');
+        @endphp
+    @endif
+
     <x-slot name="header">
         <h2 class="text-xl font-light leading-tight text-gray-800 dark:text-gray-200 ">
             Course &nbsp;
@@ -339,16 +349,18 @@
                                     <div
                                         class="w-full h-full text-gray-900 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 dark:text-white">
                                         <a href="{{ route('pages.admin.lesson', ['courseID' => $module->course_id, 'moduleID' => $module->id]) }}"
-                                            class="group relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-100">
+                                            class="group relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-100">
                                             <i class="text-2xl fa-solid fa-plus me-3 italic"></i>
                                             <span class="text-lg italic group-hover:underline">Add New Lessons</span>
                                         </a>
+                                        @foreach ($module->lessons as $lesson)
+                                            <a href="#"
+                                                class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-100">
+                                                <i class="text-2xl fa-solid fa-circle-chevron-right me-3"></i>
+                                                <span class="text-lg">{{ $lesson->lesson_title }}</span>
+                                            </a>
+                                        @endforeach
 
-                                        <a href="#"
-                                            class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-100">
-                                            <i class="text-2xl fa-solid fa-circle-chevron-right me-3"></i>
-                                            <span class="text-lg">Profile</span>
-                                        </a>
                                     </div>
                                     {{-- End Module Content --}}
 

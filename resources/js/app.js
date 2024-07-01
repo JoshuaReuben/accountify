@@ -314,13 +314,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Still Part of the Function - Get Lesson Title
                 lessonTitle = document.getElementById("lesson_title");
+                let errorMessage = document.getElementById(
+                    "lesson-title-error-msg"
+                );
+                errorMessage.textContent = "";
+
+                // Validation of the input field
+                if (lessonTitle.value.trim().length < 3) {
+                    // Value is less than 3 characters long
+                    errorMessage.textContent =
+                        "The input must be at least 3 characters long.";
+                    lessonTitle.focus();
+                }
+
+                if (lessonTitle.value.length > 150) {
+                    // Value is less than 3 characters long
+                    errorMessage.textContent =
+                        "Input should not be greater than 150 characters long.";
+                    lessonTitle.focus();
+                }
+
                 // Check if the input field has a value
+
                 if (lessonTitle.value.trim() != "") {
                     lessonTitle = lessonTitle.value.trim();
                     // Call AJAX request with the lesson title and the content
                     sendLessonsContent();
                 } else {
-                    alert("Please Enter Lesson Title");
+                    errorMessage.textContent = "Please Enter Lesson Title.";
                     lessonTitle.focus();
                 }
             } else {
@@ -338,15 +359,37 @@ function sendLessonsContent() {
         data: {
             lesson_title: lessonTitle,
             lesson_content: ckeditor_lessons_content,
+            courseID: getRouteParams().courseID,
+            moduleID: getRouteParams().moduleID,
             _token: $('meta[name="csrf-token"]').attr("content"), // Add CSRF token
         },
         success: function (response) {
             console.log(response.message); // Success message
-            // console.log(response.lesson_title); // Greeting received
-            // console.log(response.lesson_content); // Lesson Content received
+            window.location.href = response.redirect_url;
         },
         error: function (xhr, status, error) {
             console.error(xhr.responseText);
         },
     });
+}
+
+function getRouteParams() {
+    // Get the path from the URL
+    var pathArray = window.location.pathname.split("/");
+
+    // Extract courseID and moduleID
+    var courseID = pathArray[4];
+    var moduleID = pathArray[5];
+
+    // Check if courseID and moduleID are valid numbers
+    if (!courseID || isNaN(courseID) || !moduleID || isNaN(moduleID)) {
+        console.error("Invalid route parameters");
+        return;
+    }
+
+    // console.log("Course ID:", courseID);
+    // console.log("Module ID:", moduleID);
+
+    // Return the parameters if needed
+    return { courseID, moduleID };
 }

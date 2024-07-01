@@ -9,15 +9,16 @@
 
 
 
-    <h1 class="text-xl font-bold uppercase">Create a New lesson for: Module {{ $module_position }} -
-        {{ $passed_module->module_name }}</h1>
+    <h1 class="text-xl font-bold uppercase">Module {{ $module_position }}: {{ $passed_module->module_name }} - (Create
+        New
+        Lesson)</h1>
     <form class="mt-6 space-y-6">
         {{-- lesson title --}}
         <div>
             <x-input-label for="lesson_title" :value="__('lesson Name')" class="uppercase" />
             <x-text-input id="lesson_title" name="lesson_title" type="text" class="block w-full mt-1" required autofocus
                 minLength="3" maxLength="150" />
-            <x-input-error class="mt-2" :messages="$errors->get('lesson_title')" />
+            <p id="lesson-title-error-msg" class="text-sm text-red-600 dark:text-red-400 my-3"></p>
         </div>
 
         {{-- Experiment Phase - CK Editor --}}
