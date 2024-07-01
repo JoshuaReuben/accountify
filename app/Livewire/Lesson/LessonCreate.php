@@ -7,6 +7,7 @@ use App\Models\Lesson;
 use App\Models\Module;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\On;
 
 class LessonCreate extends Component
 {
@@ -122,6 +123,15 @@ class LessonCreate extends Component
             'module_id' => $this->moduleID,
             'lesson_title' => $this->lesson_title
         ]);
+    }
+
+    protected $listeners = ['lesson-added'];
+
+    public $myValueToPass;
+
+    public function testFunc($myValueToPass)
+    {
+        redirect('https://www.google.com');
     }
 
 
