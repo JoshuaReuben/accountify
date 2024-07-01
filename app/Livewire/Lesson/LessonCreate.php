@@ -125,23 +125,6 @@ class LessonCreate extends Component
         ]);
     }
 
-    protected $listeners = ['lesson-added'];
-
-    public $myValueToPass;
-
-    public function testFunc($myValueToPass)
-    {
-        redirect('https://www.google.com');
-    }
-
-
-
-
-
-
-
-
-
 
 
 

@@ -7,6 +7,7 @@ use App\Livewire\Course\CourseEdit;
 use App\Livewire\Course\CourseShow;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AudioController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\AdminEmailVerifyController;
@@ -59,6 +60,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     // LESSONS
     Route::view('/lessons/home/{courseID}/{moduleID}', 'pages.admin.lesson')->name('pages.admin.lesson');
+    Route::post('/lessons/store', [LessonController::class, 'store'])->name('pages.admin.lesson.store');
 
 
 

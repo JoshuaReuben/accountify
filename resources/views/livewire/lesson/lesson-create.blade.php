@@ -11,7 +11,7 @@
 
     <h1 class="text-xl font-bold uppercase">Create a New lesson for: Module {{ $module_position }} -
         {{ $passed_module->module_name }}</h1>
-    <form wire:submit.prevent="storeNewLesson2" class="mt-6 space-y-6">
+    <form class="mt-6 space-y-6">
         {{-- lesson title --}}
         <div>
             <x-input-label for="lesson_title" :value="__('lesson Name')" class="uppercase" />
@@ -34,9 +34,8 @@
         </div>
         {{-- End of Experiment Phase --}}
 
-        <x-buttons.primary-button>{{ __('Save') }}</x-buttons.primary-button>
-        <button type="button" id="logButton">Log Editor Content</button>
-        <button type="button" id="testButton">Test Function</button>
+        <x-buttons.primary-button type="button" id="storeNewLesson">{{ __('Save') }}</x-buttons.primary-button>
+
 
     </form>
 

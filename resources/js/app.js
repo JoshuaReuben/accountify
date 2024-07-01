@@ -36,6 +36,9 @@ document.addEventListener("reload-page", () => {
 //     initFlowbite();
 // });
 
+let ckeditor_lessons_content;
+let lessonTitle;
+
 // CKEditor
 import {
     DecoupledEditor,
@@ -99,7 +102,6 @@ import {
 
 import "ckeditor5/ckeditor5.css";
 
-// import "./style.css";
 document.addEventListener("DOMContentLoaded", function () {
     const editorConfig = {
         toolbar: {
@@ -298,45 +300,53 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     // End of CKEditor
 
-    // Learning how to fetch data
-    document.querySelector("#logButton").addEventListener("click", function () {
-        if (
-            editorInstance &&
-            editorInstance.editing &&
-            editorInstance.editing.view &&
-            editorInstance.editing.view.document
-        ) {
-            let data = editorInstance.getData(); // Get the current HTML content of the editor
-            // console.log(data); // Log the content for debugging purposes
-            logEditorContent();
-        } else {
-            console.error("Editor instance not found or not yet initialized.");
-        }
-    });
+    // Function Fetching the content of the editor
+    document
+        .querySelector("#storeNewLesson")
+        .addEventListener("click", function () {
+            if (
+                editorInstance &&
+                editorInstance.editing &&
+                editorInstance.editing.view &&
+                editorInstance.editing.view.document
+            ) {
+                ckeditor_lessons_content = editorInstance.getData(); // Get the current HTML content of the editor
 
-    function logEditorContent() {
-        if (editorInstance) {
-            let data = editorInstance.getData(); // Get the current HTML content of the editor
-            console.log(typeof data); // Log the content for debugging purposes
-        } else {
-            console.error("Editor instance not found or not yet initialized.");
-        }
-    }
-
-    var inputField = document.getElementById("lesson_title");
-    document.querySelector("#logButton").addEventListener("click", function () {
-        // Check if the input field has a value
-        if (inputField.value) {
-            console.log(inputField.value); // Log the value of the input field
-        } else {
-            console.log("Input field is empty."); // Log a message if the input field is empty
-        }
-    });
+                // Still Part of the Function - Get Lesson Title
+                lessonTitle = document.getElementById("lesson_title");
+                // Check if the input field has a value
+                if (lessonTitle.value.trim() != "") {
+                    lessonTitle = lessonTitle.value.trim();
+                    // Call AJAX request with the lesson title and the content
+                    sendLessonsContent();
+                } else {
+                    alert("Please Enter Lesson Title");
+                    lessonTitle.focus();
+                }
+            } else {
+                console.error(
+                    "Editor instance not found or not yet initialized."
+                );
+            }
+        });
 }); //End of DOMContentLoad
 
-var myValueToPass = "Hello World";
-document.querySelector("#testButton").addEventListener("click", sendEvent);
-function sendEvent() {
-    // alert("hehe");
-    Livewire.dispatch("lesson-added");
+function sendLessonsContent() {
+    $.ajax({
+        url: window.location.origin + "/admin/lessons/store",
+        type: "POST",
+        data: {
+            lesson_title: lessonTitle,
+            lesson_content: ckeditor_lessons_content,
+            _token: $('meta[name="csrf-token"]').attr("content"), // Add CSRF token
+        },
+        success: function (response) {
+            console.log(response.message); // Success message
+            // console.log(response.lesson_title); // Greeting received
+            // console.log(response.lesson_content); // Lesson Content received
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+        },
+    });
 }
