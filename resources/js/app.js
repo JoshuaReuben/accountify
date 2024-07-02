@@ -1,4 +1,4 @@
-import "./bootstrap";
+// import "./bootstrap";
 // CKEditor
 import {
     DecoupledEditor,
@@ -403,3 +403,71 @@ function getRouteParams() {
     // Return the parameters if needed
     return { courseID, moduleID };
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+///////// lesson.show displaying the content of the editor such as Video and Images with the elements of figure.media
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Wait for the DOM to be fully loaded
+    var lessonShowContainer = document.getElementById("lesson-show-container");
+
+    // Check if the div exists
+    if (lessonShowContainer) {
+        // Find all figure elements with the class 'media'
+        var mediaFigures = lessonShowContainer.querySelectorAll("figure.media");
+        var imageFigures = lessonShowContainer.querySelectorAll("figure.image");
+
+        // Iterate over each figure media element
+        mediaFigures.forEach(function (mediaFigure) {
+            // Find the oembed element within the current figure
+            var oembedElement = mediaFigure.querySelector("oembed");
+
+            // If the oembed element is found
+            if (oembedElement) {
+                // Extract the YouTube URL from the oembed element's attribute
+                var youtubeUrl = oembedElement.getAttribute("url");
+
+                // Replace 'watch?v=' with 'embed/' in the URL
+                // var embedUrl = youtubeUrl.replace(/watch\?v=/, "embed/");
+                var parts = youtubeUrl.split("&"); // Split the URL at the ampersand
+                var embedUrl = parts[0].replace(/watch\?v=/, "embed/") + "&"; // Reconstruct the URL without the trailing part
+                var embedUrl = embedUrl.split("&")[0]; // Clean up the URL
+
+                // Remove the oembed element
+                // oembedElement.remove();
+
+                // Create a new iframe element
+                var iframe = document.createElement("iframe");
+                iframe.className = "mx-auto my-3";
+                // iframe.width = '560';
+                iframe.width = "840";
+                iframe.height = "473";
+                // iframe.height = '315';
+                iframe.src = embedUrl; // Use the dynamically obtained URL
+                iframe.frameborder = "0";
+                iframe.allow =
+                    "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                iframe.allowFullscreen = true;
+
+                // Insert the iframe into the parent of the removed oembed element
+                oembedElement.parentNode.insertBefore(iframe, oembedElement);
+                oembedElement.remove();
+            }
+        });
+
+        // Iterate over each figure image element
+        imageFigures.forEach(function (imageFigure) {
+            // add class to the figure element
+            imageFigure.classList.add("text-center");
+
+            // Find the oembed element within the current figure
+            var imgElement = imageFigure.querySelector("img");
+
+            // If the img element is found
+            if (imgElement) {
+                // add class to img element
+                imgElement.classList.add("mx-auto");
+            }
+        });
+    }
+});
