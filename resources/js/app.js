@@ -396,6 +396,30 @@ function sendLessonsContent() {
     });
 }
 
+let ckeditor_lessons_content_edit_mode;
+let lessonTitle_edit_mode;
+function sendUpdatedLessonsContent() {
+    $.ajax({
+        url: window.location.origin + "/admin/lessons/update",
+        type: "POST",
+        data: {
+            lesson_title: lessonTitle_edit_mode,
+            lesson_content: ckeditor_lessons_content_edit_mode,
+            courseID: getRouteParams().courseID,
+            moduleID: getRouteParams().moduleID,
+            lessonID: getRouteParams().lessonID,
+            _token: $('meta[name="csrf-token"]').attr("content"), // Add CSRF token
+        },
+        success: function (response) {
+            console.log(response.message); // Success message
+            window.location.href = response.redirect_url;
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+        },
+    });
+}
+
 function getRouteParams() {
     // Get the path from the URL
     var pathArray = window.location.pathname.split("/");
@@ -519,9 +543,6 @@ document.addEventListener("DOMContentLoaded", function () {
 if (window.location.pathname.includes("admin/lessons/edit")) {
     console.log("The path includes admin/lessons/edit.");
     //First Step is to do ajax request to get the data from server of $lesson_contents
-
-    let ckeditor_lessons_content_edit_mode;
-    let lessonTitle_edit_mode;
 
     function getLessonsContent() {
         $.ajax({
@@ -757,7 +778,7 @@ if (window.location.pathname.includes("admin/lessons/edit")) {
 
             // Function Fetching the content of the editor
             document
-                .querySelector("#storeNewLesson")
+                .querySelector("#updateLesson")
                 .addEventListener("click", function () {
                     if (
                         editorInstance_edit_mode &&
@@ -797,7 +818,7 @@ if (window.location.pathname.includes("admin/lessons/edit")) {
                             lessonTitle_edit_mode =
                                 lessonTitle_edit_mode.value.trim();
                             // Call AJAX request with the lesson title and the content
-                            sendLessonsContent();
+                            sendUpdatedLessonsContent();
                         } else {
                             errorMessage.textContent =
                                 "Please Enter Lesson Title.";

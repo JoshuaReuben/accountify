@@ -47,7 +47,7 @@
                         {{-- End of Experiment Phase --}}
 
                         <x-buttons.primary-button type="button"
-                            id="storeNewLesson">{{ __('Save Changes') }}</x-buttons.primary-button>
+                            id="updateLesson">{{ __('Save Changes') }}</x-buttons.primary-button>
                         <a href="{{ route('pages.admin.lesson.show', [$courseID, $moduleID, $passed_lesson->id]) }}">
                             <x-buttons.secondary-button type="button" id="cancelNewLesson">
 

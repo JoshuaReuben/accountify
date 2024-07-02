@@ -41,4 +41,29 @@ class LessonController extends Controller
             'lesson_content' => $lesson->lesson_content
         ]);
     }
+
+    public function update(Request $request)
+    {
+        $courseID = $request->input('courseID');
+        $moduleID = $request->input('moduleID');
+        $lessonID = $request->input('lessonID');
+        $lesson_title = $request->input('lesson_title');
+        $lesson_content = $request->input('lesson_content');
+
+        $lesson = Lesson::find($lessonID);
+        $lesson->update([
+            'lesson_title' => $lesson_title,
+            'lesson_content' => $lesson_content
+        ]);
+
+        //set session temporarily
+        session(['success-msg-on-lesson' => 'You have successfully updated a Lesson.']);
+
+        $redirectUrl = route('pages.admin.lesson.show', ['courseID' => $courseID, 'moduleID' => $moduleID, 'lessonID' => $lessonID]); // Adjust the path as needed
+
+        return response()->json([
+            'message' => 'Success, Contents Updated Successfully.',
+            'redirect_url' => $redirectUrl
+        ]);
+    }
 }
