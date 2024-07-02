@@ -285,71 +285,82 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let editorInstance;
 
-    DecoupledEditor.create(document.querySelector("#editor"), editorConfig)
-        .then((editor) => {
-            editorInstance = editor; // Assign the editor instance to the global variable
-            document
-                .querySelector("#editor-toolbar")
-                .appendChild(editor.ui.view.toolbar.element);
-            document
-                .querySelector("#editor-menu-bar")
-                .appendChild(editor.ui.view.menuBarView.element);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    // End of CKEditor
+    // This Code Will check First if Editor exists and if not then it will create it
+    const ckeditorContainer = document.querySelector(
+        "#ckeditor--main-container"
+    );
 
-    // Function Fetching the content of the editor
-    document
-        .querySelector("#storeNewLesson")
-        .addEventListener("click", function () {
-            if (
-                editorInstance &&
-                editorInstance.editing &&
-                editorInstance.editing.view &&
-                editorInstance.editing.view.document
-            ) {
-                ckeditor_lessons_content = editorInstance.getData(); // Get the current HTML content of the editor
+    // Check if the element exists
+    if (ckeditorContainer) {
+        // Create the editor instance
+        DecoupledEditor.create(document.querySelector("#editor"), editorConfig)
+            .then((editor) => {
+                editorInstance = editor; // Assign the editor instance to the global variable
+                document
+                    .querySelector("#editor-toolbar")
+                    .appendChild(editor.ui.view.toolbar.element);
+                document
+                    .querySelector("#editor-menu-bar")
+                    .appendChild(editor.ui.view.menuBarView.element);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        // End of CKEditor
 
-                // Still Part of the Function - Get Lesson Title
-                lessonTitle = document.getElementById("lesson_title");
-                let errorMessage = document.getElementById(
-                    "lesson-title-error-msg"
-                );
-                errorMessage.textContent = "";
+        // Function Fetching the content of the editor
+        document
+            .querySelector("#storeNewLesson")
+            .addEventListener("click", function () {
+                if (
+                    editorInstance &&
+                    editorInstance.editing &&
+                    editorInstance.editing.view &&
+                    editorInstance.editing.view.document
+                ) {
+                    ckeditor_lessons_content = editorInstance.getData(); // Get the current HTML content of the editor
 
-                // Validation of the input field
-                if (lessonTitle.value.trim().length < 3) {
-                    // Value is less than 3 characters long
-                    errorMessage.textContent =
-                        "The input must be at least 3 characters long.";
-                    lessonTitle.focus();
-                }
+                    // Still Part of the Function - Get Lesson Title
+                    lessonTitle = document.getElementById("lesson_title");
+                    let errorMessage = document.getElementById(
+                        "lesson-title-error-msg"
+                    );
+                    errorMessage.textContent = "";
 
-                if (lessonTitle.value.length > 150) {
-                    // Value is less than 3 characters long
-                    errorMessage.textContent =
-                        "Input should not be greater than 150 characters long.";
-                    lessonTitle.focus();
-                }
+                    // Validation of the input field
+                    if (lessonTitle.value.trim().length < 3) {
+                        // Value is less than 3 characters long
+                        errorMessage.textContent =
+                            "The input must be at least 3 characters long.";
+                        lessonTitle.focus();
+                    }
 
-                // Check if the input field has a value
+                    if (lessonTitle.value.length > 150) {
+                        // Value is less than 3 characters long
+                        errorMessage.textContent =
+                            "Input should not be greater than 150 characters long.";
+                        lessonTitle.focus();
+                    }
 
-                if (lessonTitle.value.trim() != "") {
-                    lessonTitle = lessonTitle.value.trim();
-                    // Call AJAX request with the lesson title and the content
-                    sendLessonsContent();
+                    // Check if the input field has a value
+
+                    if (lessonTitle.value.trim() != "") {
+                        lessonTitle = lessonTitle.value.trim();
+                        // Call AJAX request with the lesson title and the content
+                        sendLessonsContent();
+                    } else {
+                        errorMessage.textContent = "Please Enter Lesson Title.";
+                        lessonTitle.focus();
+                    }
                 } else {
-                    errorMessage.textContent = "Please Enter Lesson Title.";
-                    lessonTitle.focus();
+                    console.error(
+                        "Editor instance not found or not yet initialized."
+                    );
                 }
-            } else {
-                console.error(
-                    "Editor instance not found or not yet initialized."
-                );
-            }
-        });
+            });
+    } else {
+        console.log("CK Editor element not on this page.");
+    }
 }); //End of DOMContentLoad
 
 function sendLessonsContent() {

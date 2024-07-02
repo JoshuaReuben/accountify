@@ -4,6 +4,7 @@ use Livewire\Volt\Component;
 use App\Models\Module;
 
 new class extends Component {
+    public $courseID;
     public $moduleID;
     public $passed_module;
     public $fetched_lessons;
@@ -26,7 +27,7 @@ new class extends Component {
         <ul class="space-y-2 font-medium ">
             @forelse($this->fetched_lessons as $lesson)
                 <li class="border-b boder-gray-200 dark:border-gray-700">
-                    <a href="#"
+                    <a href="{{ route('pages.admin.lesson.show', ['courseID' => $this->courseID, 'moduleID' => $this->moduleID, 'lessonID' => $lesson->id]) }}"
                         class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
 
                         <i

@@ -5,6 +5,8 @@ use Livewire\Volt\Volt;
 use App\Livewire\Music\MusicEdit;
 use App\Livewire\Course\CourseEdit;
 use App\Livewire\Course\CourseShow;
+use App\Livewire\Lesson\LessonShow;
+use App\Livewire\Lesson\LessonCreate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AudioController;
 use App\Http\Controllers\LessonController;
@@ -59,8 +61,9 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::view('/modules/home', 'pages.admin.module')->name('pages.admin.module');
 
     // LESSONS
-    Route::view('/lessons/home/{courseID}/{moduleID}', 'pages.admin.lesson')->name('pages.admin.lesson');
+    Route::get('/lessons/home/{courseID}/{moduleID}', LessonCreate::class)->name('pages.admin.lesson');
     Route::post('/lessons/store', [LessonController::class, 'store'])->name('pages.admin.lesson.store');
+    Route::get('/lessons/{courseID}/{moduleID}/{lessonID}', LessonShow::class)->name('pages.admin.lesson.show');
 
 
 

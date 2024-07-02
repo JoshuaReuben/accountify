@@ -1,7 +1,7 @@
-<x-resource-layout>
+<div>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            {{ __('LESSONS') }}
+            {{ __('LESSON  ') }}{{ $lesson_position . ' | ' . $passed_lesson->lesson_title }}
         </h2>
     </x-slot>
 
@@ -16,8 +16,21 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{-- <livewire:course.course-create /> --}}
-                    <livewire:lesson.lesson-create courseID="{{ $courseID }}" moduleID="{{ $moduleID }}" />
+
+                    this is lessons show view
+
+                    {{-- Not Working --}}
+                    <figure class="media">
+                        <oembed url="https://www.youtube.com/watch?v=KhY0cSoww2Q">
+                        </oembed>
+                    </figure>
+                    {{-- Working --}}
+                    <figure class="media">
+                        <iframe class="mx-auto" width="560" height="315"
+                            src="https://www.youtube.com/embed/KhY0cSoww2Q" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -28,11 +41,12 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{-- <livewire:course.course-table /> --}}
+                    {!! $passed_lesson->lesson_content !!}
+
                 </div>
             </div>
         </div>
     </div>
 
 
-</x-resource-layout>
+</div>

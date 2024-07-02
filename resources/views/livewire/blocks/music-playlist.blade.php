@@ -173,6 +173,7 @@ new class extends Component {
             let passedSongsArtist = @json($songs_artist);
             let passedSongsCover = @json($songs_cover_photo);
 
+
             let playlistArray;
             let songsTitleArray;
             let songsArtistArray;
@@ -223,7 +224,16 @@ new class extends Component {
                 renderMusicInfo();
             }
 
-            startMusicPlayer(passedPlaylist, passedSongsTitle, passedSongsArtist, passedSongsCover);
+
+            // Start the music player only if the variables passed are not null
+
+            if (passedPlaylist.length != 0) {
+                startMusicPlayer(passedPlaylist, passedSongsTitle, passedSongsArtist, passedSongsCover);
+            } else {
+                console.log('Side Note: No songs added yet on the music playlist');
+            }
+
+            // startMusicPlayer(passedPlaylist, passedSongsTitle, passedSongsArtist, passedSongsCover);
 
             /////////////////////////////////////////////////////////////////////////////////
 
@@ -232,27 +242,31 @@ new class extends Component {
                 nextSongForMusic();
             }
 
-            musicProgressSlider.onchange = function() {
-                musicAudio.currentTime = musicProgressSlider.value;
-                playPauseIconForMusic.classList.remove('fa-play');
-                playPauseIconForMusic.classList.add('fa-pause');
-                clearInterval(musicIntervalID);
-                musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
-            }
+            // Initialize the function for Progress Slider and Music Volume if there is a song
+            if (passedPlaylist.length != 0) {
+                musicProgressSlider.onchange = function() {
+                    musicAudio.currentTime = musicProgressSlider.value;
+                    playPauseIconForMusic.classList.remove('fa-play');
+                    playPauseIconForMusic.classList.add('fa-pause');
+                    clearInterval(musicIntervalID);
+                    musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
+                }
 
-            musicVolumeControl.onchange = function() {
-                musicAudio.volume = musicVolumeControl.value;
-                musicCurrentVolumeTxt.innerText = `${Math.floor(musicAudio.volume * 100)}%`;
+                musicVolumeControl.onchange = function() {
+                    musicAudio.volume = musicVolumeControl.value;
+                    musicCurrentVolumeTxt.innerText = `${Math.floor(musicAudio.volume * 100)}%`;
 
-                //Icon Change for Volume
-                if (musicAudio.volume == 0) {
-                    volumeIconForMusic.classList.remove('fa-volume-high');
-                    volumeIconForMusic.classList.add('fa-volume-xmark');
-                } else {
-                    volumeIconForMusic.classList.remove('fa-volume-xmark');
-                    volumeIconForMusic.classList.add('fa-volume-high');
+                    //Icon Change for Volume
+                    if (musicAudio.volume == 0) {
+                        volumeIconForMusic.classList.remove('fa-volume-high');
+                        volumeIconForMusic.classList.add('fa-volume-xmark');
+                    } else {
+                        volumeIconForMusic.classList.remove('fa-volume-xmark');
+                        volumeIconForMusic.classList.add('fa-volume-high');
+                    }
                 }
             }
+
 
             // When clicking a new song to play, update the play-pause icon
             musicAudio.onplaying = function() {
