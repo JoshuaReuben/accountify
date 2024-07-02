@@ -417,6 +417,9 @@ document.addEventListener("DOMContentLoaded", function () {
         var mediaFigures = lessonShowContainer.querySelectorAll("figure.media");
         var imageFigures = lessonShowContainer.querySelectorAll("figure.image");
         var tableFigures = lessonShowContainer.querySelectorAll("figure.table");
+        var olLists = lessonShowContainer.querySelectorAll("ol");
+        var ulLists = lessonShowContainer.querySelectorAll("ul");
+        console.log(olLists);
 
         // Iterate over each figure media element
         mediaFigures.forEach(function (mediaFigure) {
@@ -474,6 +477,16 @@ document.addEventListener("DOMContentLoaded", function () {
         tableFigures.forEach(function (tableFigure) {
             // add class to the figure element
             tableFigure.classList.add("mx-auto");
+        });
+
+        olLists.forEach(function (olList) {
+            // add class to the Ordered List element
+            olList.classList.add("mx-2", "list-decimal");
+        });
+
+        ulLists.forEach(function (ulList) {
+            // add class to the Unordered List element
+            ulList.classList.add("mx-2", "list-disc");
         });
     }
 });

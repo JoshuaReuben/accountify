@@ -17,7 +17,6 @@
             <div class="overflow-auto bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
-
                 </div>
             </div>
         </div>
@@ -26,7 +25,7 @@
 
     <div class="py-6">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-x-scroll bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+            <div class="overflow-x-auto bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div id="lesson-show-container" class="p-6 text-gray-900 dark:text-gray-100">
                     {!! $passed_lesson->lesson_content !!}
 
