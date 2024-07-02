@@ -2,13 +2,15 @@
 
 namespace App\Livewire\Lesson;
 
-use App\Models\Lesson;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use App\Models\Lesson;
+
 
 #[Layout('layouts.resource')]
-class LessonShow extends Component
+class LessonEdit extends Component
 {
+
     //Route Params
     public $courseID;
     public $moduleID;
@@ -29,18 +31,8 @@ class LessonShow extends Component
         $this->lesson_position = $position !== false ? $position + 1  : null;
     }
 
-    public function deleteLesson($lessonID)
-    {
-
-        $lesson = Lesson::find($lessonID);
-        $lesson->delete();
-
-        session(['success-msg-on-lesson' => 'You have successfully deleted a Lesson.']);
-        return redirect()->route('pages.admin.course.show', ['courseID' => $this->courseID]);
-    }
-
     public function render()
     {
-        return view('livewire.lesson.lesson-show');
+        return view('livewire.lesson.lesson-edit');
     }
 }

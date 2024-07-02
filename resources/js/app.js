@@ -490,3 +490,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+///////// lesson.edit create new instance of ckeditor then display the saved values in the editor
