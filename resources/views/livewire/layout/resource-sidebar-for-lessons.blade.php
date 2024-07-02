@@ -24,7 +24,20 @@ new class extends Component {
 
     <div class="flex w-full flex-col gap-4 text-slate-700 dark:text-slate-300">
 
-        <ul class="space-y-2 font-medium ">
+        <ul class="space-y-2 font-medium w-full">
+
+            @if (Route::currentRouteName() != 'pages.admin.lesson')
+                <li class="border-b boder-gray-200 dark:border-gray-700 pb-4">
+                    <a href="{{ route('pages.admin.lesson', ['courseID' => $courseID, 'moduleID' => $moduleID]) }}"
+                        class="flex items-center justify-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+
+                        <i
+                            class="fa-solid fa-plus  transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <span class="ms-3"> Add New Lesson </span>
+                    </a>
+                </li>
+            @endif
+
             @forelse($this->fetched_lessons as $lesson)
                 <li class="border-b boder-gray-200 dark:border-gray-700">
                     <a href="{{ route('pages.admin.lesson.show', ['courseID' => $this->courseID, 'moduleID' => $this->moduleID, 'lessonID' => $lesson->id]) }}"

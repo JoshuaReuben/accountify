@@ -416,6 +416,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Find all figure elements with the class 'media'
         var mediaFigures = lessonShowContainer.querySelectorAll("figure.media");
         var imageFigures = lessonShowContainer.querySelectorAll("figure.image");
+        var tableFigures = lessonShowContainer.querySelectorAll("figure.table");
 
         // Iterate over each figure media element
         mediaFigures.forEach(function (mediaFigure) {
@@ -468,6 +469,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 // add class to img element
                 imgElement.classList.add("mx-auto");
             }
+        });
+
+        tableFigures.forEach(function (tableFigure) {
+            // add class to the figure element
+            tableFigure.classList.add("mx-auto");
         });
     }
 });
