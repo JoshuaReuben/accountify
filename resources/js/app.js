@@ -465,7 +465,6 @@ document.addEventListener("DOMContentLoaded", function () {
         var tableFigures = lessonShowContainer.querySelectorAll("figure.table");
         var olLists = lessonShowContainer.querySelectorAll("ol");
         var ulLists = lessonShowContainer.querySelectorAll("ul");
-        console.log(olLists);
 
         // Iterate over each figure media element
         mediaFigures.forEach(function (mediaFigure) {

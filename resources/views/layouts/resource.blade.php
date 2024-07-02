@@ -386,7 +386,7 @@
                                             class="mx-3 text-2xl cursor-pointer fa-solid fa-bars-staggered dark:text-white"></i>
                                     </button>
                                 </div>
-                                <div>
+                                <div class="w-full ">
                                     {{ $header }}
                                 </div>
                             </div>

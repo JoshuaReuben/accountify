@@ -1,9 +1,23 @@
 <div>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            {{ __('LESSON  ') }}{{ $lesson_position . ' | ' . $passed_lesson->lesson_title }}
-        </h2>
+
+        <div class="flex justify-between w-full">
+            <div class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                {{ __('LESSON  ') }}{{ $lesson_position . ' | ' . $passed_lesson->lesson_title }}
+            </div>
+
+            <div>
+                {{-- Back to Courses --}}
+                <a href="{{ route('pages.admin.course.show', $courseID) }}"
+                    class=" focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">
+                    &nbsp; <i class="fa-solid fa-xmark text-2xl"></i>
+                </a>
+            </div>
+        </div>
+
     </x-slot>
+
+
 
 
     <x-slot name="sidebarContent">
