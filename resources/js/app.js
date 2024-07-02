@@ -58,6 +58,7 @@ import {
     TableToolbar,
     Underline,
     Undo,
+    ColorGridView,
 } from "ckeditor5";
 
 import "ckeditor5/ckeditor5.css";
@@ -101,266 +102,278 @@ document.addEventListener("reload-page", () => {
 let ckeditor_lessons_content;
 let lessonTitle;
 
-document.addEventListener("DOMContentLoaded", function () {
-    const editorConfig = {
-        toolbar: {
-            items: [
-                "undo",
-                "redo",
-                "|",
-                "findAndReplace",
-                "selectAll",
-                "|",
-                "|",
-                "fontSize",
-                "fontFamily",
-                "fontColor",
-                "fontBackgroundColor",
-                "|",
+if (window.location.pathname.includes("admin/lessons/create")) {
+    console.log("The path includes admin/lesson/create.");
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const editorConfig = {
+            toolbar: {
+                items: [
+                    "undo",
+                    "redo",
+                    "|",
+                    "findAndReplace",
+                    "selectAll",
+                    "|",
+                    "|",
+                    "fontSize",
+                    "fontFamily",
+                    "fontColor",
+                    "fontBackgroundColor",
+                    "|",
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "subscript",
+                    "superscript",
+                    "code",
+                    "removeFormat",
+                    "|",
+                    "specialCharacters",
+                    "horizontalLine",
+                    "link",
+                    "insertImage",
+                    "insertImageViaUrl",
+                    "mediaEmbed",
+                    "insertTable",
+                    "highlight",
+                    "blockQuote",
+                    "codeBlock",
+                    "|",
+                    "alignment",
+                    "|",
+                    "bulletedList",
+                    "numberedList",
+                    "indent",
+                    "outdent",
+                    "|",
+                    "accessibilityHelp",
+                ],
+                shouldNotGroupWhenFull: true,
+            },
+            plugins: [
+                AccessibilityHelp,
+                Alignment,
+                AutoLink,
+                Autosave,
+                BalloonToolbar,
+                Base64UploadAdapter,
+                BlockQuote,
+                // BlockToolbar,
+                Bold,
+                Code,
+                CodeBlock,
+                Essentials,
+                FindAndReplace,
+                FontBackgroundColor,
+                FontColor,
+                FontFamily,
+                FontSize,
+                Highlight,
+                HorizontalLine,
+                ImageBlock,
+                ImageCaption,
+                // ImageInline,
+                ImageInsert,
+                ImageInsertViaUrl,
+                // ImageResize,
+                ImageStyle,
+                ImageToolbar,
+                ImageUpload,
+                Indent,
+                IndentBlock,
+                Italic,
+                Link,
+                LinkImage,
+                List,
+                MediaEmbed,
+                Paragraph,
+                RemoveFormat,
+                SelectAll,
+                SpecialCharacters,
+                SpecialCharactersArrows,
+                SpecialCharactersCurrency,
+                SpecialCharactersEssentials,
+                SpecialCharactersLatin,
+                SpecialCharactersMathematical,
+                SpecialCharactersText,
+                Strikethrough,
+                Subscript,
+                Superscript,
+                Table,
+                TableCaption,
+                TableCellProperties,
+                TableColumnResize,
+                TableProperties,
+                TableToolbar,
+                Underline,
+                Undo,
+            ],
+            balloonToolbar: [
                 "bold",
                 "italic",
-                "underline",
-                "strikethrough",
-                "subscript",
-                "superscript",
-                "code",
-                "removeFormat",
                 "|",
-                "specialCharacters",
-                "horizontalLine",
                 "link",
                 "insertImage",
-                "insertImageViaUrl",
-                "mediaEmbed",
-                "insertTable",
-                "highlight",
-                "blockQuote",
-                "codeBlock",
-                "|",
-                "alignment",
                 "|",
                 "bulletedList",
                 "numberedList",
-                "indent",
-                "outdent",
-                "|",
-                "accessibilityHelp",
             ],
-            shouldNotGroupWhenFull: true,
-        },
-        plugins: [
-            AccessibilityHelp,
-            Alignment,
-            AutoLink,
-            Autosave,
-            BalloonToolbar,
-            Base64UploadAdapter,
-            BlockQuote,
-            // BlockToolbar,
-            Bold,
-            Code,
-            CodeBlock,
-            Essentials,
-            FindAndReplace,
-            FontBackgroundColor,
-            FontColor,
-            FontFamily,
-            FontSize,
-            Highlight,
-            HorizontalLine,
-            ImageBlock,
-            ImageCaption,
-            // ImageInline,
-            ImageInsert,
-            ImageInsertViaUrl,
-            // ImageResize,
-            ImageStyle,
-            ImageToolbar,
-            ImageUpload,
-            Indent,
-            IndentBlock,
-            Italic,
-            Link,
-            LinkImage,
-            List,
-            MediaEmbed,
-            Paragraph,
-            RemoveFormat,
-            SelectAll,
-            SpecialCharacters,
-            SpecialCharactersArrows,
-            SpecialCharactersCurrency,
-            SpecialCharactersEssentials,
-            SpecialCharactersLatin,
-            SpecialCharactersMathematical,
-            SpecialCharactersText,
-            Strikethrough,
-            Subscript,
-            Superscript,
-            Table,
-            TableCaption,
-            TableCellProperties,
-            TableColumnResize,
-            TableProperties,
-            TableToolbar,
-            Underline,
-            Undo,
-        ],
-        balloonToolbar: [
-            "bold",
-            "italic",
-            "|",
-            "link",
-            "insertImage",
-            "|",
-            "bulletedList",
-            "numberedList",
-        ],
-        //  blockToolbar: [
-        //     "fontSize",
-        //     "fontColor",
-        //     "fontBackgroundColor",
-        //     "|",
-        //     "bold",
-        //     "italic",
-        //     "|",
-        //     "link",
-        //     "insertImage",
-        //     "insertTable",
-        //     "|",
-        //     "bulletedList",
-        //     "numberedList",
-        //     "indent",
-        //     "outdent",
-        // ],
-        fontFamily: {
-            supportAllValues: true,
-        },
-        fontSize: {
-            options: [10, 12, 14, "default", 18, 20, 22],
-            supportAllValues: true,
-        },
+            //  blockToolbar: [
+            //     "fontSize",
+            //     "fontColor",
+            //     "fontBackgroundColor",
+            //     "|",
+            //     "bold",
+            //     "italic",
+            //     "|",
+            //     "link",
+            //     "insertImage",
+            //     "insertTable",
+            //     "|",
+            //     "bulletedList",
+            //     "numberedList",
+            //     "indent",
+            //     "outdent",
+            // ],
+            fontFamily: {
+                supportAllValues: true,
+            },
+            fontSize: {
+                options: [10, 12, 14, "default", 18, 20, 22],
+                supportAllValues: true,
+            },
 
-        image: {
-            toolbar: [
-                "toggleImageCaption",
-                "imageTextAlternative",
-                "|",
-                "imageStyle:inline",
-                "imageStyle:wrapText",
-                "imageStyle:breakText",
-                "|",
-                "resizeImage",
-            ],
-        },
-        initialData: "Lesson Content Goes Here...",
-        link: {
-            addTargetToExternalLinks: true,
-            defaultProtocol: "https://",
-            decorators: {
-                toggleDownloadable: {
-                    mode: "manual",
-                    label: "Downloadable",
-                    attributes: {
-                        download: "file",
+            image: {
+                toolbar: [
+                    "toggleImageCaption",
+                    "imageTextAlternative",
+                    "|",
+                    "imageStyle:inline",
+                    "imageStyle:wrapText",
+                    "imageStyle:breakText",
+                    "|",
+                    "resizeImage",
+                ],
+            },
+            initialData: "Lesson Content Goes Here...",
+            link: {
+                addTargetToExternalLinks: true,
+                defaultProtocol: "https://",
+                decorators: {
+                    toggleDownloadable: {
+                        mode: "manual",
+                        label: "Downloadable",
+                        attributes: {
+                            download: "file",
+                        },
                     },
                 },
             },
-        },
-        menuBar: {
-            isVisible: true,
-        },
-        placeholder: "Type or paste your content here!",
-        table: {
-            contentToolbar: [
-                "tableColumn",
-                "tableRow",
-                "mergeTableCells",
-                "tableProperties",
-                "tableCellProperties",
-            ],
-        },
-    };
+            menuBar: {
+                isVisible: true,
+            },
+            placeholder: "Type or paste your content here!",
+            table: {
+                contentToolbar: [
+                    "tableColumn",
+                    "tableRow",
+                    "mergeTableCells",
+                    "tableProperties",
+                    "tableCellProperties",
+                ],
+            },
+        };
 
-    let editorInstance;
+        let editorInstance;
 
-    // This Code Will check First if Editor exists and if not then it will create it
-    const ckeditorContainer = document.querySelector(
-        "#ckeditor--main-container"
-    );
+        // This Code Will check First if Editor exists and if not then it will create it
+        const ckeditorContainer = document.querySelector(
+            "#ckeditor--main-container"
+        );
 
-    // Check if the element exists
-    if (ckeditorContainer) {
-        // Create the editor instance
-        DecoupledEditor.create(document.querySelector("#editor"), editorConfig)
-            .then((editor) => {
-                editorInstance = editor; // Assign the editor instance to the global variable
-                document
-                    .querySelector("#editor-toolbar")
-                    .appendChild(editor.ui.view.toolbar.element);
-                document
-                    .querySelector("#editor-menu-bar")
-                    .appendChild(editor.ui.view.menuBarView.element);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-        // End of CKEditor
+        // Check if the element exists
+        if (ckeditorContainer) {
+            // Create the editor instance
+            DecoupledEditor.create(
+                document.querySelector("#editor"),
+                editorConfig
+            )
+                .then((editor) => {
+                    editorInstance = editor; // Assign the editor instance to the global variable
+                    document
+                        .querySelector("#editor-toolbar")
+                        .appendChild(editor.ui.view.toolbar.element);
+                    document
+                        .querySelector("#editor-menu-bar")
+                        .appendChild(editor.ui.view.menuBarView.element);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            // End of CKEditor
 
-        // Function Fetching the content of the editor
-        document
-            .querySelector("#storeNewLesson")
-            .addEventListener("click", function () {
-                if (
-                    editorInstance &&
-                    editorInstance.editing &&
-                    editorInstance.editing.view &&
-                    editorInstance.editing.view.document
-                ) {
-                    ckeditor_lessons_content = editorInstance.getData(); // Get the current HTML content of the editor
+            // Function Fetching the content of the editor
+            document
+                .querySelector("#storeNewLesson")
+                .addEventListener("click", function () {
+                    if (
+                        editorInstance &&
+                        editorInstance.editing &&
+                        editorInstance.editing.view &&
+                        editorInstance.editing.view.document
+                    ) {
+                        ckeditor_lessons_content = editorInstance.getData(); // Get the current HTML content of the editor
 
-                    // Still Part of the Function - Get Lesson Title
-                    lessonTitle = document.getElementById("lesson_title");
-                    let errorMessage = document.getElementById(
-                        "lesson-title-error-msg"
-                    );
-                    errorMessage.textContent = "";
+                        // Still Part of the Function - Get Lesson Title
+                        lessonTitle = document.getElementById("lesson_title");
+                        let errorMessage = document.getElementById(
+                            "lesson-title-error-msg"
+                        );
+                        errorMessage.textContent = "";
 
-                    // Validation of the input field
-                    if (lessonTitle.value.trim().length < 3) {
-                        // Value is less than 3 characters long
-                        errorMessage.textContent =
-                            "The input must be at least 3 characters long.";
-                        lessonTitle.focus();
-                    }
+                        // Validation of the input field
+                        if (lessonTitle.value.trim().length < 3) {
+                            // Value is less than 3 characters long
+                            errorMessage.textContent =
+                                "The input must be at least 3 characters long.";
+                            lessonTitle.focus();
+                        }
 
-                    if (lessonTitle.value.length > 150) {
-                        // Value is less than 3 characters long
-                        errorMessage.textContent =
-                            "Input should not be greater than 150 characters long.";
-                        lessonTitle.focus();
-                    }
+                        if (lessonTitle.value.length > 150) {
+                            // Value is less than 3 characters long
+                            errorMessage.textContent =
+                                "Input should not be greater than 150 characters long.";
+                            lessonTitle.focus();
+                        }
 
-                    // Check if the input field has a value
+                        // Check if the input field has a value
 
-                    if (lessonTitle.value.trim() != "") {
-                        lessonTitle = lessonTitle.value.trim();
-                        // Call AJAX request with the lesson title and the content
-                        sendLessonsContent();
+                        if (lessonTitle.value.trim() != "") {
+                            lessonTitle = lessonTitle.value.trim();
+                            // Call AJAX request with the lesson title and the content
+                            sendLessonsContent();
+                        } else {
+                            errorMessage.textContent =
+                                "Please Enter Lesson Title.";
+                            lessonTitle.focus();
+                        }
                     } else {
-                        errorMessage.textContent = "Please Enter Lesson Title.";
-                        lessonTitle.focus();
+                        console.error(
+                            "Editor instance not found or not yet initialized."
+                        );
                     }
-                } else {
-                    console.error(
-                        "Editor instance not found or not yet initialized."
-                    );
-                }
-            });
-    } else {
-        console.log("CK Editor element not on this page.");
-    }
-}); //End of DOMContentLoad
+                });
+        } else {
+            console.log("CK Editor element not on this page.");
+        }
+    }); //End of DOMContentLoad
+} else {
+    console.log(
+        "The path does not include /lesson/create. The 1st instance of Ckeditor will not be created."
+    );
+}
 
 function sendLessonsContent() {
     $.ajax({
@@ -390,6 +403,7 @@ function getRouteParams() {
     // Extract courseID and moduleID
     var courseID = pathArray[4];
     var moduleID = pathArray[5];
+    var lessonID = pathArray[6];
 
     // Check if courseID and moduleID are valid numbers
     if (!courseID || isNaN(courseID) || !moduleID || isNaN(moduleID)) {
@@ -397,11 +411,19 @@ function getRouteParams() {
         return;
     }
 
+    if (!lessonID || isNaN(lessonID)) {
+        console.log("Lesson ID doesn't not exist on this path");
+        return { courseID, moduleID };
+    } else {
+        return { courseID, moduleID, lessonID };
+    }
+
     // console.log("Course ID:", courseID);
     // console.log("Module ID:", moduleID);
+    // console.log("Lesson ID:", lessonID);
 
     // Return the parameters if needed
-    return { courseID, moduleID };
+    // return { courseID, moduleID };
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -493,3 +515,306 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////// lesson.edit create new instance of ckeditor then display the saved values in the editor
+
+if (window.location.pathname.includes("admin/lessons/edit")) {
+    console.log("The path includes admin/lessons/edit.");
+    //First Step is to do ajax request to get the data from server of $lesson_contents
+
+    let ckeditor_lessons_content_edit_mode;
+    let lessonTitle_edit_mode;
+
+    function getLessonsContent() {
+        $.ajax({
+            url: window.location.origin + "/admin/lessons/retrieve",
+            type: "GET",
+            data: {
+                // courseID: getRouteParams().courseID,
+                // moduleID: getRouteParams().moduleID,
+                lessonID: getRouteParams().lessonID,
+                _token: $('meta[name="csrf-token"]').attr("content"), // Add CSRF token
+            },
+            success: function (response) {
+                // console.log(response.lesson_content);
+                ckeditor_lessons_content_edit_mode = response.lesson_content;
+                createInstanceOfCKEditor();
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            },
+        });
+    }
+    // Run the AJAX request to get the lesson content
+    getLessonsContent();
+
+    function createInstanceOfCKEditor() {
+        const editorConfig_edit_mode = {
+            toolbar: {
+                items: [
+                    "undo",
+                    "redo",
+                    "|",
+                    "findAndReplace",
+                    "selectAll",
+                    "|",
+                    "|",
+                    "fontSize",
+                    "fontFamily",
+                    "fontColor",
+                    "fontBackgroundColor",
+                    "|",
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "subscript",
+                    "superscript",
+                    "code",
+                    "removeFormat",
+                    "|",
+                    "specialCharacters",
+                    "horizontalLine",
+                    "link",
+                    "insertImage",
+                    "insertImageViaUrl",
+                    "mediaEmbed",
+                    "insertTable",
+                    "highlight",
+                    "blockQuote",
+                    "codeBlock",
+                    "|",
+                    "alignment",
+                    "|",
+                    "bulletedList",
+                    "numberedList",
+                    "indent",
+                    "outdent",
+                    "|",
+                    "accessibilityHelp",
+                ],
+                shouldNotGroupWhenFull: true,
+            },
+            plugins: [
+                AccessibilityHelp,
+                Alignment,
+                AutoLink,
+                Autosave,
+                BalloonToolbar,
+                Base64UploadAdapter,
+                BlockQuote,
+                // BlockToolbar,
+                Bold,
+                Code,
+                CodeBlock,
+                Essentials,
+                FindAndReplace,
+                FontBackgroundColor,
+                FontColor,
+                FontFamily,
+                FontSize,
+                Highlight,
+                HorizontalLine,
+                ImageBlock,
+                ImageCaption,
+                // ImageInline,
+                ImageInsert,
+                ImageInsertViaUrl,
+                // ImageResize,
+                ImageStyle,
+                ImageToolbar,
+                ImageUpload,
+                Indent,
+                IndentBlock,
+                Italic,
+                Link,
+                LinkImage,
+                List,
+                MediaEmbed,
+                Paragraph,
+                RemoveFormat,
+                SelectAll,
+                SpecialCharacters,
+                SpecialCharactersArrows,
+                SpecialCharactersCurrency,
+                SpecialCharactersEssentials,
+                SpecialCharactersLatin,
+                SpecialCharactersMathematical,
+                SpecialCharactersText,
+                Strikethrough,
+                Subscript,
+                Superscript,
+                Table,
+                TableCaption,
+                TableCellProperties,
+                TableColumnResize,
+                TableProperties,
+                TableToolbar,
+                Underline,
+                Undo,
+            ],
+            balloonToolbar: [
+                "bold",
+                "italic",
+                "|",
+                "link",
+                "insertImage",
+                "|",
+                "bulletedList",
+                "numberedList",
+            ],
+            //  blockToolbar: [
+            //     "fontSize",
+            //     "fontColor",
+            //     "fontBackgroundColor",
+            //     "|",
+            //     "bold",
+            //     "italic",
+            //     "|",
+            //     "link",
+            //     "insertImage",
+            //     "insertTable",
+            //     "|",
+            //     "bulletedList",
+            //     "numberedList",
+            //     "indent",
+            //     "outdent",
+            // ],
+            fontFamily: {
+                supportAllValues: true,
+            },
+            fontSize: {
+                options: [10, 12, 14, "default", 18, 20, 22],
+                supportAllValues: true,
+            },
+
+            image: {
+                toolbar: [
+                    "toggleImageCaption",
+                    "imageTextAlternative",
+                    "|",
+                    "imageStyle:inline",
+                    "imageStyle:wrapText",
+                    "imageStyle:breakText",
+                    "|",
+                    "resizeImage",
+                ],
+            },
+            initialData: ckeditor_lessons_content_edit_mode,
+            link: {
+                addTargetToExternalLinks: true,
+                defaultProtocol: "https://",
+                decorators: {
+                    toggleDownloadable: {
+                        mode: "manual",
+                        label: "Downloadable",
+                        attributes: {
+                            download: "file",
+                        },
+                    },
+                },
+            },
+            menuBar: {
+                isVisible: true,
+            },
+            placeholder: "Type or paste your content here!",
+            table: {
+                contentToolbar: [
+                    "tableColumn",
+                    "tableRow",
+                    "mergeTableCells",
+                    "tableProperties",
+                    "tableCellProperties",
+                ],
+            },
+        };
+
+        let editorInstance_edit_mode;
+
+        // This Code Will check First if Editor exists and if not then it will create it
+        const ckeditorContainer_edit_mode = document.querySelector(
+            "#ckeditor--main-container"
+        );
+
+        // Check if the element exists
+        if (ckeditorContainer_edit_mode) {
+            // Create the editor instance
+            DecoupledEditor.create(
+                document.querySelector("#editor_edit_mode"),
+                editorConfig_edit_mode
+            )
+                .then((editor) => {
+                    editorInstance_edit_mode = editor; // Assign the editor instance to the global variable
+                    document
+                        .querySelector("#editor-toolbar")
+                        .appendChild(editor.ui.view.toolbar.element);
+                    document
+                        .querySelector("#editor-menu-bar")
+                        .appendChild(editor.ui.view.menuBarView.element);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            // End of CKEditor
+
+            // Function Fetching the content of the editor
+            document
+                .querySelector("#storeNewLesson")
+                .addEventListener("click", function () {
+                    if (
+                        editorInstance_edit_mode &&
+                        editorInstance_edit_mode.editing &&
+                        editorInstance_edit_mode.editing.view &&
+                        editorInstance_edit_mode.editing.view.document
+                    ) {
+                        ckeditor_lessons_content_edit_mode =
+                            editorInstance_edit_mode.getData(); // Get the current HTML content of the editor
+
+                        // Still Part of the Function - Get Lesson Title
+                        lessonTitle_edit_mode =
+                            document.getElementById("lesson_title");
+                        let errorMessage = document.getElementById(
+                            "lesson-title-error-msg"
+                        );
+                        errorMessage.textContent = "";
+
+                        // Validation of the input field
+                        if (lessonTitle_edit_mode.value.trim().length < 3) {
+                            // Value is less than 3 characters long
+                            errorMessage.textContent =
+                                "The input must be at least 3 characters long.";
+                            lessonTitle_edit_mode.focus();
+                        }
+
+                        if (lessonTitle_edit_mode.value.length > 150) {
+                            // Value is less than 3 characters long
+                            errorMessage.textContent =
+                                "Input should not be greater than 150 characters long.";
+                            lessonTitle_edit_mode.focus();
+                        }
+
+                        // Check if the input field has a value
+
+                        if (lessonTitle_edit_mode.value.trim() != "") {
+                            lessonTitle_edit_mode =
+                                lessonTitle_edit_mode.value.trim();
+                            // Call AJAX request with the lesson title and the content
+                            sendLessonsContent();
+                        } else {
+                            errorMessage.textContent =
+                                "Please Enter Lesson Title.";
+                            lessonTitle_edit_mode.focus();
+                        }
+                    } else {
+                        console.error(
+                            "Editor instance not found or not yet initialized."
+                        );
+                    }
+                });
+        } else {
+            console.log("CK Editor_Edit_Mode element not on this page.");
+        }
+    } //End of Function for Creating the CKEditor
+} else {
+    console.log(
+        "The path does not include admin/lessons/edit. There is no need to run the 2nd instance of CKEditor. "
+    );
+}

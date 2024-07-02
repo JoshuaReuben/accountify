@@ -63,10 +63,11 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     // LESSONS
     Route::get('/lessons/create/{courseID}/{moduleID}', LessonCreate::class)->name('pages.admin.lesson');
-    Route::post('/lessons/store', [LessonController::class, 'store'])->name('pages.admin.lesson.store');
     Route::get('/lessons/{courseID}/{moduleID}/{lessonID}', LessonShow::class)->name('pages.admin.lesson.show');
     Route::get('/lessons/edit/{courseID}/{moduleID}/{lessonID}', LessonEdit::class)->name('pages.admin.lesson.edit');
 
+    Route::post('/lessons/store', [LessonController::class, 'store'])->name('pages.admin.lesson.store');
+    Route::get('/lessons/retrieve', [LessonController::class, 'retrieve'])->name('pages.admin.lesson.retrieve');
 
 
 

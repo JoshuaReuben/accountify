@@ -31,4 +31,14 @@ class LessonController extends Controller
             'redirect_url' => $redirectUrl
         ]);
     }
+
+    public function retrieve(Request $request)
+    {
+        $lessonID = $request->input('lessonID');
+        $lesson = Lesson::find($lessonID);
+
+        return response()->json([
+            'lesson_content' => $lesson->lesson_content
+        ]);
+    }
 }

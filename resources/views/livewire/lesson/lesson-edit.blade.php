@@ -39,7 +39,7 @@
                                 <div class="editor-container__toolbar " id="editor-toolbar"></div>
                                 <div class="editor-container__editor-wrapper ">
                                     <div class="editor-container__editor ">
-                                        <div class="" id="editor"></div>
+                                        <div class="" id="editor_edit_mode"></div>
                                     </div>
                                 </div>
                             </div>
@@ -48,6 +48,12 @@
 
                         <x-buttons.primary-button type="button"
                             id="storeNewLesson">{{ __('Save Changes') }}</x-buttons.primary-button>
+                        <a href="{{ route('pages.admin.lesson.show', [$courseID, $moduleID, $passed_lesson->id]) }}">
+                            <x-buttons.secondary-button type="button" id="cancelNewLesson">
+
+                                {{ __('Cancel') }}
+                            </x-buttons.secondary-button>
+                        </a>
 
                     </form>
                 </div>
