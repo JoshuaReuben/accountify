@@ -1,11 +1,15 @@
 <div>
 
-    {{-- START SECTION --}}
 
     {{-- Sweet Alert --}}
     @if (session()->has('message'))
         <x-sweet-alert :message="session('message')" />
     @endif
+
+    <x-action-message on="question-deleted">
+        <x-sweet-alert message="Question Deleted Successfully" />
+    </x-action-message>
+
 
 
     <x-slot name="header">
@@ -29,6 +33,7 @@
     </x-slot>
 
 
+    {{-- FIRST SECTION --}}
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
@@ -67,7 +72,6 @@
                                     <div wire:loading wire:target="addChoice">
                                         <x-svgs.spinner message="Adding" size="5" />
                                     </div>
-
                                 </button>
                             </div>
 
@@ -80,7 +84,7 @@
                                     <p class="mx-2">{{ $letter }}. </p>
                                     <x-text-input wire:model.live="choices.{{ $key }}.choice" id="CHOICES"
                                         name="CHOICES" type="text" class="block w-full mt-1" required autofocus
-                                        minLength="3" maxLength="255" />
+                                        minLength="1" maxLength="255" />
 
 
                                     {{-- Show The Remove Button When Loop Count is Greater than 1 --}}
@@ -200,6 +204,79 @@
 
 
 
-    {{-- END SECTION --}}
+    {{-- SECOND SECTION --}}
+    <div class="py-12">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+
+
+                    {{-- Action Buttons --}}
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-xl font-bold uppercase">QUESTION LIST:</h1>
+                        </div>
+                        <div>
+
+
+                            {{-- Edit --}}
+                            {{-- <a href="{{ route('pages.admin.lesson.edit', [$courseID, $moduleID, $passed_lesson->id]) }}" --}}
+                            <a href=""
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                Edit Question &nbsp; <i class="fa-solid fa-pencil"></i>
+                            </a>
+
+                            {{-- Delete --}}
+                            <button type="button"
+                                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                Delete Question &nbsp; <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                    <hr class="mb-4">
+
+
+                    {{-- List --}}
+                    <ol class="space-y-4 text-gray-500 list-decimal list-inside dark:text-gray-100">
+
+                        @forelse ($fetched_questions as $question)
+                            <div class="flex flex-wrap">
+                                {{-- Delete Icon --}}
+                                <span>
+                                    <button type="button" wire:confirm="Are you sure you want to delete this Question?"
+                                        wire:click="deleteQuestion({{ $question->id }})"
+                                        class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5 me-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                        <i class="text-xs fa-solid fa-minus"></i>
+                                    </button>
+                                </span>
+                                <li class="dark:text-gray-100">
+                                    {{-- Question --}}
+                                    <span class="dark:text-gray-100"> {{ $question->question }}</span>
+
+                                    <ul class="mt-2 space-y-1 list-disc list-inside ps-5">
+                                        @foreach ($question->choices as $key => $choice)
+                                            <li
+                                                class="{{ $choice['choice'] === $question->correct_answer ? 'text-green-500' : '' }}">
+                                                {{ $choice['choice'] }}</li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            </div>
+
+                        @empty
+                            <p class="italic text-center text-gray-300">No questions created yet.</p>
+                        @endforelse
+
+
+                    </ol>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>

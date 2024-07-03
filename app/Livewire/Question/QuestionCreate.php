@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\Question;
 use App\Models\Lesson;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
+use Illuminate\Validation\ValidationException;
 
 #[Layout('layouts.resource')]
 class QuestionCreate extends Component
@@ -24,8 +26,8 @@ class QuestionCreate extends Component
 
     protected $rules = [
         'question_asked' => 'required|min:5|max:500',
-        'correct_answer' => 'required|not_in:Choose correct answer|min:3|max:255',
-        'choices.*.choice' => 'required|min:3|max:255',
+        'correct_answer' => 'required|not_in:Choose correct answer|min:1|max:255',
+        'choices.*.choice' => 'required|min:1|max:255',
     ];
 
     protected $messages = [
@@ -34,10 +36,13 @@ class QuestionCreate extends Component
         'question_asked.max' => 'Question may not be greater than 500 characters',
         'correct_answer.required' => 'Correct Answer must be chosen.',
         'correct_answer.not_in' => 'You must select a valid correct answer.',
+        'correct_answer.min' => 'Correct Answer must be at least 1 character',
         'choices.*.choice.required' => 'Choice is required',
-        'choices.*.choice.min' => 'Choice must be at least 3 characters',
+        'choices.*.choice.min' => 'Choice must be at least 1 characters',
         'choices.*.choice.max' => 'Choice may not be greater than 255 characters',
     ];
+
+
 
 
     public function hasAtLeastTwoChoices()
@@ -65,12 +70,12 @@ class QuestionCreate extends Component
     public $fetched_lessons;
     public $lesson_position;
 
+    // For Displaying the Created Quesitions
+    public $fetched_questions;
+
     public function mount($lessonID)
     {
-        // $arr = ['one', 'two', 'three', 'four', 'five'];
-        // $arr[1] = 'six';
-        // dd($arr[1]);
-
+        // Create
         $this->passed_lesson = Lesson::find($lessonID);
         $this->fetched_lessons = $this->passed_lesson->module->lessons()->get();
         //Get the Position Count of passed_lesson
@@ -78,6 +83,11 @@ class QuestionCreate extends Component
             return $lesson->id === $this->passed_lesson->id;
         });
         $this->lesson_position = $position !== false ? $position + 1  : null;
+
+        ///////////////////////////////////////////
+        // Display Questions 
+
+        $this->fetched_questions = $this->passed_lesson->questions()->get();
     }
 
     public function updated($propertyName)
@@ -89,9 +99,10 @@ class QuestionCreate extends Component
 
     public function storeQuestion()
     {
-
-
         $this->validate();
+
+
+
 
         Question::create([
             'lesson_id' => $this->lessonID,
@@ -101,8 +112,17 @@ class QuestionCreate extends Component
         ]);
 
         session()->flash('message', 'Question added successfully!');
+        return redirect()->route('pages.admin.question', ['courseID' => $this->courseID, 'moduleID' => $this->moduleID, 'lessonID' => $this->lessonID]);
     }
 
+    public function deleteQuestion($questionID)
+    {
+        $question = Question::find($questionID);
+        $question->delete();
+        $this->dispatch('question-deleted');
+    }
+
+    #[On('question-deleted')]
     public function render()
     {
         return view('livewire.question.question-create');

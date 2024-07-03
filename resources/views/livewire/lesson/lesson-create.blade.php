@@ -10,7 +10,7 @@
                 {{-- Back to Courses --}}
                 <a href="{{ route('pages.admin.course.show', $courseID) }}"
                     class=" focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">
-                    &nbsp; <i class="fa-solid fa-xmark text-2xl"></i>
+                    &nbsp; <i class="text-2xl fa-solid fa-xmark"></i>
                 </a>
             </div>
         </div>
@@ -32,10 +32,6 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{-- <livewire:course.course-create /> --}}
-                    {{-- <livewire:lesson.lesson-create courseID="{{ $courseID }}" moduleID="{{ $moduleID }}" /> --}}
-
-
 
                     <h1 class="text-xl font-bold uppercase">Module {{ $module_position }}:
                         {{ $passed_module->module_name }} - (Create
@@ -47,11 +43,11 @@
                             <x-input-label for="lesson_title" :value="__('lesson Name')" class="uppercase" />
                             <x-text-input id="lesson_title" name="lesson_title" type="text" class="block w-full mt-1"
                                 required autofocus minLength="3" maxLength="150" />
-                            <p id="lesson-title-error-msg" class="text-sm text-red-600 dark:text-red-400 my-3"></p>
+                            <p id="lesson-title-error-msg" class="my-3 text-sm text-red-600 dark:text-red-400"></p>
                         </div>
 
                         {{-- Experiment Phase - CK Editor --}}
-                        <div id="ckeditor--main-container" class="ckeditor--main-container border">
+                        <div id="ckeditor--main-container" class="border ckeditor--main-container">
                             <div class="editor-container editor-container_document-editor " id="editor-container">
                                 <div class="editor-container__menu-bar " id="editor-menu-bar"></div>
                                 <div class="editor-container__toolbar " id="editor-toolbar"></div>
