@@ -10,6 +10,7 @@ use App\Livewire\Lesson\LessonShow;
 use App\Livewire\Lesson\LessonCreate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AudioController;
+use App\Livewire\Question\QuestionCreate;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\Auth\ProviderController;
@@ -69,6 +70,9 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::post('/lessons/store', [LessonController::class, 'store'])->name('pages.admin.lesson.store');
     Route::post('/lessons/update', [LessonController::class, 'update'])->name('pages.admin.lesson.update');
     Route::get('/lessons/retrieve', [LessonController::class, 'retrieve'])->name('pages.admin.lesson.retrieve');
+
+    // QUESTIONS
+    Route::get('/questions/create/{courseID}/{moduleID}/{lessonID}', QuestionCreate::class)->name('pages.admin.question');
 
 
 

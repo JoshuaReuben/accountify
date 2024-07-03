@@ -8,7 +8,7 @@
                 {{-- Back to Courses --}}
                 <a href="{{ route('pages.admin.course.show', $courseID) }}"
                     class=" focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">
-                    &nbsp; <i class="fa-solid fa-xmark text-2xl"></i>
+                    &nbsp; <i class="text-2xl fa-solid fa-xmark"></i>
                 </a>
             </div>
         </div>
@@ -24,16 +24,16 @@
 
     <div class="pt-6">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-auto  shadow-sm sm:rounded-lg">
-                <div class=" text-gray-900 dark:text-gray-100">
+            <div class="overflow-auto shadow-sm sm:rounded-lg">
+                <div class="text-gray-900 dark:text-gray-100">
 
                     {{-- Action Buttons --}}
                     <div class="flex justify-end">
-                        {{-- Back to Courses --}}
-                        {{-- <a href="{{ route('pages.admin.course.show', $courseID) }}"
+                        {{-- Create Questions --}}
+                        <a href="{{ route('pages.admin.question', ['courseID' => $courseID, 'moduleID' => $moduleID, 'lessonID' => $passed_lesson->id]) }}"
                             class=" focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                            Back to Courses &nbsp; <i class="fa-solid fa-filter"></i>
-                        </a> --}}
+                            Create Questions &nbsp; <i class="fa-solid fa-plus"></i>
+                        </a>
 
 
                         {{-- Edit --}}
@@ -43,7 +43,7 @@
                         </a>
 
                         {{-- Delete --}}
-                        <button type="button" wire:confirm="Are you sue you want to delete this Lesson?"
+                        <button type="button" wire:confirm="Are you sure you want to delete this Lesson?"
                             wire:click="deleteLesson({{ $passed_lesson->id }})"
                             class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
                             Delete Lesson &nbsp; <i class="fa-solid fa-trash-can"></i>
@@ -58,7 +58,7 @@
     </div>
 
 
-    <div class="pb-6 pt-2">
+    <div class="pt-2 pb-6">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-x-auto bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div id="lesson-show-container" class="p-6 text-gray-900 dark:text-gray-100">
