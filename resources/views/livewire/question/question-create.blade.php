@@ -75,12 +75,12 @@
                                 $letter = 'A';
                             @endphp
                             @foreach ($choices as $key => $choice)
-                                <div class="flex items-center">
+                                <div wire:key="choice-{{ $key }}" class="flex items-center">
                                     {{-- Input Field for Choices --}}
                                     <p class="mx-2">{{ $letter }}. </p>
                                     <x-text-input wire:model.live="choices.{{ $key }}.choice" id="CHOICES"
                                         name="CHOICES" type="text" class="block w-full mt-1" required autofocus
-                                        minLength="3" maxLength="150" />
+                                        minLength="3" maxLength="255" />
 
 
                                     {{-- Show The Remove Button When Loop Count is Greater than 1 --}}
@@ -101,6 +101,8 @@
                                 </div>
                                 {{-- Show Error Message for Each Choice --}}
                                 <x-input-error class="mt-2" :messages="$errors->get('choices.' . $key . '.choice')" />
+
+
 
                                 @php
                                     $letter++;
@@ -136,11 +138,12 @@
 
                         {{-- CORRECT ASNSWER --}}
                         <div>
-                            <x-input-label for="question_difficulty" :value="__('CORRECT ANSWER')" class="mb-2 uppercase" />
-                            <select id="question_difficulty" wire:model="question_difficulty" name="question_difficulty"
-                                required @if (!$this->hasAtLeastTwoChoices()) disabled @endif
+                            <x-input-label for="correct_answer" :value="__('CORRECT ANSWER')" class="mb-2 uppercase" />
+                            <select id="correct_answer" wire:model="correct_answer" name="correct_answer" required
+                                @if (!$this->hasAtLeastTwoChoices()) disabled @endif
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>Choose correct answer
+                                <option value="Choose correct answer" selected
+                                    @if ($this->hasAtLeastTwoChoices()) disabled @endif>Choose correct answer
                                     @if (!$this->hasAtLeastTwoChoices())
                                         <span class="italic"> (Create Choices First)</span>
                                     @endif
@@ -158,19 +161,18 @@
 
 
                             </select>
-                            <x-input-error class="mt-2" :messages="$errors->get('question_difficulty')" />
+                            <x-input-error class="mt-2" :messages="$errors->get('correct_answer')" />
                         </div>
 
 
 
 
-                        <div wire:target="question_cover_photo, question" class="flex items-center gap-4">
+                        <div wire:target="storeQuestion" class="flex items-center gap-4">
                             <x-buttons.primary-button wire:loading.attr="disabled"
-                                wire:target="question_cover_photo, question"
                                 wire:loading.class="opacity-50 cursor-not-allowed">{{ __('Save') }}</x-buttons.primary-button>
                         </div>
 
-                        <div wire:loading wire:target="question">
+                        <div wire:loading wire:target="storeQuestion">
                             <div class="flex items-center">
                                 <div role="status">
                                     <svg aria-hidden="true"

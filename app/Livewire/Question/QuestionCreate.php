@@ -15,6 +15,7 @@ class QuestionCreate extends Component
     public $lessonID;
 
     public $question_asked;
+    public $correct_answer;
 
     public $choices = [
         ['choice' => ''],
@@ -22,8 +23,22 @@ class QuestionCreate extends Component
     ];
 
     protected $rules = [
-        'choices.*.choice' => 'required|min:3|max:150',
+        'question_asked' => 'required|min:5|max:500',
+        'correct_answer' => 'required|not_in:Choose correct answer|min:3|max:255',
+        'choices.*.choice' => 'required|min:3|max:255',
     ];
+
+    protected $messages = [
+        'question_asked.required' => 'Question is required',
+        'question_asked.min' => 'Question must be at least 5 characters',
+        'question_asked.max' => 'Question may not be greater than 500 characters',
+        'correct_answer.required' => 'Correct Answer must be chosen.',
+        'correct_answer.not_in' => 'You must select a valid correct answer.',
+        'choices.*.choice.required' => 'Choice is required',
+        'choices.*.choice.min' => 'Choice must be at least 3 characters',
+        'choices.*.choice.max' => 'Choice may not be greater than 255 characters',
+    ];
+
 
     public function hasAtLeastTwoChoices()
     {
@@ -65,11 +80,27 @@ class QuestionCreate extends Component
         $this->lesson_position = $position !== false ? $position + 1  : null;
     }
 
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+
+
     public function storeQuestion()
     {
+
+
+        $this->validate();
+
         Question::create([
             'lesson_id' => $this->lessonID,
+            'question' => $this->question_asked,
+            'choices' => $this->choices,
+            'correct_answer' => $this->correct_answer,
         ]);
+
+        session()->flash('message', 'Question added successfully!');
     }
 
     public function render()
