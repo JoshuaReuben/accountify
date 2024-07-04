@@ -9,6 +9,16 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 
 
+// Logs
+// question_asked_Mode_Edit => => EDIT_question_asked
+// question_asked_Mode_Edit_Copy => => EDIT_COPY_question_asked
+// correct_answer_Mode_Edit => => EDIT_correct_answer
+// correct_answer_Mode_Edit_Copy => => EDIT_COPY_correct_answer
+// choices_Mode_Edit => => EDIT_choices
+// changed function name hasAtLeastTwoEDIT_choices
+// choices_Mode_Edit_Copy => => EDIT_COPY_choices
+
+
 #[Layout('layouts.resource')]
 class QuestionCreate extends Component
 {
@@ -39,6 +49,7 @@ class QuestionCreate extends Component
         'choices.*.choice' => 'required|min:1|max:255',
     ];
 
+
     protected $messages = [
         'question_asked.required' => 'Question is required',
         'question_asked.min' => 'Question must be at least 5 characters',
@@ -51,17 +62,18 @@ class QuestionCreate extends Component
         'choices.*.choice.max' => 'Choice may not be greater than 255 characters',
     ];
 
+
     //////////////////////////////////////////////////////////////
     // Variables for the Edit Mode of Question
-    public $question_asked_Mode_Edit = [];
-    public $question_asked_Mode_Edit_Copy = [];
+    public $EDIT_question_asked = [];
+    public $EDIT_COPY_question_asked = [];
 
-    public $correct_answer_Mode_Edit = [];
-    public $correct_answer_Mode_Edit_Copy = [];
+    public $EDIT_correct_answer = [];
+    public $EDIT_COPY_correct_answer = [];
 
-    public $choices_Mode_Edit = [];
+    public $EDIT_choices = [];
 
-    public $choices_Mode_Edit_Copy = [];
+    public $EDIT_COPY_choices = [];
 
 
 
@@ -85,22 +97,22 @@ class QuestionCreate extends Component
         //////////
 
         foreach ($this->fetched_questions as $question) {
-            $this->question_asked_Mode_Edit[$question->id] = $question->question;
-            $this->correct_answer_Mode_Edit[$question->id] = $question->correct_answer;
-            $this->choices_Mode_Edit[$question->id] = $question->choices;
+            $this->EDIT_question_asked[$question->id] = $question->question;
+            $this->EDIT_correct_answer[$question->id] = $question->correct_answer;
+            $this->EDIT_choices[$question->id] = $question->choices;
         }
 
 
 
         //Backup Variables
-        $this->question_asked_Mode_Edit_Copy = $this->question_asked_Mode_Edit;
-        $this->correct_answer_Mode_Edit_Copy = $this->correct_answer_Mode_Edit;
-        $this->choices_Mode_Edit_Copy = $this->choices_Mode_Edit;
+        $this->EDIT_COPY_question_asked = $this->EDIT_question_asked;
+        $this->EDIT_COPY_correct_answer = $this->EDIT_correct_answer;
+        $this->EDIT_COPY_choices = $this->EDIT_choices;
 
-        // dump($this->correct_answer_Mode_Edit[29]);
+        // dump($this->EDIT_correct_answer[29]);
         // dump($this->choices);
-        // dump($this->choices_Mode_Edit);
-        // dump($this->choices_Mode_Edit[26]);
+        // dump($this->EDIT_choices);
+        // dump($this->EDIT_choices[26]);
     }
 
 
@@ -111,17 +123,17 @@ class QuestionCreate extends Component
         //////////
 
         foreach ($this->fetched_questions as $question) {
-            $this->question_asked_Mode_Edit[$question->id] = $question->question;
-            $this->correct_answer_Mode_Edit[$question->id] = $question->correct_answer;
-            $this->choices_Mode_Edit[$question->id] = $question->choices;
+            $this->EDIT_question_asked[$question->id] = $question->question;
+            $this->EDIT_correct_answer[$question->id] = $question->correct_answer;
+            $this->EDIT_choices[$question->id] = $question->choices;
         }
 
 
 
         //Backup Variables
-        $this->question_asked_Mode_Edit_Copy = $this->question_asked_Mode_Edit;
-        $this->correct_answer_Mode_Edit_Copy = $this->correct_answer_Mode_Edit;
-        $this->choices_Mode_Edit_Copy = $this->choices_Mode_Edit;
+        $this->EDIT_COPY_question_asked = $this->EDIT_question_asked;
+        $this->EDIT_COPY_correct_answer = $this->EDIT_correct_answer;
+        $this->EDIT_COPY_choices = $this->EDIT_choices;
     }
 
 
@@ -132,9 +144,9 @@ class QuestionCreate extends Component
         return count($nonEmptyChoices) >= 2;
     }
 
-    public function hasAtLeastTwoChoices_Mode_Edit($questionID)
+    public function hasAtLeastTwoEDIT_choices($questionID)
     {
-        $nonEmptyChoices = array_filter($this->choices_Mode_Edit[$questionID], fn ($choice) => !empty($choice['choice']));
+        $nonEmptyChoices = array_filter($this->EDIT_choices[$questionID], fn ($choice) => !empty($choice['choice']));
         return count($nonEmptyChoices) >= 2;
     }
 
@@ -147,8 +159,8 @@ class QuestionCreate extends Component
 
     public function addChoice_Edit_Mode($questionID)
     {
-        $this->choices_Mode_Edit[$questionID][] = ['choice' => ''];
-        // dump($this->choices_Mode_Edit[26]);
+        $this->EDIT_choices[$questionID][] = ['choice' => ''];
+        // dump($this->EDIT_choices[26]);
 
     }
 
@@ -159,15 +171,15 @@ class QuestionCreate extends Component
 
     public function removeChoice_Edit_Mode($questionID, $index)
     {
-        array_splice($this->choices_Mode_Edit[$questionID], $index, 1);
+        array_splice($this->EDIT_choices[$questionID], $index, 1);
     }
 
     public function cancelEditQuestion()
     {
         // Reset The Variables Only
-        $this->question_asked_Mode_Edit = $this->question_asked_Mode_Edit_Copy;
-        $this->correct_answer_Mode_Edit = $this->correct_answer_Mode_Edit_Copy;
-        $this->choices_Mode_Edit = $this->choices_Mode_Edit_Copy;
+        $this->EDIT_question_asked = $this->EDIT_COPY_question_asked;
+        $this->EDIT_correct_answer = $this->EDIT_COPY_correct_answer;
+        $this->EDIT_choices = $this->EDIT_COPY_choices;
     }
 
 
@@ -228,9 +240,6 @@ class QuestionCreate extends Component
         ]);
 
         $this->reset(['question_asked', 'correct_answer', 'choices']);
-
-        // session()->flash('message', 'Question added successfully!');
-        // return redirect()->route('pages.admin.question', ['courseID' => $this->courseID, 'moduleID' => $this->moduleID, 'lessonID' => $this->lessonID]);
         $this->dispatch('question-added');
     }
 
@@ -245,27 +254,48 @@ class QuestionCreate extends Component
     public function updateAQuestion($questionID)
     {
         $question = Question::find($questionID);
+
+        // Validation 
+
         $question->update([
-            'question' => $this->question_asked_Mode_Edit[$questionID],
-            'choices' => $this->choices_Mode_Edit[$questionID],
-            'correct_answer' => $this->correct_answer_Mode_Edit[$questionID],
+            'question' => $this->EDIT_question_asked[$questionID],
+            'choices' => $this->EDIT_choices[$questionID],
+            'correct_answer' => $this->EDIT_correct_answer[$questionID],
         ]);
         $this->dispatch('question-updated');
     }
 
 
+
+
     #[On('question-updated')]
-    #[On('question-added')]
     public function refreshQuestions()
     {
         $this->fetched_questions = $this->passed_lesson->questions()->get();
+        // $this->dispatch('re-render_questions');
+    }
+
+    #[On('question-added')]
+    public function refetchEditVariables()
+    {
+        $this->fetched_questions = $this->passed_lesson->questions()->get();
+
+        foreach ($this->fetched_questions as $question) {
+            $this->EDIT_question_asked[$question->id] = $question->question;
+            $this->EDIT_correct_answer[$question->id] = $question->correct_answer;
+            $this->EDIT_choices[$question->id] = $question->choices;
+        }
+
+
+        //Backup Variables
+        $this->EDIT_COPY_question_asked = $this->EDIT_question_asked;
+        $this->EDIT_COPY_correct_answer = $this->EDIT_correct_answer;
+        $this->EDIT_COPY_choices = $this->EDIT_choices;
     }
 
 
 
-
-
-
+    // #[On('re-render_questions')]
     #[On('question-deleted')]
     public function render()
     {

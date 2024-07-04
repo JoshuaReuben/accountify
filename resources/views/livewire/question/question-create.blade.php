@@ -125,7 +125,7 @@
                             <x-input-label for="correct_answer" :value="__('CORRECT ANSWER')" class="mb-2 uppercase" />
                             <select id="correct_answer" wire:model="correct_answer" name="correct_answer" required
                                 @if (!$this->hasAtLeastTwoChoices()) disabled @endif
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:cursor-not-allowed">
                                 <option value="Choose correct answer" selected
                                     @if ($this->hasAtLeastTwoChoices()) disabled @endif>Choose correct answer
                                     @if (!$this->hasAtLeastTwoChoices())
@@ -290,10 +290,10 @@
                                             <x-input-label for="question_asked_Edit_Mode_{{ $question->id }}"
                                                 :value="__('Question')" class="mb-1 uppercase" />
                                             {{-- TEXT BOX --}}
-                                            <textarea wire:model="question_asked_Mode_Edit.{{ $question->id }}"
-                                                id="question_asked_Mode_Edit_{{ $question->id }}" name="question_asked_Mode_Edit.{{ $question->id }}"
+                                            <textarea wire:model="EDIT_question_asked.{{ $question->id }}" id="EDIT_question_asked_{{ $question->id }}"
+                                                name="EDIT_question_asked.{{ $question->id }}"
                                                 class="block w-full border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
-                                                required autofocus minLength="5" rows="3" placeholder="Put the Question here...">{{ $question_asked_Mode_Edit[$question->id] }}</textarea>
+                                                required autofocus minLength="5" rows="3" placeholder="Put the Question here...">{{ $EDIT_question_asked[$question->id] }}</textarea>
 
                                             <x-input-error class="mt-2" :messages="$errors->get('question_asked_Edit_Mode.' . $question->id)" />
                                         </div>
@@ -321,7 +321,7 @@
                                                 $letter_edit_mode = 'A';
                                             @endphp
                                             {{-- Edit Mode Loop --}}
-                                            @foreach ($choices_Mode_Edit[$question->id] as $key => $choice)
+                                            @foreach ($EDIT_choices[$question->id] as $key => $choice)
                                                 {{-- @php
                                                     dd($choice[0]['choice']);
                                                 @endphp --}}
@@ -330,7 +330,7 @@
                                                     {{-- Input Field for Choices --}}
                                                     <p class="mx-2">{{ $letter_edit_mode }}. </p>
                                                     <x-text-input
-                                                        wire:model.live="choices_Mode_Edit.{{ $question->id }}.{{ $key }}.choice"
+                                                        wire:model.live="EDIT_choices.{{ $question->id }}.{{ $key }}.choice"
                                                         id="CHOICES" name="CHOICES" type="text"
                                                         class="block w-full mt-1" required autofocus minLength="1"
                                                         maxLength="255" />
@@ -374,25 +374,25 @@
 
                                         {{-- CORRECT ASNSWER --}}
                                         <div>
-                                            <x-input-label for="correct_answer_Mode_Edit" :value="__('CORRECT ANSWER')"
+                                            <x-input-label for="EDIT_correct_answer" :value="__('CORRECT ANSWER')"
                                                 class="mb-2 uppercase" />
-                                            <select id="correct_answer_Mode_Edit"
-                                                wire:model="correct_answer_Mode_Edit.{{ $question->id }}"
-                                                name="correct_answer_Mode_Edit" required
-                                                @if (!$this->hasAtLeastTwoChoices_Mode_Edit($question->id)) disabled @endif
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                            <select id="EDIT_correct_answer"
+                                                wire:model="EDIT_correct_answer.{{ $question->id }}"
+                                                name="EDIT_correct_answer" required
+                                                @if (!$this->hasAtLeastTwoEDIT_choices($question->id)) disabled @endif
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:cursor-not-allowed">
                                                 <option value="Choose correct answer" selected
-                                                    @if ($this->hasAtLeastTwoChoices_Mode_Edit($question->id)) disabled @endif>Choose correct
+                                                    @if ($this->hasAtLeastTwoEDIT_choices($question->id)) disabled @endif>Choose correct
                                                     answer
-                                                    @if (!$this->hasAtLeastTwoChoices_Mode_Edit($question->id))
+                                                    @if (!$this->hasAtLeastTwoEDIT_choices($question->id))
                                                         <span class="italic"> (Create Choices First)</span>
                                                     @endif
                                                 </option>
 
 
                                                 <!-- Show Choices when at least two choices have non-empty values -->
-                                                @if ($this->hasAtLeastTwoChoices_Mode_Edit($question->id))
-                                                    @foreach ($choices_Mode_Edit[$question->id] as $choice)
+                                                @if ($this->hasAtLeastTwoEDIT_choices($question->id))
+                                                    @foreach ($EDIT_choices[$question->id] as $choice)
                                                         @if (!empty($choice['choice']))
                                                             <option value="{{ $choice['choice'] }}">
                                                                 {{ $choice['choice'] }}</option>
