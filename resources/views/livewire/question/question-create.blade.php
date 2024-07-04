@@ -50,9 +50,9 @@
                         <div class="pb-6">
                             <x-input-label for="question_asked" :value="__('Question')" class="mb-1 uppercase" />
                             {{-- TEXT BOX --}}
-                            <textarea wire:model="question_asked" id="question_asked" name="question_asked"
+                            <textarea wire:model.live="question_asked" id="question_asked" name="question_asked"
                                 class="block w-full border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
-                                required autofocus minLength="5" rows="3" placeholder="Put the Question here..."></textarea>
+                                required autofocus minLength="5" maxlength="500" rows="3" placeholder="Put the Question here..."></textarea>
 
                             <x-input-error class="mt-2" :messages="$errors->get('question_asked')" />
                         </div>
@@ -235,12 +235,13 @@
 
 
                     {{-- List --}}
-                    <ol class="space-y-4 text-gray-500 list-decimal list-inside dark:text-gray-100">
+                    <ol
+                        class="space-y-4 text-gray-500 break-words list-decimal list-inside text-ellipsis dark:text-gray-100 ">
 
                         @forelse ($fetched_questions as $question)
-                            <div class="flex flex-wrap">
+                            <div class="flex w-full break-words text-ellipsis ">
                                 {{-- Edit Icon --}}
-                                <span class="me-2" x-show="mode == 'edit' && (questionID !== {{ $question->id }})">
+                                <span class="me-2 " x-show="mode == 'edit' && (questionID !== {{ $question->id }})">
                                     <button type="button" @click="questionID = {{ $question->id }}"
                                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                         <i class="text-xs fa-solid fa-pencil"></i>
@@ -256,19 +257,21 @@
                                         <i class="text-xs fa-solid fa-minus"></i>
                                     </button>
                                 </span>
-                                <li class="dark:text-gray-100"
+                                <li class="w-full break-words  dark:text-gray-100 text-ellipsis max-w-[1120px]"
                                     :class="{
-                                        'border-y-2 py-2 pt-4 my-6 border-gray-700 dark:border-gray-200 w-full': questionID ==
+                                        'border-y-2 py-2 pt-4 my-6 border-gray-700 dark:border-gray-200 ': questionID ==
                                             '{{ $question->id }}'
                                     }">
                                     <div class="inline" :class="{ 'hidden': questionID == '{{ $question->id }}' }">
                                         {{-- Question --}}
-                                        <span class="dark:text-gray-100"> {{ $question->question }}</span>
+                                        <span class="w-full break-words dark:text-gray-100">
+                                            {{ $question->question }}</span>
 
-                                        <ul class="mt-2 space-y-1 list-disc list-inside ps-5">
+                                        <ul
+                                            class="mt-2 space-y-1 break-words list-disc list-inside ps-5 text-ellipsis">
                                             @foreach ($question->choices as $key => $choice)
                                                 <li
-                                                    class="{{ $choice['choice'] === $question->correct_answer ? 'text-green-500' : '' }}">
+                                                    class="{{ $choice['choice'] === $question->correct_answer ? 'text-green-500 dark:text-green-400' : '' }}">
                                                     {{ $choice['choice'] }}</li>
                                             @endforeach
                                         </ul>
@@ -290,12 +293,12 @@
                                             <x-input-label for="question_asked_Edit_Mode_{{ $question->id }}"
                                                 :value="__('Question')" class="mb-1 uppercase" />
                                             {{-- TEXT BOX --}}
-                                            <textarea wire:model="EDIT_question_asked.{{ $question->id }}" id="EDIT_question_asked_{{ $question->id }}"
+                                            <textarea wire:model.live="EDIT_question_asked.{{ $question->id }}" id="EDIT_question_asked_{{ $question->id }}"
                                                 name="EDIT_question_asked.{{ $question->id }}"
                                                 class="block w-full border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
-                                                required autofocus minLength="5" rows="3" placeholder="Put the Question here...">{{ $EDIT_question_asked[$question->id] }}</textarea>
+                                                required autofocus minLength="5" maxlength="500" rows="3" placeholder="Put the Question here...">{{ $EDIT_question_asked[$question->id] }}</textarea>
 
-                                            <x-input-error class="mt-2" :messages="$errors->get('question_asked_Edit_Mode.' . $question->id)" />
+                                            <x-input-error class="mt-2" :messages="$errors->get('EDIT_question_asked.' . $question->id)" />
                                         </div>
 
 
@@ -303,15 +306,17 @@
                                         {{-- CREATE CHOICES FOR THE EDIT MODE --}}
                                         <div>
                                             <div class="flex items-end justify-between">
-                                                <x-input-label for="CHOICES" :value="__('CHOICES')" class="uppercase" />
+                                                <x-input-label for="EDIT_CHOICES" :value="__('CHOICES')"
+                                                    class="uppercase" />
 
                                                 {{-- Add Input Field --}}
                                                 <button tabindex="{{ $loop->iteration }}}" type="button"
                                                     wire:click="addChoice_Edit_Mode({{ $question->id }})"
                                                     class=" focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                                                    <span wire:loading.remove wire:target="addChoice">Add Choices
+                                                    <span wire:loading.remove wire:target="addChoice_Edit_Mode">Add
+                                                        Choices
                                                         &nbsp; <i class=" fa-solid fa-plus"></i></span>
-                                                    <div wire:loading wire:target="addChoice">
+                                                    <div wire:loading wire:target="addChoice_Edit_Mode">
                                                         <x-svgs.spinner message="Adding" size="5" />
                                                     </div>
                                                 </button>
@@ -322,16 +327,13 @@
                                             @endphp
                                             {{-- Edit Mode Loop --}}
                                             @foreach ($EDIT_choices[$question->id] as $key => $choice)
-                                                {{-- @php
-                                                    dd($choice[0]['choice']);
-                                                @endphp --}}
                                                 <div wire:key="choice-editmode-{{ $key }}"
                                                     class="flex items-center">
                                                     {{-- Input Field for Choices --}}
                                                     <p class="mx-2">{{ $letter_edit_mode }}. </p>
                                                     <x-text-input
                                                         wire:model.live="EDIT_choices.{{ $question->id }}.{{ $key }}.choice"
-                                                        id="CHOICES" name="CHOICES" type="text"
+                                                        id="EDIT_CHOICES" name="EDIT_CHOICES" type="text"
                                                         class="block w-full mt-1" required autofocus minLength="1"
                                                         maxLength="255" />
 
@@ -345,10 +347,10 @@
                                                             wire:loading.class="opacity-50 cursor-not-allowed"
                                                             wire:loading.attr="disabled">
                                                             <i wire:loading.remove
-                                                                wire:target="removeChoice({{ $key }})"
+                                                                wire:target="removeChoice_Edit_Mode({{ $key }})"
                                                                 class="text-lg fa-solid fa-xmark"></i>
                                                             <div wire:loading
-                                                                wire:target="removeChoice({{ $key }})">
+                                                                wire:target="removeChoice_Edit_Mode({{ $key }})">
                                                                 ...
                                                             </div>
                                                         </button>
@@ -381,20 +383,30 @@
                                                 name="EDIT_correct_answer" required
                                                 @if (!$this->hasAtLeastTwoEDIT_choices($question->id)) disabled @endif
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:cursor-not-allowed">
-                                                <option value="Choose correct answer" selected
-                                                    @if ($this->hasAtLeastTwoEDIT_choices($question->id)) disabled @endif>Choose correct
-                                                    answer
-                                                    @if (!$this->hasAtLeastTwoEDIT_choices($question->id))
-                                                        <span class="italic"> (Create Choices First)</span>
-                                                    @endif
-                                                </option>
+
+
+                                                @if ($this->hasAtLeastTwoEDIT_choices($question->id))
+                                                    <option selected value="Choose correct answer">
+                                                        Choose correct answer
+                                                    </option>
+                                                @endif
+
+                                                @if (!$this->hasAtLeastTwoEDIT_choices($question->id))
+                                                    <option value="">
+                                                        --- Create Choices First ---
+                                                    </option>
+                                                @endif
+
+
+
 
 
                                                 <!-- Show Choices when at least two choices have non-empty values -->
                                                 @if ($this->hasAtLeastTwoEDIT_choices($question->id))
                                                     @foreach ($EDIT_choices[$question->id] as $choice)
                                                         @if (!empty($choice['choice']))
-                                                            <option value="{{ $choice['choice'] }}">
+                                                            <option value="{{ $choice['choice'] }}"
+                                                                @if ($EDIT_correct_answer[$question->id] == $choice['choice']) selected @endif>
                                                                 {{ $choice['choice'] }}</option>
                                                         @endif
                                                     @endforeach
@@ -404,7 +416,7 @@
                                             </select>
                                             <x-input-error class="mt-2" :messages="$errors->get('correct_answer')" />
 
-                                            @error('choices')
+                                            @error('EDIT_answer')
                                                 <span class="space-y-1 text-sm text-red-600 dark:text-red-400">
                                                     <strong>Error:</strong> {{ $message }}
                                                 </span>
@@ -417,8 +429,7 @@
                                         <div wire:target="updateAQuestion({{ $question->id }})"
                                             class="flex items-center pb-6 m-2">
                                             <x-buttons.primary-button wire:loading.attr="disabled"
-                                                wire:loading.class="opacity-50 cursor-not-allowed"
-                                                @click="questionID = null">
+                                                wire:loading.class="opacity-50 cursor-not-allowed">
                                                 {{ __('Save') }}
                                             </x-buttons.primary-button>
 

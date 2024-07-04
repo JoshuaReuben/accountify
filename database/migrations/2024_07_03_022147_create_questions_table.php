@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lesson_id')->constrained()->onDelete('cascade');
-            $table->string('question');
+            $table->text('question');
             $table->json('choices');
-            $table->string('correct_answer');
+            $table->text('correct_answer');
             $table->timestamps();
         });
     }
