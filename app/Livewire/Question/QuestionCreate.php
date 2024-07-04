@@ -9,14 +9,6 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 
 
-// Logs
-// trailing spaces should not be treated as value
-// long text on question don't wrap - but not responsive (fixed on previous commit)
-// auto re-fetch (fixed on previous commit)
-// trailing spaces fixed
-// validation rules on edit mode done
-// 
-
 
 #[Layout('layouts.resource')]
 class QuestionCreate extends Component
@@ -223,8 +215,7 @@ class QuestionCreate extends Component
 
     public function updated($propertyName)
     {
-        // $this->validateOnly($propertyName);
-        // dd($propertyName);
+
 
         // Check if the updated property is one of the choices array elements
         if (strpos($propertyName, 'EDIT_choices.') === 0) {
@@ -232,26 +223,18 @@ class QuestionCreate extends Component
             $questionID = explode('.', $propertyName)[1];
             $index = explode('.', $propertyName)[2];
 
-
             // Update mychoice if it matches the previous choice
-
             $this->EDIT_correct_answer[$questionID] = $this->EDIT_choices[$questionID][$index]['choice'];
-            // dd($this->EDIT_correct_answer[$questionID]);
-
-            // dd($this->EDIT_correct_answer[$questionID], $this->EDIT_choices[$questionID][$index]['choice']);
         }
 
         // Return true to the function if start of the string begins with EDIT_ and case sensitive
         if (strpos($propertyName, 'EDIT_') === 0) {
-            // dd('true');
+
             $this->validateOnly($propertyName, $this->EDIT_rules, $this->EDIT_messages);
         } else {
-            // dd($propertyName);
-            $this->validateOnly($propertyName, $this->rules, $this->messages);
-            // dd('false');
-        }
 
-        // dd(strpos($propertyName, 'EDIT_') === 0);
+            $this->validateOnly($propertyName, $this->rules, $this->messages);
+        }
     }
 
 
@@ -332,10 +315,19 @@ class QuestionCreate extends Component
 
     public function deleteQuestion($questionID)
     {
-        $question = Question::find($questionID);
-        $question->delete();
-
-        $this->dispatch('question-deleted');
+        try {
+            $question = Question::find($questionID);
+            if ($question) {
+                $question->delete();
+                // Dispatch an event to notify that the question has been deleted
+                $this->dispatch('question-deleted');
+            } else {
+                // Dispatch an event if the question was not found
+                $this->dispatch('reload-page');
+            }
+        } catch (\Exception $e) {
+            $this->dispatch('reload-page');
+        }
     }
 
     public function updateAQuestion($questionID)

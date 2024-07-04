@@ -405,10 +405,6 @@
                                                     </option>
                                                 @endif
 
-
-
-
-
                                                 <!-- Show Choices when at least two choices have non-empty values -->
                                                 @if ($this->hasAtLeastTwoEDIT_choices($question->id))
                                                     @foreach ($EDIT_choices[$question->id] as $choice)
