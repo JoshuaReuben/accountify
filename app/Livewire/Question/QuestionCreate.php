@@ -227,19 +227,19 @@ class QuestionCreate extends Component
         // dd($propertyName);
 
         // Check if the updated property is one of the choices array elements
-        // if (strpos($propertyName, 'EDIT_choices.') === 0) {
-        //     // Find the index of the updated choice
-        //     $questionID = explode('.', $propertyName)[1];
-        //     $index = explode('.', $propertyName)[2];
+        if (strpos($propertyName, 'EDIT_choices.') === 0) {
+            // Find the index of the updated choice
+            $questionID = explode('.', $propertyName)[1];
+            $index = explode('.', $propertyName)[2];
 
 
-        //     // Update mychoice if it matches the previous choice
+            // Update mychoice if it matches the previous choice
 
-        //     $this->EDIT_correct_answer[$questionID] = $this->EDIT_choices[$questionID][$index]['choice'];
-        //     // dd($this->EDIT_correct_answer[$questionID]);
+            $this->EDIT_correct_answer[$questionID] = $this->EDIT_choices[$questionID][$index]['choice'];
+            // dd($this->EDIT_correct_answer[$questionID]);
 
-        //     // dd($this->EDIT_correct_answer[$questionID], $this->EDIT_choices[$questionID][$index]['choice']);
-        // }
+            // dd($this->EDIT_correct_answer[$questionID], $this->EDIT_choices[$questionID][$index]['choice']);
+        }
 
         // Return true to the function if start of the string begins with EDIT_ and case sensitive
         if (strpos($propertyName, 'EDIT_') === 0) {

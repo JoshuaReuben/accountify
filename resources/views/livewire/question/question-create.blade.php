@@ -394,7 +394,7 @@
 
 
                                                 @if ($this->hasAtLeastTwoEDIT_choices($question->id))
-                                                    <option selected value="Choose correct answer">
+                                                    <option value="">
                                                         Choose correct answer
                                                     </option>
                                                 @endif
