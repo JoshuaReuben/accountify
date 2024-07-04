@@ -358,10 +358,18 @@
 
                                                 </div>
                                                 {{-- Show Error Message for Each Choice --}}
-                                                <x-input-error class="mt-2" :messages="$errors->get('choices.' . $key . '.choice')" />
+                                                <x-input-error class="mt-2" :messages="$errors->get(
+                                                    'EDIT_choices.' . $question->id . '.' . $key . '.choice',
+                                                )" />
+
+
+
+
+
 
 
                                                 @php
+                                                    // dd('EDIT_choices.' . $question->id . '.' . $key . '.choice');
                                                     $letter_edit_mode++;
                                                 @endphp
                                             @endforeach
@@ -414,7 +422,7 @@
 
 
                                             </select>
-                                            <x-input-error class="mt-2" :messages="$errors->get('correct_answer')" />
+                                            <x-input-error class="mt-2" :messages="$errors->get('EDIT_correct_answer')" />
 
                                             @error('EDIT_answer')
                                                 <span class="space-y-1 text-sm text-red-600 dark:text-red-400">

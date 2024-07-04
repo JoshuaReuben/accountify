@@ -10,13 +10,12 @@ use Livewire\Attributes\On;
 
 
 // Logs
-// question_asked_Mode_Edit => => EDIT_question_asked
-// question_asked_Mode_Edit_Copy => => EDIT_COPY_question_asked
-// correct_answer_Mode_Edit => => EDIT_correct_answer
-// correct_answer_Mode_Edit_Copy => => EDIT_COPY_correct_answer
-// choices_Mode_Edit => => EDIT_choices
-// changed function name hasAtLeastTwoEDIT_choices
-// choices_Mode_Edit_Copy => => EDIT_COPY_choices
+// trailing spaces should not be treated as value
+// long text on question don't wrap - but not responsive (fixed on previous commit)
+// auto re-fetch (fixed on previous commit)
+// trailing spaces fixed
+// validation rules on edit mode done
+// 
 
 
 #[Layout('layouts.resource')]
@@ -52,32 +51,32 @@ class QuestionCreate extends Component
     protected $EDIT_rules = [
         'EDIT_question_asked.*' => 'required|min:5|max:500',
         'EDIT_correct_answer.*' => 'required|not_in:Choose correct answer|min:1|max:255',
-        'EDIT_choices.*.choice.*' => 'required|min:1|max:255',
+        'EDIT_choices.*.*.choice' => 'required|min:1|max:255',
     ];
 
 
     protected $messages = [
-        'question_asked.*.required' => 'Question is required',
-        'question_asked.*.min' => 'Question must be at least 5 characters',
-        'question_asked.*.max' => 'Question may not be greater than 500 characters',
-        'correct_answer.*.required' => 'Correct Answer must be chosen.',
-        'correct_answer.*.not_in' => 'You must select a valid correct answer.',
-        'correct_answer.*.min' => 'Correct Answer must be at least 1 character',
-        'choices.*.*.choice.required' => 'Choice is required',
-        'choices.*.*.choice.min' => 'Choice must be at least 1 characters',
-        'choices.*.*.choice.max' => 'Choice may not be greater than 255 characters',
+        'question_asked.required' => 'Question is required',
+        'question_asked.min' => 'Question must be at least 5 characters',
+        'question_asked.max' => 'Question may not be greater than 500 characters',
+        'correct_answer.required' => 'Correct Answer must be chosen.',
+        'correct_answer.not_in' => 'You must select a valid correct answer.',
+        'correct_answer.min' => 'Correct Answer must be at least 1 character',
+        'choices.*.choice.required' => 'Choice is required',
+        'choices.*.choice.min' => 'Choice must be at least 1 characters',
+        'choices.*.choice.max' => 'Choice may not be greater than 255 characters',
     ];
 
     protected $EDIT_messages = [
-        'EDIT_question_asked.*.required' => 'Question is required',
-        'EDIT_question_asked.*.min' => 'Question must be at least 5 characters',
-        'EDIT_question_asked.*.max' => 'Question may not be greater than 500 characters',
-        'EDIT_correct_answer.*.required' => 'Correct Answer must be chosen.',
-        'EDIT_correct_answer.*.not_in' => 'You must select a valid correct answer.',
-        'EDIT_correct_answer.*.min' => 'Correct Answer must be at least 1 character',
-        'EDIT_choices.*.*.choice.required' => 'Choice is required',
-        'EDIT_choices.*.*.choice.min' => 'Choice must be at least 1 characters',
-        'EDIT_choices.*.*.choice.max' => 'Choice may not be greater than 255 characters',
+        'EDIT_question_asked.*.required' => 'Editing Question is required',
+        'EDIT_question_asked.*.min' => 'Editing Question must be at least 5 characters',
+        'EDIT_question_asked.*.max' => 'Editing Question may not be greater than 500 characters',
+        'EDIT_correct_answer.*.required' => 'Correct Answer must be chosen while Editing.',
+        'EDIT_correct_answer.*.not_in' => 'You must select a valid correct answer while Editing.',
+        'EDIT_correct_answer.*.min' => 'Correct Answer must be at least 1 character while Editing',
+        'EDIT_choices.*.*.choice.required' => 'Choice is required while Editing',
+        'EDIT_choices.*.*.choice.min' => 'Choice must be at least 1 characters while Editing.',
+        'EDIT_choices.*.*.choice.max' => 'Choice may not be greater than 255 characters while Editing.',
     ];
 
 
@@ -132,6 +131,21 @@ class QuestionCreate extends Component
         // dump($this->choices);
         // dump($this->EDIT_choices);
         // dump($this->EDIT_choices[26]);
+        // dump($this->EDIT_choices[6][0]['choice']);
+    }
+
+    private function trimChoices()
+    {
+        foreach ($this->choices as $index => $choice) {
+            $this->choices[$index]['choice'] = trim($choice['choice']);
+        }
+    }
+
+    private function EDIT_trimChoices($questionID)
+    {
+        foreach ($this->EDIT_choices[$questionID] as $index => $choice) {
+            $this->EDIT_choices[$questionID][$index]['choice'] = trim($choice['choice']);
+        }
     }
 
 
@@ -229,10 +243,15 @@ class QuestionCreate extends Component
 
         // Return true to the function if start of the string begins with EDIT_ and case sensitive
         if (strpos($propertyName, 'EDIT_') === 0) {
+            // dd('true');
             $this->validateOnly($propertyName, $this->EDIT_rules, $this->EDIT_messages);
         } else {
-            $this->validateOnly($propertyName);
+            // dd($propertyName);
+            $this->validateOnly($propertyName, $this->rules, $this->messages);
+            // dd('false');
         }
+
+        // dd(strpos($propertyName, 'EDIT_') === 0);
     }
 
 
@@ -286,6 +305,7 @@ class QuestionCreate extends Component
 
     public function storeQuestion()
     {
+        $this->trimChoices();
         $this->validate();
 
         $hasDuplicate = $this->lookForDuplicateChoices();
@@ -296,6 +316,7 @@ class QuestionCreate extends Component
             return;
         }
 
+        // $this->choices 
 
 
         Question::create([
@@ -321,8 +342,7 @@ class QuestionCreate extends Component
     {
         $question = Question::find($questionID);
 
-
-
+        $this->EDIT_trimChoices($questionID);
         if (empty($this->EDIT_correct_answer[$questionID])) {
             // Add an error message to the component
             $this->addError('EDIT_answer', 'Please choose an answer.');
