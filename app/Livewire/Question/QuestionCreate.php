@@ -357,7 +357,11 @@ class QuestionCreate extends Component
         }
 
         // Validation 
-        $this->validate($this->EDIT_rules, $this->EDIT_messages);
+        // $this->validate($this->EDIT_rules, $this->EDIT_messages);
+        $this->validateOnly('question', $this->EDIT_rules, $this->EDIT_messages);
+        $this->validateOnly('choices', $this->EDIT_rules, $this->EDIT_messages);
+        $this->validateOnly('correct_answer', $this->EDIT_rules, $this->EDIT_messages);
+        // dd('here');
 
         // dd($this->EDIT_correct_answer[$questionID]);
 
