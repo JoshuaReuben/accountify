@@ -61,10 +61,7 @@
 
                 <div class="items-center">
                     {{-- Publish Course Button --}}
-                    <button type="button"
-                        class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                        Publish Course
-                    </button>
+                    <x-buttons.create-button message="Publish Course" icon="fa-solid fa-calendar-check" />
 
                     {{-- Edit Button --}}
                     <a href="{{ route('pages.admin.course.edit', $course->id) }}">
@@ -162,13 +159,9 @@
         </div>
     </div>
 
-    {{-- Curriculum - Modules  --}}
-    {{-- Flowbite Accordion --}}
-    {{-- .............. accordion flowbite backup .txt --}}
-    {{-- End of Flowbite Accordion --}}
 
 
-    {{-- Alpine Accordion --}}
+    {{-- MODULES Accordion --}}
     <div class="py-1">
         <div class="mx-auto max-w-9xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
@@ -179,29 +172,20 @@
                     <div class="flex items-center justify-between">
                         <h1 class="my-4 text-xl font-bold uppercase"> CREATED MODULES</h1>
                         <div>
-                            {{-- Create --}}
-                            <button @click="mode = 'create'" x-show="(mode === 'create') || (mode === 'view')"
-                                type="button"
-                                class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                                :class="{ 'opacity-50 cursor-not-allowed': mode === 'create' }">
-                                Add Module &nbsp; <i class="fa-solid fa-plus"></i>
-                            </button>
 
-                            {{-- Edit --}}
-                            <button @click="mode = 'edit'" x-show="(mode === 'edit') || (mode === 'view')"
-                                type="button"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                                :class="{ 'opacity-50 cursor-not-allowed': mode === 'edit' }">
-                                Edit Module &nbsp; <i class="fa-solid fa-pencil"></i>
-                            </button>
+                            {{-- Create Module --}}
+                            <x-buttons.create-button message="Add Module" @click="mode = 'create'"
+                                x-show="(mode === 'create') || (mode === 'view')"
+                                x-bind:disabled="mode === 'create'" />
 
-                            {{-- Delete --}}
-                            <button @click="mode = 'delete'" x-show="(mode === 'delete') || (mode === 'view')"
-                                type="button"
-                                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                :class="{ 'opacity-50 cursor-not-allowed': mode === 'delete' }">
-                                Delete Module &nbsp; <i class="fa-solid fa-trash-can"></i>
-                            </button>
+                            {{-- Edit Module --}}
+                            <x-buttons.edit-button message="Edit Module" @click="mode = 'edit'"
+                                x-show="(mode === 'edit') || (mode === 'view')" x-bind:disabled="mode === 'edit'" />
+
+                            {{-- Delete Module --}}
+                            <x-buttons.delete-button @click="mode = 'delete'"
+                                x-show="(mode === 'delete') || (mode === 'view')"
+                                x-bind:disabled="mode === 'delete'" />
 
                             {{-- Back to Options --}}
                             <button @click="mode = 'view'; moduleID = ''" x-show="mode != 'view'" type="button"

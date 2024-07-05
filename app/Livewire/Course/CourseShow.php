@@ -17,7 +17,6 @@ class CourseShow extends Component
     public $courseID;
     public $module_name = '';
 
-    public $currentEditModuleID = null;
 
     public $moduleNameToEdit = [];
     public $CopyModuleNameToEdit = [];
@@ -49,24 +48,23 @@ class CourseShow extends Component
         $this->dispatch('sendEvent');
     }
 
-    public function editModule($moduleID)
-    {
-        $module = Module::find($moduleID);
-        $this->currentEditModuleID = $module->id;
-        $this->moduleNameToEdit = $module->module_name;
-    }
+
 
     public function cancelEditModule()
     {
         $this->moduleNameToEdit = $this->CopyModuleNameToEdit;
     }
 
-    public function saveModuleName($moduleID)
+    public function saveModuleName(Module $module)
     {
-        $module = Module::find($moduleID);
+        // $module = Module::find($moduleID);
         $module->update([
-            'module_name' => $this->moduleNameToEdit[$moduleID]
+            'module_name' => $this->moduleNameToEdit[$module->id]
         ]);
+
+        // $this->CopyModuleNameToEdit = $this->moduleNameToEdit[$module->id];
+        $this->moduleNameToEdit = $this->CopyModuleNameToEdit;
+
 
         $this->dispatch('module-name-updated');
     }
