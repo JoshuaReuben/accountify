@@ -16,21 +16,19 @@
 
 
     {{-- GO LIGHT MODE --}}
-    <div>
+    <div class="relative">
         {{-- START - MOON ICON --}}
-        <button @click="setLightMode()" data-tooltip-target="tooltip-moon" x-show="theme === 'dark'">
+        <button @click="setLightMode()" x-show="theme === 'dark'" class="peer cursor-pointer ">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" id="moon" class="w-5 h-5 md:h-6 md:w-6">
                 <path fill="#ffac33" stroke="#ffac33" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M20.63 20a9 9 0 0 1-9.12-8.78A8.61 8.61 0 0 1 14.17 5 10.17 10.17 0 0 0 5 15a10.23 10.23 0 0 0 10.42 10A10.43 10.43 0 0 0 25 18.9a9.3 9.3 0 0 1-4.37 1.1Z">
                 </path>
             </svg>
-
         </button>
 
-        <div id="tooltip-moon"
-            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-800">
+        <div
+            class="absolute top-9 left-1/2 -translate-x-1/2 z-50 whitespace-nowrap rounded bg-slate-900 px-2 py-1 text-center text-sm text-white opacity-0 transition-all ease-out peer-hover:opacity-100 peer-focus:opacity-100 dark:bg-gray-700 dark:text-gray-200">
             Switch To Light Mode
-            <div class="tooltip-arrow" data-popper-arrow></div>
         </div>
         {{-- END - MOON ICON --}}
     </div>
@@ -40,9 +38,9 @@
 
 
     {{-- GO DARK MODE --}}
-    <div>
+    <div class="relative">
         {{-- START - SUN ICON  --}}
-        <button @click="setDarkMode()" data-tooltip-target="tooltip-sun" x-show="theme!== 'dark'">
+        <button @click="setDarkMode()" x-show="theme!== 'dark'" class="peer cursor-pointer ">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5" id="sun"class="w-5 h-5 md:h-6 md:w-6">
                 <defs>
                     <clipPath id="a">
@@ -57,10 +55,9 @@
             </svg>
 
         </button>
-        <div id="tooltip-sun"
-            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+        <div
+            class="absolute top-9 left-1/2 -translate-x-1/2 z-50 whitespace-nowrap rounded bg-slate-900 px-2 py-1 text-center text-sm text-white opacity-0 transition-all ease-out peer-hover:opacity-100 peer-focus:opacity-100 dark:bg-white dark:text-black">
             Switch To Dark Mode
-            <div class="tooltip-arrow" data-popper-arrow></div>
         </div>
         {{-- END - SUN ICON --}}
     </div>
