@@ -68,48 +68,59 @@
                         <x-buttons.theme-toggler />
                     </div>
 
-                    {{-- Music Icon --}}
+
+                    {{--  Music Playlist --}}
                     <div>
                         <div
                             class="p-2 pt-4 mr-0 text-center text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
-                            <button type="button" data-drawer-target="drawer-music-playlist"
-                                data-drawer-show="drawer-music-playlist" data-drawer-placement="right"
-                                aria-controls="drawer-music-playlist">
+                            <button x-data @click="$dispatch('open-music-player')" type="button">
                                 <i class="w-5 h-5 fa-solid fa-music md:h-6 md:w-6"></i>
                             </button>
                         </div>
 
-                        <!-- Music Playlist drawer component -->
-                        <div id="drawer-music-playlist"
-                            class="fixed right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white top-20 w-96 dark:bg-gray-800"
-                            tabindex="-1" aria-labelledby="drawer-right-label">
+                        <section x-data="slideout()" x-cloak x-on:open-music-player.window="open = true"
+                            @keydown.escape.window="open = false" x-init="init()">
 
-                            <h5 id="drawer-right-label"
-                                class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
-                                <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                                </svg>Playlist
-                            </h5>
+                            {{-- Overlay --}}
+                            <div x-show.transition.opacity.duration.500="open" @click="open = false"
+                                class="fixed z-50 inset-0 bg-black bg-opacity-40"></div>
 
-                            <button type="button" data-drawer-hide="drawer-music-playlist"
-                                aria-controls="drawer-music-playlist"
-                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                </svg>
-                                <span class="sr-only">Close menu</span>
-                            </button>
+                            {{-- Side Bar --}}
+                            <div class="fixed z-50 transition duration-300 right-0 top-0 transform w-full max-w-sm h-screen bg-gray-100 overflow-hidden dark:bg-gray-800"
+                                :class="{ 'translate-x-full': open == false }">
 
-                            <div class="mt-auto">
-                                <livewire:blocks.music-playlist />
+                                <div class="flex items-center mt-10 w-full">
+
+                                    <h5
+                                        class="inline-flex mt-4 items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 uppercase ml-4">
+                                        <svg class="w-4 h-4 me-2.5" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                        </svg>Music Playlist
+                                    </h5>
+
+                                    <button @click="open = false"
+                                        class="fixed top-10 right-2 mr-4 mt-2 z-50 text-gray-400  hover:text-gray-900  dark:hover:text-white bg-transparent">
+                                        {{-- Close Button --}}
+                                        <i class="fa-solid fa-xmark text-3xl"></i>
+                                    </button>
+                                </div>
+
+
+
+                                <div class="pt-2 px-6 absolute h-full w-full overflow-y-auto">
+                                    {{-- Side Bar Content --}}
+                                    <div class="mt-auto">
+                                        <livewire:blocks.music-playlist />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+
+                        </section>
 
                     </div>
+
 
                     <!-- NOTIFICATIONS -->
                     <div
@@ -155,5 +166,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
 </body>
+<script>
+    // Music Player - toggle overlay
+    function slideout() {
+        return {
+            open: false,
+            init() {
+                this.$watch('open', value => {
+                    this.toggleOverlay()
+                })
+
+            },
+            toggleOverlay() {
+                document.body.classList[this.open ? 'add' : 'remove']('h-screen', 'overflow-hidden');
+            }
+        }
+    }
+</script>
 
 </html>

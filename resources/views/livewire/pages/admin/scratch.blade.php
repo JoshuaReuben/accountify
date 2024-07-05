@@ -65,22 +65,13 @@ new #[Layout('layouts.admin')] class extends Component {
                     {{-- START SECTION --}}
 
 
-
-
                     {{--  EXPERIMENT --}}
-                    <div x-data="{ parentMessage: 'Hello from parent!', childMessage: '' }">
-                        <p x-text="parentMessage"></p>
 
-                        <div x-data="{ childMessage: 'Hello from child!' }" :child-message="parentMessage"
-                            @custom-event="parentMessage = $event.detail">
-                            <p x-text="childMessage"></p>
-                        </div>
-                    </div>
+
+
 
 
                     {{-- END OF EXPERIMENT --}}
-
-
 
 
                     {{-- END SECTION --}}
