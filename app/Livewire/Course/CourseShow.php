@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Module;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 #[Layout('layouts.app')]
 class CourseShow extends Component
@@ -18,20 +19,22 @@ class CourseShow extends Component
     public $module_name = '';
 
 
-    public $moduleNameToEdit = [];
-    public $CopyModuleNameToEdit = [];
+    public $EDIT_module_name = [];
+    public $EDIT_COPY_module_name = [];
 
     public function mount($courseID)
     {
-        $this->courseID = $courseID;
+        // Find Course
         $this->course = Course::find($courseID);
 
-        $modules = Module::where('course_id', $courseID)->get();
+        // Get Modules of the Course
+        $modules = $this->course->modules()->get();
+
         foreach ($modules as $module) {
-            $this->moduleNameToEdit[$module->id] = $module->module_name;
+            $this->EDIT_module_name[$module->id] = $module->module_name;
         }
 
-        $this->CopyModuleNameToEdit = $this->moduleNameToEdit;
+        $this->EDIT_COPY_module_name = $this->EDIT_module_name;
     }
 
 
@@ -45,33 +48,28 @@ class CourseShow extends Component
 
         $this->reset(['module_name']);
         $this->dispatch('module-created');
-        $this->dispatch('sendEvent');
     }
+
 
 
 
     public function cancelEditModule()
     {
-        $this->moduleNameToEdit = $this->CopyModuleNameToEdit;
+        $this->EDIT_module_name = $this->EDIT_COPY_module_name;
     }
 
     public function saveModuleName(Module $module)
     {
         // $module = Module::find($moduleID);
         $module->update([
-            'module_name' => $this->moduleNameToEdit[$module->id]
+            'module_name' => $this->EDIT_module_name[$module->id]
         ]);
-
-        // $this->CopyModuleNameToEdit = $this->moduleNameToEdit[$module->id];
-        $this->moduleNameToEdit = $this->CopyModuleNameToEdit;
-
 
         $this->dispatch('module-name-updated');
     }
 
-    public function deleteModule($moduleID)
+    public function deleteModule(Module $module)
     {
-        $module = Module::find($moduleID);
         $module->delete();
         $this->dispatch('module-deleted');
     }
@@ -80,6 +78,19 @@ class CourseShow extends Component
     {
         $course->delete();
         return redirect()->route('pages.admin.course')->with('message', 'Course Deleted Successfully');
+    }
+
+
+
+    #[On('module-created')]
+    #[On('module-name-updated')]
+    public function refetchModules()
+    {
+        $modules = $this->course->modules()->get();
+        foreach ($modules as $module) {
+            $this->EDIT_module_name[$module->id] = $module->module_name;
+        }
+        $this->EDIT_COPY_module_name = $this->EDIT_module_name;
     }
 
     public function render()

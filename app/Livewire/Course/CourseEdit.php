@@ -112,7 +112,8 @@ class CourseEdit extends Component
             ]);
         }
 
-        return redirect()->route('pages.admin.course')->with('message', 'Course Updated Successfully!');
+        return redirect()->route('pages.admin.course.show', $this->passed_course->id)->with('message', 'Course Updated Successfully!');
+        $this->dispatch('course-updated');
     }
 
     public function render()

@@ -3,14 +3,17 @@
     <x-sweet-alert-2 on="module-deleted" message="Module Deleted Successfully" />
 
 
+
+
     {{-- Sweet Alert --}}
-    @if (session()->has('success-msg-on-lesson'))
-        <x-sweet-alert :message="session('success-msg-on-lesson')" />
+    @if (session()->has('message'))
+        <x-sweet-alert :message="session('message')" />
 
         @php
-            session()->forget('success-msg-on-lesson');
+            session()->forget('message');
         @endphp
     @endif
+
 
     <x-slot name="header">
         <div class="flex justify-between">
@@ -183,7 +186,7 @@
                                 x-show="(mode === 'edit') || (mode === 'view')" x-bind:disabled="mode === 'edit'" />
 
                             {{-- Delete Module --}}
-                            <x-buttons.delete-button @click="mode = 'delete'"
+                            <x-buttons.delete-button Message="Delete Module" @click="mode = 'delete'"
                                 x-show="(mode === 'delete') || (mode === 'view')"
                                 x-bind:disabled="mode === 'delete'" />
 
@@ -300,7 +303,7 @@
                                         <span class="text-xl w-[200px] text-center mr-2">Module
                                             {{ $loop->iteration }}:</span>
 
-                                        <input type="text" wire:model="moduleNameToEdit.{{ $module->id }}"
+                                        <input type="text" wire:model="EDIT_module_name.{{ $module->id }}"
                                             wire:keydown.enter="saveModuleName({{ $module->id }})"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
@@ -409,29 +412,6 @@
     </div>
     {{-- End of Alpine Accordion --}}
 
-
-
-
-
-
-
-
-    {{-- .............................................................. --}}
-    {{-- @script
-        <script>
-            function callFlowbite() {
-                initFlowbite();
-            }
-            $wire.on('sendEvent', () => {
-                initFlowbite();
-                // alert('Success!');
-
-
-                //After 1 second, call Flowbite again
-                setTimeout(callFlowbite, 2000);
-            });
-        </script>
-    @endscript --}}
 
 
 
