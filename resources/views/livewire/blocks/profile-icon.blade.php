@@ -33,12 +33,12 @@ new class extends Component {
             <ul class=" text-gray-700 dark:text-gray-300">
                 <li class="">
                     <a href="{{ route('profile') }}"
-                        class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white rounded-t-xl">
+                        class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-100 dark:hover:text-white rounded-t-xl">
                         My profile
                     </a>
                 </li>
                 <li
-                    class="hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white rounded-b-lg">
+                    class="hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-100 dark:hover:text-white rounded-b-lg">
                     <button wire:click="logout" class="block py-2 px-4 text-sm w-full h-full text-left">
                         Sign Out
                     </button>

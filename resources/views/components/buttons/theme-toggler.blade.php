@@ -27,7 +27,7 @@
         </button>
 
         <div
-            class="absolute top-9 left-1/2 -translate-x-1/2 z-50 whitespace-nowrap rounded bg-slate-900 px-2 py-1 text-center text-sm text-white opacity-0 transition-all ease-out peer-hover:opacity-100 peer-focus:opacity-100 dark:bg-gray-700 dark:text-gray-200">
+            class="absolute top-9 left-1/2 -translate-x-1/2 z-50 whitespace-nowrap rounded bg-slate-900 px-2 py-1 text-center text-sm text-white hidden peer-hover:block transition-all ease-out dark:bg-gray-700 dark:text-gray-200">
             Switch To Light Mode
         </div>
         {{-- END - MOON ICON --}}
@@ -56,7 +56,7 @@
 
         </button>
         <div
-            class="absolute top-9 left-1/2 -translate-x-1/2 z-50 whitespace-nowrap rounded bg-slate-900 px-2 py-1 text-center text-sm text-white opacity-0 transition-all ease-out peer-hover:opacity-100 peer-focus:opacity-100 dark:bg-white dark:text-black">
+            class="absolute top-9 left-1/2 -translate-x-1/2 z-50 whitespace-nowrap rounded bg-slate-900 px-2 py-1 text-center text-sm text-white hidden peer-hover:block transition-all ease-out  dark:bg-white dark:text-black">
             Switch To Dark Mode
         </div>
         {{-- END - SUN ICON --}}

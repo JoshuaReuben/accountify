@@ -1,43 +1,49 @@
 <div>
-    <div data-dropdown-toggle="dropdown-timer" data-dropdown-trigger="click">
-        <button type="button" id="countdown"
-            class="w-fit text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-bold rounded-lg text-md px-5 py-2.5 text-center me-2 mb-2">
-            25:00
-        </button>
-    </div>
 
-    <!-- Dropdown menu -->
-    <div id="dropdown-timer" class="z-10 hidden bg-white rounded-lg shadow w-44 dark:bg-gray-700">
-        <ul class="text-sm text-gray-700 dark:text-gray-200">
-            <button id="timer-reset-btn" onclick="resetCountdown(); toggleResetforPlayBtn()"
-                class="flex items-center w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
-                {{-- Reset --}}
-                <x-svgs.reset-button-icon />
-                &nbsp; Reset
+    <x-dropdown width="w-full"
+        contentClasses="absolute top-0 right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <x-slot name="trigger">
+            <button type="button" id="countdown"
+                class="w-full text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-bold rounded-lg text-md px-5 py-2.5 text-center me-2 mb-2">
+                25:00
             </button>
+        </x-slot>
+        <x-slot name="content">
+            <!-- Dropdown menu -->
+            <div class="z-10 bg-white rounded-lg shadow w-44 dark:bg-gray-700">
+                <ul class="text-sm text-gray-700 dark:text-gray-200">
+                    <button id="timer-reset-btn" onclick="resetCountdown(); toggleResetforPlayBtn()"
+                        class="flex items-center w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
+                        {{-- Reset --}}
+                        <x-svgs.reset-button-icon />
+                        &nbsp; Reset
+                    </button>
 
-            <button id="timer-play-btn" onclick="startCountdown(); toggleTimerOpen()"
-                class="flex items-center w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
-                {{-- Play --}}
-                <x-svgs.play-button-icon />
-                Play
-            </button>
+                    <button id="timer-play-btn" onclick="startCountdown(); toggleTimerOpen()"
+                        class="flex items-center w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
+                        {{-- Play --}}
+                        <x-svgs.play-button-icon />
+                        Play
+                    </button>
 
-            <button id="timer-pause-btn" onclick="pauseCountdown(); toggleTimerOpen()"
-                class="items-center hidden w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
-                {{-- Pause --}}
-                <x-svgs.pause-button-icon />
-                Pause
-            </button>
+                    <button id="timer-pause-btn" onclick="pauseCountdown(); toggleTimerOpen()"
+                        class="items-center hidden w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
+                        {{-- Pause --}}
+                        <x-svgs.pause-button-icon />
+                        Pause
+                    </button>
 
-            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'edit-timer')"
-                class="flex items-center w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
-                {{-- Edit Modal --}}
-                <x-svgs.edit-icon />
-                Edit Timer
-            </button>
-        </ul>
-    </div>
+                    <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'edit-timer')"
+                        class="flex items-center w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:rounded-lg">
+                        {{-- Edit Modal --}}
+                        <x-svgs.edit-icon />
+                        Edit Timer
+                    </button>
+                </ul>
+            </div>
+
+        </x-slot>
+    </x-dropdown>
 
 
 

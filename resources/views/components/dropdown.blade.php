@@ -18,6 +18,10 @@
         case '48':
             $width = 'w-48';
             break;
+
+        default:
+            $width = $width;
+            break;
     }
 @endphp
 
