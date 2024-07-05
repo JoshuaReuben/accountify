@@ -30,24 +30,20 @@
                     {{-- Action Buttons --}}
                     <div class="flex justify-end">
                         {{-- Create Questions --}}
-                        <a href="{{ route('pages.admin.question', ['courseID' => $courseID, 'moduleID' => $moduleID, 'lessonID' => $passed_lesson->id]) }}"
-                            class=" focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                            Questions &nbsp; <i class="fa-solid fa-plus"></i>
+                        <a
+                            href="{{ route('pages.admin.question', ['courseID' => $courseID, 'moduleID' => $moduleID, 'lessonID' => $passed_lesson->id]) }}">
+                            <x-buttons.create-button message="Questions" icon="fa-solid fa-file-circle-question" />
                         </a>
 
 
                         {{-- Edit --}}
-                        <a href="{{ route('pages.admin.lesson.edit', [$courseID, $moduleID, $passed_lesson->id]) }}"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            Edit Lesson &nbsp; <i class="fa-solid fa-pencil"></i>
+                        <a href="{{ route('pages.admin.lesson.edit', [$courseID, $moduleID, $passed_lesson->id]) }}">
+                            <x-buttons.edit-button message="Edit Lesson" />
                         </a>
 
                         {{-- Delete --}}
-                        <button type="button" wire:confirm="Are you sure you want to delete this Lesson?"
-                            wire:click="deleteLesson({{ $passed_lesson->id }})"
-                            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                            Delete Lesson &nbsp; <i class="fa-solid fa-trash-can"></i>
-                        </button>
+                        <x-buttons.delete-button wire:confirm="Are you sure you want to delete this Lesson?"
+                            wire:click="deleteLesson({{ $passed_lesson->id }})" message="Delete Lesson" />
                     </div>
 
 
