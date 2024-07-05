@@ -33,8 +33,6 @@ class CourseShow extends Component
         }
 
         $this->CopyModuleNameToEdit = $this->moduleNameToEdit;
-
-        // dd($this->moduleNameToEdit, $this->moduleNameToEdit[5]);
     }
 
 
@@ -75,9 +73,15 @@ class CourseShow extends Component
 
     public function deleteModule($moduleID)
     {
-
         $module = Module::find($moduleID);
         $module->delete();
+        $this->dispatch('module-deleted');
+    }
+
+    public function deleteACourse(Course $course)
+    {
+        $course->delete();
+        return redirect()->route('pages.admin.course')->with('message', 'Course Deleted Successfully');
     }
 
     public function render()

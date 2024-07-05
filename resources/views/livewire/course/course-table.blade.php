@@ -3,7 +3,7 @@
     <hr class="mb-4">
 
 
-    <div class="flex flex-wrap items-start justify-center ">
+    <div class="flex flex-wrap items-start justify-start ">
         @forelse ($courses as $course)
             @php
                 $backgroundUrl = asset('storage/' . $course->course_cover_photo);
