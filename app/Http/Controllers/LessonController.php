@@ -20,11 +20,9 @@ class LessonController extends Controller
             'lesson_content' => $lesson_content
         ]);
 
-        //set session temporarily
         session(['message' => 'You have successfully created a new Lesson.']);
 
-        // $redirectUrl = url('/admin/courses/show/' . $courseID); // Adjust the path as needed
-        $redirectUrl = route('pages.admin.course.show', ['courseID' => $courseID]); // Adjust the path as needed
+        $redirectUrl = route('pages.admin. ', ['courseID' => $courseID]);
 
         return response()->json([
             'message' => 'Success, Contents Saved Successfully.',
@@ -56,7 +54,6 @@ class LessonController extends Controller
             'lesson_content' => $lesson_content
         ]);
 
-        //set session temporarily
         session(['message' => 'You have successfully updated a Lesson.']);
 
         $redirectUrl = route('pages.admin.lesson.show', ['courseID' => $courseID, 'moduleID' => $moduleID, 'lessonID' => $lessonID]); // Adjust the path as needed

@@ -67,6 +67,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/lessons/{courseID}/{moduleID}/{lessonID}', LessonShow::class)->name('pages.admin.lesson.show');
     Route::get('/lessons/edit/{courseID}/{moduleID}/{lessonID}', LessonEdit::class)->name('pages.admin.lesson.edit');
 
+    // Lessons thru ajax
     Route::post('/lessons/store', [LessonController::class, 'store'])->name('pages.admin.lesson.store');
     Route::post('/lessons/update', [LessonController::class, 'update'])->name('pages.admin.lesson.update');
     Route::get('/lessons/retrieve', [LessonController::class, 'retrieve'])->name('pages.admin.lesson.retrieve');

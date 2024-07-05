@@ -14,9 +14,9 @@ use Livewire\Attributes\Layout;
 class LessonCreate extends Component
 {
 
+    // Uses LessonController for AJAX calls
 
     use WithFileUploads;
-
 
 
     public $lesson_title;
@@ -43,7 +43,6 @@ class LessonCreate extends Component
             return $module->id === $this->passed_module->id;
         });
 
-        // dd($position + 1);
 
         // Set the position to a property for easy access
         $this->module_position = $position !== false ? $position + 1  : null;

@@ -1,7 +1,10 @@
-<div>
-
-    <button type="button" data-dropdown-toggle="notification-dropdown">
-        <span class="sr-only">View notifications</span>
+<div x-data="{ isOpen: false, openedWithKeyboard: false }" class="relative" @keydown.esc.window="isOpen = false, openedWithKeyboard = false">
+    <!-- Toggle Button -->
+    <button type="button" @click="isOpen = ! isOpen" class="  " aria-haspopup="true"
+        @keydown.space.prevent="openedWithKeyboard = true" @keydown.enter.prevent="openedWithKeyboard = true"
+        @keydown.down.prevent="openedWithKeyboard = true"
+        :class="isOpen || openedWithKeyboard ? 'text-black dark:text-white' : 'text-slate-700 dark:text-slate-300'"
+        :aria-expanded="isOpen || openedWithKeyboard">
         <!-- Bell icon -->
         <svg aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6" fill="currentColor" viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg">
@@ -10,9 +13,15 @@
             </path>
         </svg>
     </button>
-    <!-- Dropdown menu -->
-    <div class="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white  divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700 rounded-xl"
-        id="notification-dropdown">
+
+    <!-- Dropdown Menu -->
+    <div x-cloak x-show="isOpen || openedWithKeyboard" x-transition x-trap="openedWithKeyboard"
+        @click.outside="isOpen = false, openedWithKeyboard = false" @keydown.down.prevent="$focus.wrap().next()"
+        @keydown.up.prevent="$focus.wrap().previous()"
+        class="absolute top-11 left-[-18rem] flex w-[max-content] flex-col overflow-hidden  z-50 my-4 max-w-sm text-base list-none bg-white  divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700 rounded-xl"
+        role="menu">
+        <!-- Dropdown menu -->
+
         <div
             class="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300">
             Notifications
@@ -173,6 +182,6 @@
                 View all
             </div>
         </a>
-    </div>
 
+    </div>
 </div>

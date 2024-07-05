@@ -103,8 +103,6 @@ let ckeditor_lessons_content;
 let lessonTitle;
 
 if (window.location.pathname.includes("admin/lessons/create")) {
-    console.log("The path includes admin/lesson/create.");
-
     document.addEventListener("DOMContentLoaded", function () {
         const editorConfig = {
             toolbar: {
@@ -366,7 +364,9 @@ if (window.location.pathname.includes("admin/lessons/create")) {
                     }
                 });
         } else {
-            console.log("CK Editor element not on this page.");
+            console.log(
+                "CK Editor element not on this page. Therefore not created."
+            );
         }
     }); //End of DOMContentLoad
 } else {
@@ -441,13 +441,6 @@ function getRouteParams() {
     } else {
         return { courseID, moduleID, lessonID };
     }
-
-    // console.log("Course ID:", courseID);
-    // console.log("Module ID:", moduleID);
-    // console.log("Lesson ID:", lessonID);
-
-    // Return the parameters if needed
-    // return { courseID, moduleID };
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -477,13 +470,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 var youtubeUrl = oembedElement.getAttribute("url");
 
                 // Replace 'watch?v=' with 'embed/' in the URL
-                // var embedUrl = youtubeUrl.replace(/watch\?v=/, "embed/");
                 var parts = youtubeUrl.split("&"); // Split the URL at the ampersand
                 var embedUrl = parts[0].replace(/watch\?v=/, "embed/") + "&"; // Reconstruct the URL without the trailing part
                 var embedUrl = embedUrl.split("&")[0]; // Clean up the URL
-
-                // Remove the oembed element
-                // oembedElement.remove();
 
                 // Create a new iframe element
                 var iframe = document.createElement("iframe");
