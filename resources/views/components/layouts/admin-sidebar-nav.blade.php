@@ -13,39 +13,49 @@
 
         {{-- RESOURCES DROPDOWN --}}
         <li>
-            <button type="button"
-                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                aria-controls="dropdown-link-resources" data-collapse-toggle="dropdown-link-resources">
+            <x-accordion>
+                <x-slot name="title">
+                    <div
+                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
-                {{-- ICON - START --}}
-                <i class="fa-solid fa-graduation-cap"></i>
-                {{-- ICON - END  --}}
+                        {{-- Icon --}}
+                        <i class="fa-solid fa-graduation-cap"></i>
 
-                <span class="flex-1 ml-3 text-left uppercase whitespace-nowrap">RESOURCES</span>
+                        {{-- Title --}}
+                        <span class="flex-1 ml-3 text-left uppercase whitespace-nowrap">RESOURCES</span>
 
-                {{-- ARROW - START --}}
-                <x-svgs.dropdown-arrow-icon />
-                {{-- ARROW - END --}}
+                        {{-- Chevron Icon --}}
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
+                            stroke="currentColor" class="size-5 shrink-0 transition"
+                            :class="isExpanded ? 'rotate-180' : ''">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                    </div>
+                </x-slot>
 
-            </button>
-            <ul id="dropdown-link-resources" class="hidden py-2 space-y-2">
-                <li>
-                    <a href="{{ route('pages.admin.course') }}"
-                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">COURSES</a>
-                </li>
-                <li>
-                    <a href="{{ route('pages.admin.module') }}"
-                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">MODULES</a>
-                </li>
-                {{-- <li>
+                <x-slot name="content">
+                    <ul class="w-full py-2">
+                        <li>
+                            <a href="{{ route('pages.admin.course') }}"
+                                class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; COURSES
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('pages.admin.module') }}"
+                                class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; MODULES
+                            </a>
+                        </li>
+                        <li>
                             <a href="#"
-                                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">LESSONS</a>
-                        </li> --}}
-                <li>
-                    <a href="#"
-                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">QUESTIONS</a>
-                </li>
-            </ul>
+                                class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; QUESTIONS
+                            </a>
+                        </li>
+                    </ul>
+                </x-slot>
+            </x-accordion>
         </li>
 
 
@@ -81,88 +91,8 @@
             </a>
         </li>
 
-        {{-- USERS DROPDOWN --}}
-        <li>
-            <button type="button"
-                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                aria-controls="dropdown-users" data-collapse-toggle="dropdown-users">
-
-                {{-- ICON - START --}}
-                <x-svgs.user-icon />
-
-                {{-- ICON - END  --}}
 
 
-                <span class="flex-1 ml-3 text-left whitespace-nowrap">USERS</span>
-
-                {{-- ARROW - START --}}
-                <x-svgs.dropdown-arrow-icon />
-                {{-- ARROW - END --}}
-            </button>
-
-            {{-- CONTENTS DROPDOWN - START --}}
-            <ul id="dropdown-users" class="hidden py-2 space-y-2">
-                <li>
-                    <a href="{{ route('admin.create.patient') }}"
-                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Register
-                        New Patient</a>
-                </li>
-                <li>
-                    <a href="{{ route('admin.index.patient') }}"
-                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">View
-                        Patient Records</a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Calendar</a>
-                </li>
-            </ul>
-            {{-- CONTENTS DROPDOWN - END --}}
-        </li>
-
-
-        {{-- ---------------------------------------------------------- --}}
-
-
-
-        {{-- AUTHENTICATION DROPDOWN --}}
-
-        <li>
-            <button type="button"
-                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                aria-controls="dropdown-authentication" data-collapse-toggle="dropdown-authentication">
-
-                {{-- ICON - START --}}
-                <x-svgs.padlock-icon />
-                {{-- ICON - END  --}}
-
-
-                <span class="flex-1 ml-3 text-left whitespace-nowrap">AUTHENTICATION</span>
-
-                {{-- ARROW - START --}}
-                <x-svgs.dropdown-arrow-icon />
-                {{-- ARROW - END --}}
-            </button>
-
-            {{-- CONTENTS DROPDOWN - START --}}
-            <ul id="dropdown-authentication" class="hidden py-2 space-y-2">
-                <li>
-                    <a href="#"
-                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Register
-                        New Admin</a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">View
-                        All Registered Admins</a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Calendar</a>
-                </li>
-            </ul>
-            {{-- CONTENTS DROPDOWN - END --}}
-        </li>
 
 
     </ul>
