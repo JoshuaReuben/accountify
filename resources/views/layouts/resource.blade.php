@@ -22,12 +22,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased dark:bg-gray-800">
 
     {{-- ADMIN LAYOUT WITH 2 SIDE BAR --}}
     <div class="antialiased bg-gray-50 dark:bg-gray-900">
         <nav
-            class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
+            class="bg-white border-b border-gray-200 px-2 md:px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
             <div class="flex flex-wrap items-center justify-between">
                 <div x-data= "{ open : true }" class="flex items-center justify-start">
 
@@ -54,11 +54,7 @@
                         </svg>
                     </button>
 
-                    <a href="#" class="flex items-center justify-between mr-4">
-                        <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="h-8 mr-3" alt="Accountify Logo" />
-                        <span
-                            class="self-center font-semibold sm:text-lg md:text-2xl whitespace-nowrap dark:text-white">Accountify</span>
-                    </a>
+                    <x-application-logo />
                 </div>
 
 
