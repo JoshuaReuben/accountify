@@ -29,25 +29,31 @@
         <nav
             class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
             <div class="flex flex-wrap items-center justify-between">
-                <div class="flex items-center justify-start">
+                <div x-data= "{ open : true }" class="flex items-center justify-start">
 
-                    <button data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation"
-                        aria-controls="drawer-navigation"
+                    {{-- Open Sidebar --}}
+                    <button x-show="open == true" @click="$dispatch('open-admin-sidebar'); open = false"
                         class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                        <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
+                        {{-- Toggle Sidebar Menu --}}
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        <svg aria-hidden="true" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                    </button>
+
+                    {{-- Close Sidebar --}}
+                    <button x-show="open == false" x-on:close-admin-sidebar.window="open = true"
+                        @click="$dispatch('close-admin-sidebar'); open = true"
+                        class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <svg class=" w-6 h-6 " fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        <span class="sr-only">Toggle sidebar</span>
                     </button>
+
                     <a href="#" class="flex items-center justify-between mr-4">
                         <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="h-8 mr-3" alt="Accountify Logo" />
                         <span
@@ -56,6 +62,7 @@
                 </div>
 
 
+                {{-- Top Bar --}}
                 <div class="flex items-center lg:order-2">
 
                     {{-- Timer --}}
@@ -78,7 +85,7 @@
                             </button>
                         </div>
 
-                        <section x-data="slideout()" x-cloak x-on:open-music-player.window="open = true"
+                        <section x-data="musicSidebar()" x-cloak x-on:open-music-player.window="open = true"
                             @keydown.escape.window="open = false" x-init="init()">
 
                             {{-- Overlay --}}
@@ -135,7 +142,21 @@
         </nav>
 
         <!-- Start of Sidebar -->
-        <x-layouts.admin-sidebar-nav />
+        <aside x-data="adminSidebar()" x-cloak x-on:open-admin-sidebar.window="open = true"
+            x-on:close-admin-sidebar.window="open = false" x-init="init()"
+            x-bind:class="open ? 'translate-x-0' : '-translate-x-full'"
+            class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full md:translate-x-0 bg-white border-r border-gray-200 pt-14  dark:bg-gray-800 dark:border-gray-700">
+
+            <x-layouts.admin-sidebar-nav />
+        </aside>
+
+        {{-- Overlay --}}
+        <div x-data="{ toggleOverlay: false }" x-cloak x-on:open-admin-sidebar.window="toggleOverlay = true"
+            x-on:close-admin-sidebar.window="toggleOverlay = false"
+            x-show.transition.opacity.duration.500="toggleOverlay == true"
+            @click="$dispatch('close-admin-sidebar'), toggleOverlay = false"
+            class="fixed z-30 inset-0 bg-black bg-opacity-40"></div>
+
         <!-- End of Sidebar -->
 
         <main class="h-auto p-4 pt-20 mt-6 md:ml-64">
@@ -168,7 +189,23 @@
 </body>
 <script>
     // Music Player - toggle overlay
-    function slideout() {
+    function musicSidebar() {
+        return {
+            open: false,
+            init() {
+                this.$watch('open', value => {
+                    this.toggleOverlay()
+                })
+
+            },
+            toggleOverlay() {
+                document.body.classList[this.open ? 'add' : 'remove']('h-screen', 'overflow-hidden');
+            }
+        }
+    }
+
+
+    function adminSidebar() {
         return {
             open: false,
             init() {
