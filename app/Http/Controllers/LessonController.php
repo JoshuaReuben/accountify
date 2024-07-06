@@ -14,7 +14,7 @@ class LessonController extends Controller
         $courseID = $request->input('courseID');
         $moduleID = $request->input('moduleID');
 
-        Lesson::create([
+        $lesson = Lesson::create([
             'module_id' => $moduleID,
             'lesson_title' => $lesson_title,
             'lesson_content' => $lesson_content
@@ -22,7 +22,7 @@ class LessonController extends Controller
 
         session(['message' => 'You have successfully created a new Lesson.']);
 
-        $redirectUrl = route('pages.admin. ', ['courseID' => $courseID]);
+        $redirectUrl = route('pages.admin.lesson.show', ['courseID' => $courseID, 'moduleID' => $moduleID, 'lessonID' => $lesson->id]);
 
         return response()->json([
             'message' => 'Success, Contents Saved Successfully.',

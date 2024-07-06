@@ -1,4 +1,14 @@
 <div>
+
+    {{-- Sweet Alert --}}
+    @if (session()->has('message'))
+        <x-sweet-alert :message="session('message')" />
+
+        @php
+            session()->forget('message');
+        @endphp
+    @endif
+
     <x-slot name="header">
         <div class="flex justify-between w-full">
             <div class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
