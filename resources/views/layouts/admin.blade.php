@@ -160,9 +160,8 @@
         <!-- End of Sidebar -->
 
         <main class="h-auto p-4 pt-20 mt-6 md:ml-64">
-            {{-- CONTENT SECTION TEMPORARY --}}
+            {{-- CONTENT SECTION --}}
             <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-                {{-- NAVBAR --}}
 
                 <!-- Page Heading -->
                 @if (isset($header))
