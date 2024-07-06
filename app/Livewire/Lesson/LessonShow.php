@@ -35,7 +35,7 @@ class LessonShow extends Component
         $lesson = Lesson::find($lessonID);
         $lesson->delete();
 
-        session(['success-msg-on-lesson' => 'You have successfully deleted a Lesson.']);
+        session(['message' => 'You have successfully deleted a Lesson.']);
         return redirect()->route('pages.admin.course.show', ['courseID' => $this->courseID]);
     }
 
