@@ -27,6 +27,20 @@ new class extends Component {
         <ul class="space-y-2 font-medium w-full">
 
             @if (Route::currentRouteName() != 'pages.admin.lesson')
+                @if ($this->fetched_lessons->count() >= 0 && Route::currentRouteName() != 'pages.admin.question.module')
+                    <li class="border-b boder-gray-200 dark:border-gray-700 pb-4">
+                        <a href="{{ route('pages.admin.question.module', ['courseID' => $courseID, 'moduleID' => $moduleID]) }}"
+                            class="flex items-center justify-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+
+                            <i
+                                class="fa-solid fa-file-lines  transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="ms-3"> Module Examination </span>
+                        </a>
+                    </li>
+                @endif
+
+
+
                 <li class="border-b boder-gray-200 dark:border-gray-700 pb-4">
                     <a href="{{ route('pages.admin.lesson', ['courseID' => $courseID, 'moduleID' => $moduleID]) }}"
                         class="flex items-center justify-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">

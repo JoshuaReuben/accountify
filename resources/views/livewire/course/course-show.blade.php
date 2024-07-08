@@ -387,14 +387,24 @@
                                         @if ($module->lessons->count() > 0)
                                             <a href="{{ route('pages.admin.question.module', ['courseID' => $module->course_id, 'moduleID' => $module->id]) }}"
                                                 class="group relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-800/70 cursor-pointer hover:bg-gray-100">
-                                                <i class="text-2xl fa-solid fa-plus me-3 italic"></i>
-                                                <span class="text-lg italic group-hover:underline">
-                                                    Create Module Examination
-                                                </span>
+                                                {{-- Check If Module Examinations Have Questions --}}
+                                                @if ($module->moduleQuestions()->count() <= 0)
+                                                    <i class="text-2xl fa-solid fa-file-lines me-3 italic"></i>
+                                                    <span class="text-lg italic group-hover:underline">
+                                                        Create Module Examination
+                                                    </span>
+                                                @else
+                                                    <i class="text-lg fa-solid fa-eye me-3 "></i>
+                                                    <span class="text-lg italic group-hover:underline">
+                                                        View Module Examination
+                                                        {{ $module->moduleQuestions()->count() == 1 ? '(' . $module->moduleQuestions()->count() . ' Question)' : '(' . $module->moduleQuestions()->count() . ' Questions)' }}
+                                                    </span>
+                                                @endif
+
                                             </a>
                                         @else
                                             <button type="button" disabled
-                                                class=" relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 disabled:opa dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-100 disabled:cursor-not-allowed disabled:hover:bg-opacity-50">
+                                                class=" relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 disabled:opa dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50">
                                                 <span class="text-lg italic ">
                                                     Have Atleast 1 Lesson to Create Module Examination
                                                 </span>
