@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Module;
+use App\Models\CourseQuestion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -24,5 +25,10 @@ class Course extends Model
     public function modules()
     {
         return $this->hasMany(Module::class);
+    }
+
+    public function courseQuestions()
+    {
+        return $this->hasOne(CourseQuestion::class);
     }
 }

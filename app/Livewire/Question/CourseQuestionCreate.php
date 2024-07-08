@@ -2,19 +2,18 @@
 
 namespace App\Livewire\Question;
 
-use App\Models\Module;
-use App\Models\ModuleQuestion;
+use App\Models\Course;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use App\Models\CourseQuestion;
 use Livewire\Attributes\Layout;
 
-
-#[Layout('layouts.resource')]
-class ModuleQuestionCreate extends Component
+#[Layout('layouts.admin')]
+class CourseQuestionCreate extends Component
 {
-
     public $courseID;
-    public $moduleID;
+    public $passed_course;
+
 
     public $question_asked;
     public $correct_answer;
@@ -24,12 +23,9 @@ class ModuleQuestionCreate extends Component
         ['choice' => ''],
     ];
 
-    // For Determing the Module Position
-    public $passed_module;
-    public $fetched_modules;
-    public $module_position;
 
-    // For Displaying the Created Quesitions
+
+    // For Displaying the Created Questions
     public $fetched_questions;
 
 
@@ -51,9 +47,6 @@ class ModuleQuestionCreate extends Component
         'choices.*.choice.min' => 'Choice must be at least 1 characters',
         'choices.*.choice.max' => 'Choice may not be greater than 255 characters',
     ];
-
-
-
 
     //////////////////////////////////////////////////////////////
     // Variables for the Edit Mode of Question
@@ -86,30 +79,14 @@ class ModuleQuestionCreate extends Component
     ];
 
 
-    public function mount($moduleID)
+    public function mount($courseID)
     {
         // Create
-        $this->passed_module = Module::find($moduleID);
-
-        // Can't use chaining on this way - thus will not work
-        // $this->fetched_modules = $this->passed_module->course()->modules()->get();
-
-        $fetched_course = $this->passed_module->course;
-        $this->fetched_modules = $fetched_course->modules;
-
-
-
-        //Get the Position Count of passed_lesson
-        $position = $this->fetched_modules->search(function ($module) {
-            return $module->id === $this->passed_module->id;
-        });
-
-        $this->module_position = $position !== false ? $position + 1  : null;
-
+        $this->passed_course = Course::find($courseID);
 
 
         // Display Questions 
-        $this->fetched_questions = $this->passed_module->moduleQuestions()->get();
+        $this->fetched_questions = $this->passed_course->courseQuestions()->get();
 
         foreach ($this->fetched_questions as $question) {
             $this->EDIT_question_asked[$question->id] = $question->question;
@@ -139,10 +116,10 @@ class ModuleQuestionCreate extends Component
     }
 
 
-    #[On('module-question-added')]
+    #[On('course-question-added')]
     public function remountingVars()
     {
-        $this->fetched_questions = $this->passed_module->moduleQuestions()->get();
+        $this->fetched_questions = $this->passed_course->courseQuestions()->get();
         //////////
 
         foreach ($this->fetched_questions as $question) {
@@ -201,7 +178,6 @@ class ModuleQuestionCreate extends Component
 
     public function updated($propertyName)
     {
-
         // Check if the updated property is one of the choices array elements
         if (strpos($propertyName, 'EDIT_choices.') === 0) {
             // Find the index of the updated choice
@@ -282,28 +258,26 @@ class ModuleQuestionCreate extends Component
             return;
         }
 
-        // $this->choices 
 
-
-        ModuleQuestion::create([
-            'module_id' => $this->moduleID,
+        CourseQuestion::create([
+            'course_id' => $this->courseID,
             'question' => $this->question_asked,
             'choices' => $this->choices,
             'correct_answer' => $this->correct_answer,
         ]);
 
         $this->reset(['question_asked', 'correct_answer', 'choices']);
-        $this->dispatch('module-question-added');
+        $this->dispatch('course-question-added');
     }
 
     public function deleteQuestion($questionID)
     {
         try {
-            $question = ModuleQuestion::find($questionID);
+            $question = CourseQuestion::find($questionID);
             if ($question) {
                 $question->delete();
                 // Dispatch an event to notify that the question has been deleted
-                $this->dispatch('module-question-deleted');
+                $this->dispatch('course-question-deleted');
             } else {
                 // Dispatch an event if the question was not found
                 $this->dispatch('reload-page');
@@ -315,7 +289,7 @@ class ModuleQuestionCreate extends Component
 
     public function updateAQuestion($questionID)
     {
-        $question = ModuleQuestion::find($questionID);
+        $question = CourseQuestion::find($questionID);
 
         $this->EDIT_trimChoices($questionID);
 
@@ -343,22 +317,22 @@ class ModuleQuestionCreate extends Component
             'correct_answer' => $this->EDIT_correct_answer[$questionID],
         ]);
 
-        $this->dispatch('module-question-updated');
+        $this->dispatch('course-question-updated');
     }
 
 
 
 
-    #[On('module-question-updated')]
+    #[On('course-question-updated')]
     public function refreshQuestions()
     {
-        $this->fetched_questions = $this->passed_module->moduleQuestions()->get();
+        $this->fetched_questions = $this->passed_course->courseQuestions()->get();
     }
 
-    #[On('module-question-added')]
+    #[On('course-question-added')]
     public function refetchEditVariables()
     {
-        $this->fetched_questions = $this->passed_module->moduleQuestions()->get();
+        $this->fetched_questions = $this->passed_course->courseQuestions()->get();
 
         foreach ($this->fetched_questions as $question) {
             $this->EDIT_question_asked[$question->id] = $question->question;
@@ -376,11 +350,9 @@ class ModuleQuestionCreate extends Component
 
 
 
-
-
-    #[On('module-question-deleted')]
+    #[On('course-question-deleted')]
     public function render()
     {
-        return view('livewire.question.module-question-create');
+        return view('livewire.question.course-question-create');
     }
 }

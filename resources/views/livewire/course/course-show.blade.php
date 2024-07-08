@@ -435,7 +435,35 @@
                             </div>
                         @endforelse
 
+                    </div>
 
+
+
+
+
+                    <div class="w-full flex justify-center  h-20 items-center mt-5">
+                        {{-- If course have more than 1 module --}}
+                        @if ($this->lessonsCount > 0)
+                            <a href="{{ route('pages.admin.question.course', ['courseID' => $this->course->id]) }}">
+                                {{-- If Course Exams have Questions --}}
+                                @if ($this->course->courseQuestions()->count() == 0)
+                                    <x-buttons.create-button message="Create Course Exam"
+                                        icon="fa-solid fa-file-lines" />
+                                @else
+                                    <x-buttons.create-button message="View Course Exam"
+                                        icon="fa-solid fa-file-lines" />
+                                @endif
+                            </a>
+                        @elseif ($this->lessonsCount <= 0 && $this->course->modules->count() > 0)
+                            {{-- If course have atleast 1 module but no lessons --}}
+                            <div class="p-6 italic text-center text-gray-900 dark:text-gray-100 opacity-70">
+                                <p>Create Course Examination (Atleast 1 Lesson Required).</p>
+                            </div>
+                        @else
+                            <div class="p-6 italic text-center text-gray-900 dark:text-gray-100 opacity-70">
+                                <p>Create Course Examination (Atleast 1 Module Required).</p>
+                            </div>
+                        @endif
                     </div>
 
                     {{-- END SECTION --}}

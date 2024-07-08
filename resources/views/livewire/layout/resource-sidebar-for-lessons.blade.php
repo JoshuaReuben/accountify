@@ -26,6 +26,8 @@ new class extends Component {
 
         <ul class="space-y-2 font-medium w-full">
 
+
+
             @if (Route::currentRouteName() != 'pages.admin.lesson')
                 @if ($this->fetched_lessons->count() >= 0 && Route::currentRouteName() != 'pages.admin.question.module')
                     <li class="border-b boder-gray-200 dark:border-gray-700 pb-4">

@@ -18,9 +18,13 @@ class CourseShow extends Component
     public $courseID;
     public $module_name = '';
 
+    public $lessonsCount = 0;
+
 
     public $EDIT_module_name = [];
     public $EDIT_COPY_module_name = [];
+
+
 
     public function mount($courseID)
     {
@@ -35,6 +39,19 @@ class CourseShow extends Component
         }
 
         $this->EDIT_COPY_module_name = $this->EDIT_module_name;
+        $this->checkLessonsCount();
+    }
+
+
+    // If will use wire:navigate in the future, remember to use events for the lesson created and deleted
+    #[On('module-created')]
+    #[On('module-deleted')]
+    public function checkLessonsCount()
+    {
+        $this->lessonsCount = 0;
+        foreach ($this->course->modules as $module) {
+            $this->lessonsCount += $module->lessons->count();
+        }
     }
 
 
