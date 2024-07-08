@@ -254,7 +254,7 @@
                                 {{-- Accordian Header -- Accordion Mode --}}
                                 <button x-show="(mode === 'view') || (mode === 'create')"
                                     id="controlsAccordionItem-{{ $loop->iteration }}" type="button"
-                                    class="flex items-center w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 rtl:text-right {{ $loop->first ? 'rounded-t-xl' : '' }} focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                    class="flex items-center w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 rtl:text-right {{ $loop->first ? 'rounded-t-xl' : '' }} focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 dark:hover:text-gray-300"
                                     aria-controls="accordionItem-{{ $loop->iteration }}"
                                     @click="isExpanded = ! isExpanded" :aria-expanded="isExpanded ? 'true' : 'false'">
 
@@ -376,11 +376,34 @@
                                     {{-- Start Module Content --}}
                                     <div
                                         class="w-full h-full text-gray-900 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 dark:text-white">
+
                                         <a href="{{ route('pages.admin.lesson', ['courseID' => $module->course_id, 'moduleID' => $module->id]) }}"
-                                            class="group relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-100">
+                                            class="group relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-800/70 cursor-pointer hover:bg-gray-100">
                                             <i class="text-2xl fa-solid fa-plus me-3 italic"></i>
-                                            <span class="text-lg italic group-hover:underline">Add New Lessons</span>
+                                            <span class="text-lg italic group-hover:underline">Add New
+                                                Lessons</span>
                                         </a>
+
+                                        @if ($module->lessons->count() > 0)
+                                            <a href="{{ route('pages.admin.question.module', ['courseID' => $module->course_id, 'moduleID' => $module->id]) }}"
+                                                class="group relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-800/70 cursor-pointer hover:bg-gray-100">
+                                                <i class="text-2xl fa-solid fa-plus me-3 italic"></i>
+                                                <span class="text-lg italic group-hover:underline">
+                                                    Create Module Examination
+                                                </span>
+                                            </a>
+                                        @else
+                                            <button type="button" disabled
+                                                class=" relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 disabled:opa dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-100 disabled:cursor-not-allowed disabled:hover:bg-opacity-50">
+                                                <span class="text-lg italic ">
+                                                    Have Atleast 1 Lesson to Create Module Examination
+                                                </span>
+                                            </button>
+                                        @endif
+
+
+
+
                                         @foreach ($module->lessons as $lesson)
                                             <a href="{{ route('pages.admin.lesson.show', ['courseID' => $module->course_id, 'moduleID' => $module->id, 'lessonID' => $lesson->id]) }}"
                                                 class="relative group inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:focus:ring-gray-500 dark:bg-gray-700/90 dark:focus:text-white dark:hover:bg-gray-800  cursor-pointer hover:bg-gray-100">

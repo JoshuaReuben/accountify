@@ -27,4 +27,9 @@ class Module extends Model
     {
         return $this->hasMany(Lesson::class);
     }
+
+    public function moduleQuestions()
+    {
+        return $this->hasOne(ModuleQuestion::class);
+    }
 }

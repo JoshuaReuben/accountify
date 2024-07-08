@@ -13,6 +13,7 @@ use App\Http\Controllers\AudioController;
 use App\Livewire\Question\QuestionCreate;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PaypalController;
+use App\Livewire\Question\ModuleQuestionCreate;
 use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\AdminEmailVerifyController;
 
@@ -72,8 +73,11 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::post('/lessons/update', [LessonController::class, 'update'])->name('pages.admin.lesson.update');
     Route::get('/lessons/retrieve', [LessonController::class, 'retrieve'])->name('pages.admin.lesson.retrieve');
 
-    // QUESTIONS
+    // QUESTIONS - for lessons
     Route::get('/questions/create/{courseID}/{moduleID}/{lessonID}', QuestionCreate::class)->name('pages.admin.question');
+
+    // QUESTIONS - for modules
+    Route::get('/questions/module/create/{courseID}/{moduleID}', ModuleQuestionCreate::class)->name('pages.admin.question.module');
 
 
 
