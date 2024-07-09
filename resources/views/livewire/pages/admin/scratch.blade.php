@@ -68,17 +68,7 @@ new #[Layout('layouts.admin')] class extends Component {
                     {{--  EXPERIMENT --}}
 
 
-                    <x-badges.badge text="1" level="1" />
-                    <x-badges.badge text="1" level="2" />
-                    <x-badges.badge text="1" level="3" />
-                    <x-badges.badge text="1" level="4" />
-                    <x-badges.badge text="1" level="5" />
-
-
-
-
-
-
+                    <x-flashcard />
 
 
                     {{-- END OF EXPERIMENT --}}
