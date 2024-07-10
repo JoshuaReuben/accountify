@@ -22,11 +22,11 @@
                         <i class="fa-solid fa-graduation-cap"></i>
 
                         {{-- Title --}}
-                        <span class="flex-1 ml-3 text-left uppercase whitespace-nowrap">RESOURCES</span>
+                        <span class="flex-1 ml-3 text-left uppercase whitespace-nowrap">LEARNINGS</span>
 
                         {{-- Chevron Icon --}}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
-                            stroke="currentColor" class="size-5 shrink-0 transition"
+                            stroke="currentColor" class="transition size-5 shrink-0"
                             :class="isExpanded ? 'rotate-180' : ''">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                         </svg>
@@ -53,6 +53,21 @@
                                 <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; QUESTIONS
                             </a>
                         </li>
+
+                        <li>
+                            <a href="#"
+                                class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; FLASHCARDS
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ route('pages.admin.resources') }}"
+                                class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; RESOURCES
+                            </a>
+                        </li>
+
                     </ul>
                 </x-slot>
             </x-accordion>

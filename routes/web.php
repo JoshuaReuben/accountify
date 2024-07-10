@@ -74,16 +74,16 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::post('/lessons/update', [LessonController::class, 'update'])->name('pages.admin.lesson.update');
     Route::get('/lessons/retrieve', [LessonController::class, 'retrieve'])->name('pages.admin.lesson.retrieve');
 
-    // QUESTIONS - for lessons
+    // QUESTIONS - for lessons, modules, courses
     Route::get('/questions/lesson/create/{courseID}/{moduleID}/{lessonID}', QuestionCreate::class)->name('pages.admin.question');
-
-    // QUESTIONS - for modules
+    Route::get('/questions/course/create/{courseID}', CourseQuestionCreate::class)->name('pages.admin.question.course');
     Route::get('/questions/module/create/{courseID}/{moduleID}', ModuleQuestionCreate::class)->name('pages.admin.question.module');
 
-    // QUESTIONS - for courses
-    Route::get('/questions/course/create/{courseID}', CourseQuestionCreate::class)->name('pages.admin.question.course');
+    // FLASH CARDS
+    // Route::get('/flashcards/{courseID}/{moduleID}/{lessonID}', LessonShow::class)->name('pages.admin.flashcards');
 
-
+    // RESOURCES TABLE
+    Volt::route('/resources/table', 'pages.admin.resources')->name('pages.admin.resources');
 
     // Experimental Routes
     Volt::route('/scratch', 'pages.admin.scratch')->name('admin.scratch');
