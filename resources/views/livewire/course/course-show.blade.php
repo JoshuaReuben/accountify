@@ -273,7 +273,7 @@
                                     {{-- Chevron Icon --}}
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                         stroke-width="2" stroke="currentColor"
-                                        class="transition size-5 shrink-0 ml-auto" aria-hidden="true"
+                                        class="ml-auto transition size-5 shrink-0" aria-hidden="true"
                                         :class="isExpanded ? 'rotate-180' : ''">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -359,7 +359,7 @@
                                         {{-- Chevron Icon --}}
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                             stroke-width="2" stroke="currentColor"
-                                            class="inline-block transition size-5 shrink-0 ml-2" aria-hidden="true"
+                                            class="inline-block ml-2 transition size-5 shrink-0" aria-hidden="true"
                                             :class="isExpanded ? 'rotate-180' : ''">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -378,18 +378,18 @@
                                         class="w-full h-full text-gray-900 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 dark:text-white">
 
                                         <a href="{{ route('pages.admin.lesson', ['courseID' => $module->course_id, 'moduleID' => $module->id]) }}"
-                                            class="group relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-800/70 cursor-pointer hover:bg-gray-100">
-                                            <i class="text-2xl fa-solid fa-plus me-3 italic"></i>
+                                            class="relative inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-center border-b border-gray-800 cursor-pointer group focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-800/70 hover:bg-gray-100">
+                                            <i class="text-2xl italic fa-solid fa-plus me-3"></i>
                                             <span class="text-lg italic group-hover:underline">Add New
                                                 Lessons</span>
                                         </a>
 
                                         @if ($module->lessons->count() > 0)
                                             <a href="{{ route('pages.admin.question.module', ['courseID' => $module->course_id, 'moduleID' => $module->id]) }}"
-                                                class="group relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-800/70 cursor-pointer hover:bg-gray-100">
+                                                class="relative inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-center border-b border-gray-800 cursor-pointer group focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-800/70 hover:bg-gray-100">
                                                 {{-- Check If Module Examinations Have Questions --}}
                                                 @if ($module->moduleQuestions()->count() <= 0)
-                                                    <i class="text-2xl fa-solid fa-file-lines me-3 italic"></i>
+                                                    <i class="text-2xl italic fa-solid fa-file-lines me-3"></i>
                                                     <span class="text-lg italic group-hover:underline">
                                                         Create Module Examination
                                                     </span>
@@ -404,7 +404,7 @@
                                             </a>
                                         @else
                                             <button type="button" disabled
-                                                class=" relative inline-flex text-center items-center justify-center w-full px-4 py-2 text-sm font-medium border-b border-gray-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 disabled:opa dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50">
+                                                class="relative inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-center border-b border-gray-800 cursor-pointer focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:bg-gray-800/20 disabled:opa dark:focus:ring-gray-500 dark:focus:text-white dark:hover:bg-gray-700 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50">
                                                 <span class="text-lg italic ">
                                                     Have Atleast 1 Lesson to Create Module Examination
                                                 </span>
@@ -416,7 +416,7 @@
 
                                         @foreach ($module->lessons as $lesson)
                                             <a href="{{ route('pages.admin.lesson.show', ['courseID' => $module->course_id, 'moduleID' => $module->id, 'lessonID' => $lesson->id]) }}"
-                                                class="relative group inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:focus:ring-gray-500 dark:bg-gray-700/90 dark:focus:text-white dark:hover:bg-gray-800  cursor-pointer hover:bg-gray-100">
+                                                class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 cursor-pointer group focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:focus:ring-gray-500 dark:bg-gray-700/90 dark:focus:text-white dark:hover:bg-gray-800 hover:bg-gray-100">
                                                 <i class="text-2xl fa-solid fa-circle-chevron-right me-3"></i>
                                                 <span class="text-lg group-hover:underline">Lesson
                                                     {{ $loop->iteration }}: {{ $lesson->lesson_title }}</span>
@@ -441,7 +441,7 @@
 
 
 
-                    <div class="w-full flex justify-center  h-20 items-center mt-5">
+                    <div class="flex items-center justify-center w-full h-20 mt-5">
                         {{-- If course have more than 1 module --}}
                         @if ($this->lessonsCount > 0)
                             <a href="{{ route('pages.admin.question.course', ['courseID' => $this->course->id]) }}">
