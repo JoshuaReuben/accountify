@@ -24,11 +24,11 @@ new #[Layout('layouts.admin')] class extends Component {
         </h2>
     </x-slot>
 
-    {{-- 0 Section --}}
+    {{-- START - Section  1 --}}
     <div class="py-6">
         <div class="w-full mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
-                {{-- Start Section 0 --}}
+
 
                 {{-- Container of Table --}}
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -189,7 +189,11 @@ new #[Layout('layouts.admin')] class extends Component {
                                                                             :aria-expanded="moduleExpanded ? 'true' : 'false'"
                                                                             class="text-white  bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-700 dark:border-gray-800"
                                                                             :class="moduleID == xxxx ? 'ml-auto' : ''">
-                                                                            Expand Contents
+                                                                            {{-- Expand or Hide Contents --}}
+                                                                            <span x-show="!moduleExpanded">Expand
+                                                                                Contents</span>
+                                                                            <span x-show="moduleExpanded">Hide
+                                                                                Contents</span>
                                                                             {{-- Chevron Icon --}}
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 viewBox="0 0 24 24" fill="none"
@@ -213,7 +217,7 @@ new #[Layout('layouts.admin')] class extends Component {
                                                                         <td
                                                                             class="px-6 py-4 w-[500px] min-w-[500px] max-w-[500px] ">
                                                                             <strong class="font-bold text-white">
-                                                                                Lesson Name:
+                                                                                Lesson {{ $loop->iteration }}:
                                                                             </strong> {{ $lesson->lesson_title }}
                                                                         </td>
 
@@ -277,161 +281,11 @@ new #[Layout('layouts.admin')] class extends Component {
                     </div>
                 </div>
 
-                {{-- End Section 0 --}}
+                {{-- END - Section 1 --}}
             </div>
         </div>
     </div>
 
-
-
-
-    {{-- 2nd Section --}}
-
-    <div class="py-6">
-        <div class="w-full mx-auto sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
-
-                <div class="p-6 text-gray-900 uppercase dark:text-gray-100">
-
-                    {{-- Start Resource --}}
-
-
-                    <div
-                        class="w-full overflow-hidden border divide-y divide-slate-300 rounded-xl border-slate-300 bg-slate-100/40 text-slate-700 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-300">
-
-                        @forelse ($courses as $course)
-                            <div wire:key="course-{{ $course->id }}" x-data="{ isExpanded: false }"
-                                class="divide-y divide-slate-300 dark:divide-slate-700">
-
-                                {{-- Table Mode --}}
-                                <div
-                                    class="flex items-center w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 rtl:text-right {{ $loop->first ? 'rounded-t-xl' : '' }} {{ $loop->last ? 'rounded-b-xl' : '' }} focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-
-                                    {{-- Course Title  --}}
-                                    <div class="text-xl"> Course
-                                        {{ $loop->iteration }}: {{ $course->course_name }}
-                                    </div>
-
-
-                                    {{-- View Accordion Button --}}
-                                    <button type="button" @click="isExpanded = ! isExpanded"
-                                        :aria-expanded="isExpanded ? 'true' : 'false'"
-                                        class="text-white  bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-700 dark:border-gray-800"
-                                        :class="moduleID == xxxx ? 'ml-auto' : ''">
-                                        Toggle Contents
-                                        {{-- Chevron Icon --}}
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                            stroke-width="2" stroke="currentColor"
-                                            class="inline-block ml-2 transition size-5 shrink-0" aria-hidden="true"
-                                            :class="isExpanded ? 'rotate-180' : ''">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                        </svg>
-                                    </button>
-
-                                </div>
-
-                                {{-- Contents of Accordion --}}
-                                <div x-cloak x-show="isExpanded" id="accordionItem-{{ $loop->iteration }}"
-                                    role="region" aria-labelledby="controlsAccordionItem-{{ $loop->iteration }}"
-                                    :class="isExpanded ? 'bg-gray-900' : ''" x-collapse>
-
-                                    {{-- Start Module Content --}}
-                                    <div class="w-full h-full p-5 border border-red-500">
-                                        {{-- Table Accordion for Modules --}}
-                                        <div>
-                                            <div
-                                                class="w-full overflow-hidden border divide-y divide-slate-300 rounded-xl border-slate-300 bg-slate-100/40 text-slate-700 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-300">
-
-                                                @forelse ($course->modules as $module)
-                                                    <div wire:key="module-{{ $module->id }}"
-                                                        x-data="{ isModuleExpanded: false }"
-                                                        class="divide-y divide-slate-300 dark:divide-slate-700">
-
-                                                        {{-- Table Mode of Module --}}
-                                                        <div
-                                                            class="flex items-center w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 rtl:text-right {{ $loop->first ? 'rounded-t-xl' : '' }} {{ $loop->last ? 'rounded-b-xl' : '' }} focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-
-                                                            {{-- Course Title  --}}
-                                                            <div class="text-xl"> Module
-                                                                {{ $loop->iteration }}: {{ $module->module_name }}
-                                                            </div>
-
-
-                                                            {{-- View Accordion Button --}}
-                                                            <button type="button"
-                                                                @click="isModuleExpanded = ! isModuleExpanded"
-                                                                :aria-expanded="isModuleExpanded ? 'true' : 'false'"
-                                                                class="text-white  bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-700 dark:border-gray-800"
-                                                                :class="moduleID == xxxx ? 'ml-auto' : ''">
-                                                                Toggle Contents
-                                                                {{-- Chevron Icon --}}
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 24 24" fill="none"
-                                                                    stroke-width="2" stroke="currentColor"
-                                                                    class="inline-block ml-2 transition size-5 shrink-0"
-                                                                    aria-hidden="true"
-                                                                    :class="isModuleExpanded ? 'rotate-180' : ''">
-                                                                    <path stroke-linecap="round"
-                                                                        stroke-linejoin="round"
-                                                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                                                </svg>
-                                                            </button>
-
-                                                        </div>
-
-                                                        {{-- Contents of Accordion --}}
-                                                        <div x-cloak x-show="isModuleExpanded"
-                                                            id="accordionItem-{{ $loop->iteration }}" role="region"
-                                                            aria-labelledby="controlsAccordionItem-{{ $loop->iteration }}"
-                                                            :class="isExpanded ? 'bg-gray-900' : ''" x-collapse>
-
-                                                            {{-- Start Lesson Content --}}
-                                                            <div class="w-full h-full p-5 border border-red-500">
-                                                                {{-- Table Accordion for Lessons --}}
-                                                                <div>
-                                                                    ......
-                                                                </div>
-
-
-                                                            </div>
-                                                            {{-- End Lesson Content --}}
-
-                                                        </div>
-
-                                                    </div>
-                                                @empty
-                                                    <div
-                                                        class="p-6 italic text-center text-gray-900 dark:text-gray-100">
-                                                        <p>No Modules Added.</p>
-                                                    </div>
-                                                @endforelse
-
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                    {{-- End Course Content --}}
-
-                                </div>
-
-                            </div>
-                        @empty
-                            <div class="p-6 italic text-center text-gray-900 dark:text-gray-100">
-                                <p>No Courses Added.</p>
-                            </div>
-                        @endforelse
-
-                    </div>
-
-                    {{-- END Resource --}}
-
-                </div>
-
-            </div>
-        </div>
-    </div>
 
     <script>
         function resourcesTableSetup() {

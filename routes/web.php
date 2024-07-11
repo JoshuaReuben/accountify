@@ -13,8 +13,9 @@ use App\Http\Controllers\AudioController;
 use App\Livewire\Question\QuestionCreate;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PaypalController;
-use App\Livewire\Question\ModuleQuestionCreate;
+use App\Livewire\Flashcard\FlashcardCreate;
 use App\Livewire\Question\CourseQuestionCreate;
+use App\Livewire\Question\ModuleQuestionCreate;
 use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\AdminEmailVerifyController;
 
@@ -64,6 +65,18 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     // MODULES
     Route::view('/modules/home', 'pages.admin.module')->name('pages.admin.module');
 
+    // RE-ROUTES
+    //Re Route to Questions
+    // Route::view('/reroute/questions', 'pages.admin.reroute.to-Questions')->name('reroute.admin.question');
+
+    //RE Route to Lessons
+    // Route::view('/reroute/lessons', 'pages.admin.reroute.to-Lessons')->name('reroute.admin.lesson');
+
+    // Re Route to Flash Cards
+    // Route::view('/reroute/flashcards', 'pages.admin.to-FlashCards')->name('reroute.admin.flashcards');
+
+
+
     // LESSONS
     Route::get('/lessons/create/{courseID}/{moduleID}', LessonCreate::class)->name('pages.admin.lesson');
     Route::get('/lessons/{courseID}/{moduleID}/{lessonID}', LessonShow::class)->name('pages.admin.lesson.show');
@@ -80,7 +93,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/questions/module/create/{courseID}/{moduleID}', ModuleQuestionCreate::class)->name('pages.admin.question.module');
 
     // FLASH CARDS
-    // Route::get('/flashcards/{courseID}/{moduleID}/{lessonID}', LessonShow::class)->name('pages.admin.flashcards');
+    Route::get('/flashcards/{courseID}/{moduleID}/{lessonID}', FlashcardCreate::class)->name('pages.admin.flashcard');
 
     // RESOURCES TABLE
     Volt::route('/resources/table', 'pages.admin.resources')->name('pages.admin.resources');

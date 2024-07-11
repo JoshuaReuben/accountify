@@ -45,6 +45,7 @@
                     </div>
 
                 </div>
+
                 <a href="{{ route('pages.admin.course.show', $course->id) }}">
                     <div class="p-5 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900">
                         {{-- Course Name --}}

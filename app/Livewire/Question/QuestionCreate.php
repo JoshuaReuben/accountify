@@ -93,6 +93,7 @@ class QuestionCreate extends Component
         // Create
         $this->passed_lesson = Lesson::find($lessonID);
         $this->fetched_lessons = $this->passed_lesson->module->lessons()->get();
+
         //Get the Position Count of passed_lesson
         $position = $this->fetched_lessons->search(function ($lesson) {
             return $lesson->id === $this->passed_lesson->id;
@@ -107,7 +108,6 @@ class QuestionCreate extends Component
 
         foreach ($this->fetched_questions as $question) {
             $this->EDIT_question_asked[$question->id] = $question->question;
-            // $this->EDIT_correct_answer[$question->id] = $question->correct_answer;
             $this->EDIT_correct_answer[$question->id] = [];
             $this->EDIT_choices[$question->id] = $question->choices;
         }
@@ -349,14 +349,7 @@ class QuestionCreate extends Component
         }
 
         // Validation 
-        // $this->validate($this->EDIT_rules, $this->EDIT_messages);
-        // $this->validateOnly('question', $this->EDIT_rules, $this->EDIT_messages);
-        // $this->validateOnly('choices', $this->EDIT_rules, $this->EDIT_messages);
-        // $this->validateOnly('correct_answer', $this->EDIT_rules, $this->EDIT_messages);
         $this->validate($this->EDIT_rules, $this->EDIT_messages);
-        // dd('here');
-
-        // dd($this->EDIT_correct_answer[$questionID]);
 
         $question->update([
             'question' => $this->EDIT_question_asked[$questionID],

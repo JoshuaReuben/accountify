@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Course;
 use App\Models\Module;
 use App\Models\Question;
+use App\Models\Flashcard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -32,5 +33,10 @@ class Lesson extends Model
     public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+
+    public function flashcards()
+    {
+        return $this->hasMany(Flashcard::class);
     }
 }

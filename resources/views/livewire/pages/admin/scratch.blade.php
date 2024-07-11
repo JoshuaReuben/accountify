@@ -63,9 +63,14 @@ new #[Layout('layouts.admin')] class extends Component {
     <div class="py-12">
         <div class="px-0 mx-auto max-w-7xl sm:px-2 ">
             <div class="bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
-                <div class="px-0 py-4 text-gray-900 dark:text-gray-100">
+                <div class="px-8 py-4 text-gray-900 dark:text-gray-100">
 
                     {{-- <x-flashcard /> --}}
+
+
+
+
+                    {{--  --}}
 
                 </div>
             </div>

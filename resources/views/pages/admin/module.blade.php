@@ -16,8 +16,9 @@
 
                 <div class="p-6 text-gray-900 uppercase dark:text-gray-100">
 
-                    {{-- <livewire:course.course-table title="Choose a course to view its modules" /> --}}
+
                     @livewire('course.course-table', ['title' => 'Choose a course to view its modules'])
+
 
                 </div>
 

@@ -20,8 +20,8 @@
                 {{ __('LESSON  ') }}{{ $lesson_position . ' | ' . $passed_lesson->lesson_title }}
             </div>
             <div>
-                {{-- Back to Courses --}}
-                <a href="{{ route('pages.admin.course.show', $courseID) }}"
+                {{-- Back to Lesson --}}
+                <a href="{{ route('pages.admin.lesson.show', ['courseID' => $courseID, 'moduleID' => $moduleID, 'lessonID' => $passed_lesson->id]) }}"
                     class=" focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">
                     &nbsp; <i class="text-2xl fa-solid fa-xmark"></i>
                 </a>
@@ -443,9 +443,6 @@
                                                 Cancel
                                             </x-buttons.secondary-button>
                                         </div>
-
-
-
 
 
                                         <div wire:loading wire:target="updateAQuestion">

@@ -39,10 +39,19 @@
 
                     {{-- Action Buttons --}}
                     <div class="flex justify-end">
+
+                        {{-- Create Flash Cards --}}
+                        <a
+                            href="{{ route('pages.admin.flashcard', ['courseID' => $courseID, 'moduleID' => $moduleID, 'lessonID' => $passed_lesson->id]) }}">
+                            <x-buttons.create-button message="Flashcards ({{ $passed_lesson->questions->count() }})"
+                                icon="fa-solid fa-file-circle-question" />
+                        </a>
+
                         {{-- Create Questions --}}
                         <a
                             href="{{ route('pages.admin.question', ['courseID' => $courseID, 'moduleID' => $moduleID, 'lessonID' => $passed_lesson->id]) }}">
-                            <x-buttons.create-button message="Questions" icon="fa-solid fa-file-circle-question" />
+                            <x-buttons.create-button message="Questions ({{ $passed_lesson->questions->count() }})"
+                                icon="fa-solid fa-file-circle-question" />
                         </a>
 
 
