@@ -33,6 +33,8 @@ class FlashcardCreate extends Component
     public $EDIT_COPY_flashcard_answer;
 
     public $fetched_flashcards;
+    public $ARR_fetched_flashcards;
+
 
 
     protected $rules = [
@@ -81,6 +83,8 @@ class FlashcardCreate extends Component
 
         // Display Created Flashcards 
         $this->fetched_flashcards = $this->passed_lesson->flashcards()->get();
+        $this->ARR_fetched_flashcards = $this->fetched_flashcards->toArray();
+
 
 
         // For Edit Variables
@@ -93,6 +97,9 @@ class FlashcardCreate extends Component
         //Backup Variables
         $this->EDIT_COPY_flashcard_question = $this->EDIT_flashcard_question;
         $this->EDIT_COPY_flashcard_answer = $this->EDIT_flashcard_answer;
+
+
+        //
     }
 
     private function trimInputFields()
@@ -121,9 +128,12 @@ class FlashcardCreate extends Component
 
     #[On('flashcard-added')]
     #[On('flashcard-updated')]
+    #[On('flashcard-deleted')]
     public function refetchEditVariables()
     {
         $this->fetched_flashcards = $this->passed_lesson->flashcards()->get();
+        $this->ARR_fetched_flashcards = $this->fetched_flashcards->toArray();
+
 
         // For Edit Variables
         foreach ($this->fetched_flashcards as $flashcard) {

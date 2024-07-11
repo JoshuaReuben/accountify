@@ -43,8 +43,8 @@
                         {{-- Create Flash Cards --}}
                         <a
                             href="{{ route('pages.admin.flashcard', ['courseID' => $courseID, 'moduleID' => $moduleID, 'lessonID' => $passed_lesson->id]) }}">
-                            <x-buttons.create-button message="Flashcards ({{ $passed_lesson->questions->count() }})"
-                                icon="fa-solid fa-file-circle-question" />
+                            <x-buttons.create-button message="Flashcards ({{ $passed_lesson->flashcards()->count() }})"
+                                icon="fa-solid fa-note-sticky" />
                         </a>
 
                         {{-- Create Questions --}}
