@@ -84,6 +84,13 @@
 
                             </div>
 
+                            <div class=" w-full text-center">
+                                <p><span x-text="currentSlideIndex"></span> / {{ $fetched_flashcards->count() }}</p>
+                                <p class="font-normal text-gray-700 dark:text-gray-400">Flashcards - Click to Flip
+                                </p>
+                            </div>
+
+
                         </div>
 
                         {{--  --}}
