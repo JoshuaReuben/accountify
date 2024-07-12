@@ -31,7 +31,7 @@ new #[Layout('layouts.admin')] class extends Component {
 
 
                 {{-- Container of Table --}}
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <div class="relative w-full overflow-x-auto  shadow-md sm:rounded-lg py-5">
 
                     {{-- Table --}}
                     <div class="text-sm text-gray-500 dark:text-gray-400">
@@ -77,7 +77,7 @@ new #[Layout('layouts.admin')] class extends Component {
 
                                 {{-- TR - 1st Row --}}
                                 <div wire:key="tr-1-course-{{ $course->id }}"
-                                    class="flex items-center justify-between bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    class="flex items-center justify-between bg-white   {{ $loop->last ? 'border-b-0' : 'border-b' }} dark:bg-gray-800 dark:border-gray-700 ">
 
                                     {{-- Course Name --}}
                                     <div
@@ -87,7 +87,39 @@ new #[Layout('layouts.admin')] class extends Component {
 
                                     {{-- No. of Course Exam Question --}}
                                     <div class="grow text-center w-[250px] min-w-[250px] px-6 py-4">
-                                        {{ $course->courseQuestions()->count() }}
+                                        {{-- Only Show if Lesson is 0  --}}
+                                        @if ($course->checkLessonsCount() == 0)
+                                            <x-popover title="Course Exam Requirements:"
+                                                content="To create a course examination, you must have at least one lesson created.">
+                                                <x-slot name="trigger">
+                                                    <i class="fa-solid fa-circle-info"></i>
+                                                    <span class="text-center italic opacity-80">
+                                                        Not Available
+                                                    </span>
+                                                </x-slot>
+                                            </x-popover>
+                                        @endif
+
+
+                                        {{-- Display Count if Question is Greater than 0 --}}
+                                        @if ($course->courseQuestions()->count() > 0)
+                                            {{ $course->courseQuestions()->count() }}
+                                            (
+                                            <a href="{{ route('pages.admin.question.course', $course->id) }}"
+                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                View
+                                            </a>)
+                                        @elseif ($course->courseQuestions()->count() == 0 && $course->checkLessonsCount() > 0)
+                                            {{-- Else Display 0 --}}
+                                            {{ $course->courseQuestions()->count() }}
+                                            (
+                                            <a href="{{ route('pages.admin.question.course', $course->id) }}"
+                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                View
+                                            </a>)
+                                        @endif
+
+
                                     </div>
 
                                     {{-- No. of Modules --}}
@@ -128,7 +160,7 @@ new #[Layout('layouts.admin')] class extends Component {
                                 {{-- TR - 2nd Row --}}
                                 <div x-cloak wire:key="tr-2-course-{{ $course->id }}"
                                     x-show="expandedCourseID == {{ $course->id }}"
-                                    class="w-full h-full px-6 py-4 border border-gray-500 darkborder-gray-500 bg-gray-950">
+                                    class=" w-full h-full px-6 py-4 border border-gray-500 darkborder-gray-500 bg-gray-950">
                                     {{-- ------------------------------------------------------------------------------------- --}}
                                     {{-- Start Container Table for Modules --}}
 

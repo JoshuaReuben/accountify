@@ -89,8 +89,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     // QUESTIONS - for lessons, modules, courses
     Route::get('/questions/lesson/create/{courseID}/{moduleID}/{lessonID}', QuestionCreate::class)->name('pages.admin.question');
-    Route::get('/questions/course/create/{courseID}', CourseQuestionCreate::class)->name('pages.admin.question.course');
     Route::get('/questions/module/create/{courseID}/{moduleID}', ModuleQuestionCreate::class)->name('pages.admin.question.module');
+    Route::get('/questions/course/create/{courseID}', CourseQuestionCreate::class)->name('pages.admin.question.course');
 
     // FLASH CARDS
     Route::get('/flashcards/{courseID}/{moduleID}/{lessonID}', FlashcardCreate::class)->name('pages.admin.flashcard');

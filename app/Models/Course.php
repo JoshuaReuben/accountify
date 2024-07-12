@@ -31,4 +31,18 @@ class Course extends Model
     {
         return $this->hasOne(CourseQuestion::class);
     }
+
+
+    // Property to hold the lessons count
+    public $lessonsCount = 0;
+
+    public function checkLessonsCount()
+    {
+        $this->lessonsCount = 0;
+        foreach ($this->modules as $module) {
+            $this->lessonsCount += $module->lessons->count();
+        }
+
+        return $this->lessonsCount;
+    }
 }
