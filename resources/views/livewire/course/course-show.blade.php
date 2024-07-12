@@ -457,11 +457,11 @@
                         @elseif ($this->lessonsCount <= 0 && $this->course->modules->count() > 0)
                             {{-- If course have atleast 1 module but no lessons --}}
                             <div class="p-6 italic text-center text-gray-900 dark:text-gray-100 opacity-70">
-                                <p>Create Course Examination (Atleast 1 Lesson Required).</p>
+                                <p> Course Examination (Atleast 1 Lesson Required).</p>
                             </div>
                         @else
                             <div class="p-6 italic text-center text-gray-900 dark:text-gray-100 opacity-70">
-                                <p>Create Course Examination (Atleast 1 Module Required).</p>
+                                <p> Course Examination (Atleast 1 Module Required).</p>
                             </div>
                         @endif
                     </div>

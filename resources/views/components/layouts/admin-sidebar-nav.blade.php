@@ -47,7 +47,8 @@
                                 <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; MODULES
                             </a>
                         </li>
-                        <li>
+
+                        {{-- <li>
                             <a href="#"
                                 class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                                 <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; QUESTIONS
@@ -59,7 +60,7 @@
                                 class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                                 <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; FLASHCARDS
                             </a>
-                        </li>
+                        </li> --}}
 
                         <li>
                             <a href="{{ route('pages.admin.resources') }}"

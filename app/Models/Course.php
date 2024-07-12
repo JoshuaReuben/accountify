@@ -33,16 +33,14 @@ class Course extends Model
     }
 
 
-    // Property to hold the lessons count
-    public $lessonsCount = 0;
 
     public function checkLessonsCount()
     {
-        $this->lessonsCount = 0;
+        $lessonsCount = 0;
         foreach ($this->modules as $module) {
-            $this->lessonsCount += $module->lessons->count();
+            $lessonsCount += $module->lessons->count();
         }
 
-        return $this->lessonsCount;
+        return $lessonsCount;
     }
 }

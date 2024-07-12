@@ -203,19 +203,45 @@ new #[Layout('layouts.admin')] class extends Component {
                                                                 <tr
                                                                     class="bg-white border-b-8 dark:bg-gray-800 dark:border-gray-700">
                                                                     <td
-                                                                        class="px-6 py-4 w-[500px] min-w-[500px] max-w-[500px] font-bold text-white">
+                                                                        class="px-6 py-7 w-[500px] min-w-[500px] max-w-[500px] font-bold text-white">
                                                                         {{ $module->module_name }}
                                                                     </td>
-                                                                    <td
-                                                                        class="px-6 py-4 font-bold text-center text-white">
-                                                                        {{ $module->moduleQuestions()->count() }}
+                                                                    <td class="px-6 py-7  text-center ">
+                                                                        {{-- Display Module Exam Question Count if Greater than 0 and Has Lessons --}}
+                                                                        @if ($module->moduleQuestions()->count() >= 0 && $module->lessons()->count() > 0)
+                                                                            <span class="font-bold text-white">
+                                                                                {{ $module->moduleQuestions()->count() }}
+                                                                            </span>
+
+
+                                                                            <span>
+                                                                                (<a href="{{ route('pages.admin.question.module', ['courseID' => $module->course_id, 'moduleID' => $module->id]) }}"
+                                                                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                                                    View
+                                                                                </a>)
+                                                                            </span>
+                                                                        @else
+                                                                            {{-- No lessons Created Yet --}}
+                                                                            <x-popover title="Module Exam Requirements:"
+                                                                                content="To create a module examination, you must have at least one lesson created.">
+                                                                                <x-slot name="trigger">
+                                                                                    <i
+                                                                                        class="fa-solid fa-circle-info"></i>
+                                                                                    <span
+                                                                                        class="text-center italic opacity-80">
+                                                                                        Not Available
+                                                                                    </span>
+                                                                                </x-slot>
+                                                                            </x-popover>
+                                                                        @endif
+
                                                                     </td>
                                                                     <td
-                                                                        class="px-6 py-4 font-bold text-center text-white">
+                                                                        class="px-6 py-7 font-bold text-center text-white">
                                                                         {{ $module->lessons()->count() }}
                                                                     </td>
                                                                     <td
-                                                                        class="px-6 py-4 font-bold text-center text-white">
+                                                                        class="px-6 py-7 font-bold text-center text-white">
                                                                         <button type="button"
                                                                             @click="moduleExpanded = ! moduleExpanded"
                                                                             :aria-expanded="moduleExpanded ? 'true' : 'false'"
@@ -258,11 +284,21 @@ new #[Layout('layouts.admin')] class extends Component {
                                                                                 Created Question Count:
                                                                             </strong>
                                                                             {{ $lesson->questions()->count() }}
+                                                                            (<a href="{{ route('pages.admin.question', ['courseID' => $course->id, 'moduleID' => $module->id, 'lessonID' => $lesson->id]) }}"
+                                                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                                                View
+                                                                            </a>)
                                                                         </td>
 
                                                                         <td class="px-6 py-4 ">
                                                                             <strong class="font-bold text-white">
                                                                                 Flashcards Count:
+                                                                                {{ $lesson->flashcards()->count() }}
+                                                                                (
+                                                                                <a href="{{ route('pages.admin.flashcard', ['courseID' => $course->id, 'moduleID' => $module->id, 'lessonID' => $lesson->id]) }}"
+                                                                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                                                    View
+                                                                                </a>)
                                                                             </strong>
                                                                         </td>
 
@@ -276,8 +312,14 @@ new #[Layout('layouts.admin')] class extends Component {
                                                                 @empty
                                                                     <tr x-show="moduleExpanded">
                                                                         <td colspan="4"
-                                                                            class="px-6 py-4 italic text-center">
-                                                                            No Lesson Added
+                                                                            class="px-6 py-4  text-center">
+                                                                            <span class="italic mr-2">
+                                                                                No Lesson Added
+                                                                            </span>
+                                                                            (<a href="{{ route('pages.admin.lesson', ['courseID' => $course->id, 'moduleID' => $module->id]) }}"
+                                                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                                                Create Here
+                                                                            </a>)
                                                                         </td>
                                                                     </tr>
                                                                 @endforelse
@@ -292,7 +334,13 @@ new #[Layout('layouts.admin')] class extends Component {
                                         </div>
                                     @empty
                                         <div class="p-6 italic text-center text-gray-900 dark:text-gray-100">
-                                            <p>No Modules Added.</p>
+                                            <span class="italic mr-2">
+                                                No Modules Added
+                                            </span>
+                                            (<a href="{{ route('pages.admin.course.show', ['courseID' => $course->id]) }}"
+                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                Visit Course
+                                            </a>)
                                         </div>
                                     @endforelse
 
