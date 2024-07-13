@@ -72,7 +72,10 @@
                 </a>
             </div>
         @empty
-            <p class="italic text-center text-gray-500">No courses created yet.</p>
+            <div class="w-full">
+                <p class="italic text-center text-gray-500">No courses created yet.</p>
+
+            </div>
         @endforelse
     </div>
 

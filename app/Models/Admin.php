@@ -21,6 +21,8 @@ class Admin extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name',
         'email',
+        'role',
+        'avatar',
         'password',
         'token',
         'provider_id_google',

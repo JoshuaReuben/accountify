@@ -2,6 +2,15 @@
 
     <ul class="space-y-2">
 
+        {{-- OVERVIEW --}}
+        <li class="mt-4">
+            <a href="{{ route('admin.overview') }}"
+                class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <x-svgs.pie-chart-icon />
+                <span class="ml-3">OVERVIEW</span>
+            </a>
+        </li>
+
         {{-- SCRATCH --}}
         <li class="mt-4">
             <a href="{{ route('admin.scratch') }}"
@@ -98,12 +107,15 @@
         </li>
 
 
-        {{-- OVERVIEW --}}
+
+
+
+        {{-- ADMIN DASHBOARD --}}
         <li class="mt-4">
             <a href="{{ route('admin.dashboard') }}"
                 class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <x-svgs.pie-chart-icon />
-                <span class="ml-3">OVERVIEW</span>
+                <i class="fa-solid fa-user-tie"></i>
+                <span class="ml-3">ADMIN DASHBOARD</span>
             </a>
         </li>
 

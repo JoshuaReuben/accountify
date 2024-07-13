@@ -351,7 +351,11 @@ new #[Layout('layouts.admin')] class extends Component {
 
                             @empty
                                 <div class="p-6 italic text-center text-gray-900 dark:text-gray-100">
-                                    <p>No Courses Added.</p>
+                                    <p>No Courses Added. (<a href="{{ route('pages.admin.course') }}"
+                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                            Create Now
+                                        </a>)</p>
+
                                 </div>
                             @endforelse
 

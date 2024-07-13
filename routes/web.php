@@ -18,6 +18,7 @@ use App\Livewire\Question\CourseQuestionCreate;
 use App\Livewire\Question\ModuleQuestionCreate;
 use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\AdminEmailVerifyController;
+use App\Livewire\Admin\AdminCreate;
 
 Route::view('/', 'welcome');
 
@@ -42,10 +43,17 @@ Route::view('profile', 'profile')
 
 Route::prefix('admin')->middleware('admin')->group(function () {
     //ADMIN ROUTES (PRE-PENDED WORD ADMIN ON NAMED ROUTES )
-    Volt::route('dashboard', 'pages.admin.admin-dashboard')->name('admin.dashboard');
+
+    Volt::route('overview', 'pages.admin.overview')->name('admin.overview');
+
+    Route::get('dashboard', AdminCreate::class)->name('admin.dashboard');
+
+    // TO BE DELETED
     Volt::route('create/patient', 'pages.admin.create-patient')->name('admin.create.patient');
     Volt::route('index/patient', 'pages.admin.index-patient')->name('admin.index.patient');
 
+
+    // PAYMENTS - TO BE MOVED TO USERS
     Volt::route('/paypal', 'pages.admin.paypal')->name('admin.paypal');
 
 

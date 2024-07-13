@@ -53,7 +53,6 @@ new class extends Component {
 
         if ($user->hasVerifiedEmail()) {
             $this->redirectIntended(default: route('admin.dashboard', absolute: false));
-
             return;
         }
 

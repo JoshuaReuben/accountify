@@ -78,6 +78,8 @@ class CourseCreate extends Component
             'course_description' => $this->course_description,
             'course_difficulty' => $this->course_difficulty,
             'course_overview' => $this->course_overview,
+
+            // TODO: Delete Images after Delete Course
             'course_cover_photo' => $this->course_cover_photo->storeAs('courses_cover_photos', $coverphoto_filename, 'public'),
             'course_duration' => $this->course_duration,
             'course_publish_date' => $this->course_publish_date,

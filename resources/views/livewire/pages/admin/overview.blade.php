@@ -3,7 +3,13 @@
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.admin')] class extends Component {};
+new #[Layout('layouts.admin')] class extends Component {
+    public function mount()
+    {
+        // $user = Auth::guard('admin')->user();
+        // dd($user->role);
+    }
+};
 
 ?>
 

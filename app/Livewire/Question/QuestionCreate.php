@@ -142,18 +142,16 @@ class QuestionCreate extends Component
 
 
     #[On('question-added')]
-    public function remountingVars()
+    public function remount_vars()
     {
         $this->fetched_questions = $this->passed_lesson->questions()->get();
         //////////
 
         foreach ($this->fetched_questions as $question) {
             $this->EDIT_question_asked[$question->id] = $question->question;
-            // $this->EDIT_correct_answer[$question->id] = $question->correct_answer;
             $this->EDIT_correct_answer[$question->id] = [];
             $this->EDIT_choices[$question->id] = $question->choices;
         }
-
 
 
         //Backup Variables
@@ -370,24 +368,22 @@ class QuestionCreate extends Component
         // $this->dispatch('re-render_questions');
     }
 
-    #[On('question-added')]
-    public function refetchEditVariables()
-    {
-        $this->fetched_questions = $this->passed_lesson->questions()->get();
+    // #[On('question-added')]
+    // public function refetchEditVariables()
+    // {
+    //     $this->fetched_questions = $this->passed_lesson->questions()->get();
 
-        foreach ($this->fetched_questions as $question) {
-            $this->EDIT_question_asked[$question->id] = $question->question;
-            // $this->EDIT_correct_answer[$question->id] = $question->correct_answer;
-            $this->EDIT_correct_answer[$question->id] = [];
-            $this->EDIT_choices[$question->id] = $question->choices;
-        }
+    //     foreach ($this->fetched_questions as $question) {
+    //         $this->EDIT_question_asked[$question->id] = $question->question;
+    //         $this->EDIT_correct_answer[$question->id] = [];
+    //         $this->EDIT_choices[$question->id] = $question->choices;
+    //     }
 
-
-        //Backup Variables
-        $this->EDIT_COPY_question_asked = $this->EDIT_question_asked;
-        $this->EDIT_COPY_correct_answer = $this->EDIT_correct_answer;
-        $this->EDIT_COPY_choices = $this->EDIT_choices;
-    }
+    //     //Backup Variables
+    //     $this->EDIT_COPY_question_asked = $this->EDIT_question_asked;
+    //     $this->EDIT_COPY_correct_answer = $this->EDIT_correct_answer;
+    //     $this->EDIT_COPY_choices = $this->EDIT_choices;
+    // }
 
 
 

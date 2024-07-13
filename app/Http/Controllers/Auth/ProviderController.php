@@ -16,9 +16,9 @@ use Laravel\Socialite\Facades\Socialite;
 
 class ProviderController extends Controller
 {
-
     public function redirect(Request $request, $provider)
     {
+        // Default Value to False if not set
         $adminParam = $request->input('admin', false);
 
         if ($adminParam == true) {
@@ -34,14 +34,14 @@ class ProviderController extends Controller
         try {  // Get the user
             $user = Socialite::driver($provider)->user();
         } catch (\Exception $e) {
-            dd('For Local Development, download the cacert.pem and add it into your php.ini, this is the self signed certificate');
+            //dd('For Local Development, download the cacert.pem and add it into your php.ini, this is the self signed certificate');
             if (session('logging_in_as_admin') == true) {
                 return redirect()->route('admin.login');
             } else {
                 return redirect()->route('login');
             }
         }
-        //dd($user);
+
         // Retrieve the value from the session
         $loggingInAsAdmin = session('logging_in_as_admin', false);
 
