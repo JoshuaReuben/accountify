@@ -178,51 +178,52 @@
                                                 <x-input-error class="mt-2" :messages="$errors->get('EDIT_role.' . $admin->id)" />
                                             </div>
 
-
-
-
-
-
                                         </td>
-                                        <td class="p-4">
-                                            {{-- VIEW - Actions --}}
-                                            <div x-show="adminID != {{ $admin->id }}">
-                                                {{-- Edit Button --}}
-                                                <button type="button"
-                                                    @click="mode = 'edit', adminID = {{ $admin->id }}"
-                                                    class="cursor-pointer whitespace-nowrap rounded-xl bg-transparent p-0.5 font-semibold text-blue-700 outline-blue-700 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:opacity-100 active:outline-offset-0 dark:text-blue-600 dark:outline-blue-600 hover:underline">
-                                                    Edit Role
-                                                </button>
-                                                <span> | </span>
-                                                {{-- Delete Button --}}
-                                                <button type="button"
-                                                    wire:confirm="Are you sure you want to delete Admin {{ $admin->name }}?"
-                                                    wire:click="deleteAdmin({{ $admin->id }})"
-                                                    class="cursor-pointer whitespace-nowrap rounded-xl bg-transparent p-0.5 font-semibold text-red-700 outline-red-700 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:opacity-100 active:outline-offset-0 dark:text-red-600 dark:outline-red-600 hover:underline">
-                                                    Delete
-                                                </button>
-                                            </div>
+                                        {{-- Don't Show if it is you --}}
+                                        @if (!($admin->id == Auth::guard('admin')->user()->id))
+                                            <td class="p-4">
+                                                {{-- VIEW - Actions --}}
+                                                <div x-show="adminID != {{ $admin->id }}">
+                                                    {{-- Edit Button --}}
+                                                    <button type="button"
+                                                        @click="mode = 'edit', adminID = {{ $admin->id }}"
+                                                        class="cursor-pointer whitespace-nowrap rounded-xl bg-transparent p-0.5 font-semibold text-blue-700 outline-blue-700 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:opacity-100 active:outline-offset-0 dark:text-blue-600 dark:outline-blue-600 hover:underline">
+                                                        Edit Role
+                                                    </button>
+                                                    <span> | </span>
+                                                    {{-- Delete Button --}}
+                                                    <button type="button"
+                                                        wire:confirm="Are you sure you want to delete Admin {{ $admin->name }}?"
+                                                        wire:click="deleteAdmin({{ $admin->id }})"
+                                                        class="cursor-pointer whitespace-nowrap rounded-xl bg-transparent p-0.5 font-semibold text-red-700 outline-red-700 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:opacity-100 active:outline-offset-0 dark:text-red-600 dark:outline-red-600 hover:underline">
+                                                        Delete
+                                                    </button>
+                                                </div>
 
-                                            {{-- Save and Cancel - of Edit Mode --}}
-                                            <div x-show="mode == 'edit' && adminID == {{ $admin->id }}"
-                                                wire:target="updateARole({{ $admin->id }})"
-                                                class="flex items-center">
-                                                <x-buttons.primary-button type="button"
-                                                    wire:click="updateARole({{ $admin->id }})"
-                                                    wire:loading.attr="disabled"
-                                                    wire:loading.class="opacity-50 cursor-not-allowed">
-                                                    {{ __('Save') }}
-                                                </x-buttons.primary-button>
+                                                {{-- Save and Cancel - of Edit Mode --}}
+                                                <div x-show="mode == 'edit' && adminID == {{ $admin->id }}"
+                                                    wire:target="updateARole({{ $admin->id }})"
+                                                    class="flex items-center">
+                                                    <x-buttons.primary-button type="button"
+                                                        wire:click="updateARole({{ $admin->id }})"
+                                                        wire:loading.attr="disabled"
+                                                        wire:loading.class="opacity-50 cursor-not-allowed">
+                                                        {{ __('Save') }}
+                                                    </x-buttons.primary-button>
 
-                                                <x-buttons.secondary-button class="mx-2" type="button"
-                                                    wire:click="cancelEditRole({{ $admin->id }})"
-                                                    @click="mode = 'view' ,adminID = ''">
-                                                    Cancel
-                                                </x-buttons.secondary-button>
-                                            </div>
+                                                    <x-buttons.secondary-button class="mx-2" type="button"
+                                                        wire:click="cancelEditRole({{ $admin->id }})"
+                                                        @click="mode = 'view' ,adminID = ''">
+                                                        Cancel
+                                                    </x-buttons.secondary-button>
+                                                </div>
+                                            </td>
+                                        @else
+                                            <td class="p-4 text-sm">
+                                                Logged In
+                                            </td>
+                                        @endif
 
-
-                                        </td>
                                     </tr>
                                 @endforeach
 

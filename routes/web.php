@@ -46,6 +46,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     Volt::route('overview', 'pages.admin.overview')->name('admin.overview');
 
+    // TODO: Super Admin middleware
     Route::get('dashboard', AdminCreate::class)->name('admin.dashboard');
 
     // TO BE DELETED

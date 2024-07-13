@@ -113,7 +113,16 @@ new class extends Component {
         </div>
 
         <div class="flex items-center gap-4">
-            <x-buttons.primary-button>{{ __('Save') }}</x-buttons.primary-button>
+            <x-buttons.primary-button wire:loading.attr="disabled">
+                <span wire:loading.remove wire:target="updateProfileInformation">
+                    {{ __('Save') }}
+                </span>
+
+                <span wire:loading wire:target="updateProfileInformation">
+                    <x-svgs.spinner size="5" />
+                </span>
+
+            </x-buttons.primary-button>
 
             <x-action-message class="me-3" on="admin-profile-updated">
                 {{ __('Saved.') }}

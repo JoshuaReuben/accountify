@@ -10,8 +10,10 @@
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     @if (Auth::guard('admin')->check())
+                        {{-- Admin --}}
                         <livewire:profile.admin-update-profile-information-form />
                     @else
+                        {{-- User --}}
                         <livewire:profile.update-profile-information-form />
                     @endif
                 </div>

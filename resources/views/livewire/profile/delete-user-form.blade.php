@@ -3,6 +3,7 @@
 use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Component;
+use App\Rules\AdminCurrentPassword;
 
 new class extends Component {
     public string $password = '';
@@ -12,9 +13,16 @@ new class extends Component {
      */
     public function deleteUser(Logout $logout): void
     {
-        $this->validate([
-            'password' => ['required', 'string', 'current_password'],
-        ]);
+        // Validate Depending On User Type
+        if (Auth::guard('admin')->check()) {
+            $this->validate([
+                'password' => ['required', 'string', new AdminCurrentPassword()],
+            ]);
+        } else {
+            $this->validate([
+                'password' => ['required', 'string', 'current_password'],
+            ]);
+        }
 
         if (Auth::guard('admin')->check()) {
             tap(Auth::guard('admin')->user(), $logout(...))->delete();

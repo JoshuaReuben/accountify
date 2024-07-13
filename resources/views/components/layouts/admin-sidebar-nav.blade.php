@@ -111,13 +111,16 @@
 
 
         {{-- ADMIN DASHBOARD --}}
-        <li class="mt-4">
-            <a href="{{ route('admin.dashboard') }}"
-                class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <i class="fa-solid fa-user-tie"></i>
-                <span class="ml-3">ADMIN DASHBOARD</span>
-            </a>
-        </li>
+        @if (Auth::guard('admin')->user()->role == 'Super Admin')
+            <li class="mt-4">
+                <a href="{{ route('admin.dashboard') }}"
+                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span class="ml-3">ADMIN DASHBOARD</span>
+                </a>
+            </li>
+        @endif
+
 
 
 

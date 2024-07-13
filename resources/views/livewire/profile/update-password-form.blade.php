@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Livewire\Volt\Component;
+use App\Rules\AdminCurrentPassword;
 
 new class extends Component {
     public string $current_password = '';
@@ -16,15 +17,19 @@ new class extends Component {
      */
     public function updatePassword(): void
     {
-        try {
+        $validated;
+
+        // Validate Depending On User Type
+        if (Auth::guard('admin')->check()) {
+            $validated = $this->validate([
+                'current_password' => ['required', 'string', new AdminCurrentPassword()],
+                'password' => ['required', 'string', Password::defaults(), 'confirmed'],
+            ]);
+        } else {
             $validated = $this->validate([
                 'current_password' => ['required', 'string', 'current_password'],
                 'password' => ['required', 'string', Password::defaults(), 'confirmed'],
             ]);
-        } catch (ValidationException $e) {
-            $this->reset('current_password', 'password', 'password_confirmation');
-
-            throw $e;
         }
 
         if (Auth::guard('admin')->check()) {
