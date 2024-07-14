@@ -145,6 +145,7 @@ class ProviderController extends Controller
 
             $newUser->provider_token = $user->token;
             $newUser->email_verified_at = now();
+            $newUser->avatar = 'profile-photos/user-profile-default.jpg';
             $newUser->save();
 
 

@@ -31,6 +31,10 @@ new #[Layout('layouts.guest')] class extends Component {
 
         Auth::login($user);
 
+        $user->update([
+            'avatar' => 'profile-photos/user-profile-default.jpg',
+        ])
+
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }
 }; ?>

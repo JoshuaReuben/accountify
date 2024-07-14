@@ -22,7 +22,7 @@ class AdminSeeder extends Seeder
             'email' => 'joshuareubenc.v1@gmail.com',
             'email_verified_at' => now(),
             'role' => 'Super Admin',
-            'avatar' => 'profile-photos/admin-profile-default.jpg',
+            'avatar' => 'profile-photos/user-profile-default.jpg',
             'password' => Hash::make('123123123'),
         ]);
 
@@ -33,7 +33,7 @@ class AdminSeeder extends Seeder
             'email' => 'test@gmail.com',
             'email_verified_at' => now(),
             'role' => 'Admin',
-            'avatar' => 'profile-photos/admin-profile-default.jpg',
+            'avatar' => 'profile-photos/user-profile-default.jpg',
             'password' => Hash::make('123123123'),
         ]);
     }
