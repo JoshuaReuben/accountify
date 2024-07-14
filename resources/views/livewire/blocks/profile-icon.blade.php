@@ -33,11 +33,11 @@ new class extends Component {
         contentClasses="absolute top-1 right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
         <x-slot name="trigger">
             <div type="button"
-                class="flex mx-1  text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 cursor-pointer"
+                class="flex mx-1 text-sm bg-gray-800 rounded-full cursor-pointer md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                 id="user-menu-button">
 
                 {{-- Image as DIV --}}
-                <div class="w-11 h-11 rounded-full mx-auto border border-gray-500 "
+                <div class="mx-auto border border-gray-500 rounded-full w-11 h-11 "
                     style="background-image: url('/storage/{{ $passed_user->avatar }}'); background-size: cover; background-position: center">
                 </div>
 
@@ -45,16 +45,24 @@ new class extends Component {
             </div>
         </x-slot>
         <x-slot name="content">
-            <ul class=" text-gray-700 dark:text-gray-300">
+            <ul class="text-gray-700 dark:text-gray-300">
                 <li class="">
-                    <a href="{{ route('profile') }}"
-                        class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-100 dark:hover:text-white rounded-t-xl">
-                        My profile
-                    </a>
+                    @if (Auth::guard('admin')->check())
+                        <a href="{{ route('admin.profile') }}"
+                            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-100 dark:hover:text-white rounded-t-xl">
+                            My Admin Profile
+                        </a>
+                    @else
+                        <a href="{{ route('profile') }}"
+                            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-100 dark:hover:text-white rounded-t-xl">
+                            My profile
+                        </a>
+                    @endif
+
                 </li>
                 <li
-                    class="hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-100 dark:hover:text-white rounded-b-lg">
-                    <button wire:click="logout" class="block py-2 px-4 text-sm w-full h-full text-left">
+                    class="rounded-b-lg hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-100 dark:hover:text-white">
+                    <button wire:click="logout" class="block w-full h-full px-4 py-2 text-sm text-left">
                         Sign Out
                     </button>
                 </li>

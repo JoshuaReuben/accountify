@@ -84,7 +84,7 @@
 
                             </div>
 
-                            <div class=" w-full text-center">
+                            <div class="w-full text-center ">
                                 <p><span x-text="currentSlideIndex"></span> / {{ $fetched_flashcards->count() }}</p>
                                 <p class="font-normal text-gray-700 dark:text-gray-400">Flashcards - Click to Flip
                                 </p>
@@ -219,11 +219,11 @@
 
 
                     {{-- List --}}
-                    <div class="space-y-4 text-gray-500 break-words  dark:text-gray-100 ">
+                    <div class="space-y-4 text-gray-500 break-words dark:text-gray-100 ">
 
                         @forelse ($fetched_flashcards as $flashcard)
                             {{-- ------------------------ --}}
-                            <div wire:key="{{ $flashcard->id }}" class="flex w-full break-words  ">
+                            <div wire:key="{{ $flashcard->id }}" class="flex w-full break-words ">
                                 {{-- Edit Icon --}}
                                 <span class="me-2 "
                                     x-show="mode == 'edit' && (flashcardID !== {{ $flashcard->id }})">
@@ -299,7 +299,7 @@
                                         {{-- Save and Cancel - of Edit Mode --}}
                                         <div x-show="(flashcardID == {{ $flashcard->id }})"
                                             wire:target="updateAFlashcard({{ $flashcard->id }})"
-                                            class="flex items-center pb-6 mt-2 m-2">
+                                            class="flex items-center pb-6 m-2 mt-2">
                                             <x-buttons.primary-button wire:loading.attr="disabled"
                                                 wire:loading.class="opacity-50 cursor-not-allowed">
                                                 {{ __('Save') }}

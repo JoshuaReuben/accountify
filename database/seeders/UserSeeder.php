@@ -15,13 +15,13 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            // 'name' => fake()->name(),
+            'name' => fake()->name(),
             // // 'email' => fake()->unique()->safeEmail(),
-            // 'email' => 'joshuareubenc.v1@gmail.com',
-            // 'email_verified_at' => now(),
+            'email' => 'joshuareubenc.v1@gmail.com',
+            'email_verified_at' => now(),
             // 'role' => 'Super Admin',
-            // 'avatar' => 'profile-photos/user-profile-default.jpg',
-            // 'password' => Hash::make('123123123'),
+            'avatar' => 'profile-photos/user-profile-default.jpg',
+            'password' => Hash::make('123123123'),
         ]);
     }
 }

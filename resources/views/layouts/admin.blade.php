@@ -46,7 +46,7 @@
                     <button x-show="open == false" x-on:close-admin-sidebar.window="open = true"
                         @click="$dispatch('close-admin-sidebar'); open = true"
                         class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                        <svg class=" w-6 h-6 " fill="currentColor" viewBox="0 0 20 20"
+                        <svg class="w-6 h-6 " fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -71,7 +71,7 @@
 
                     <!-- THEME TOGGLER -->
                     <div
-                        class="p-2 pt-4 mr-0 ml-2 text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                        class="p-2 pt-4 ml-2 mr-0 text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
                         <x-buttons.theme-toggler />
                     </div>
 
@@ -90,16 +90,16 @@
 
                             {{-- Overlay --}}
                             <div x-show.transition.opacity.duration.500="open" @click="open = false"
-                                class="fixed z-50 inset-0 bg-black bg-opacity-40"></div>
+                                class="fixed inset-0 z-50 bg-black bg-opacity-40"></div>
 
                             {{-- Side Bar --}}
-                            <div class="fixed z-50 transition duration-300 right-0 top-0 transform w-full max-w-sm h-screen bg-gray-100 overflow-hidden dark:bg-gray-800"
+                            <div class="fixed top-0 right-0 z-50 w-full h-screen max-w-sm overflow-hidden transition duration-300 transform bg-gray-100 dark:bg-gray-800"
                                 :class="{ 'translate-x-full': open == false }">
 
-                                <div class="flex items-center mt-10 w-full">
+                                <div class="flex items-center w-full mt-10">
 
                                     <h5
-                                        class="inline-flex mt-4 items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400 uppercase ml-4">
+                                        class="inline-flex items-center mt-4 mb-4 ml-4 text-base font-semibold text-gray-500 uppercase dark:text-gray-400">
                                         <svg class="w-4 h-4 me-2.5" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path
@@ -108,15 +108,15 @@
                                     </h5>
 
                                     <button @click="open = false"
-                                        class="fixed top-10 right-2 mr-4 mt-2 z-50 text-gray-400  hover:text-gray-900  dark:hover:text-white bg-transparent">
+                                        class="fixed z-50 mt-2 mr-4 text-gray-400 bg-transparent top-10 right-2 hover:text-gray-900 dark:hover:text-white">
                                         {{-- Close Button --}}
-                                        <i class="fa-solid fa-xmark text-3xl"></i>
+                                        <i class="text-3xl fa-solid fa-xmark"></i>
                                     </button>
                                 </div>
 
 
 
-                                <div class="pt-2 px-6 absolute h-full w-full overflow-y-auto">
+                                <div class="absolute w-full h-full px-6 pt-2 overflow-y-auto">
                                     {{-- Side Bar Content --}}
                                     <div class="mt-auto">
                                         <livewire:blocks.music-playlist />
@@ -145,7 +145,7 @@
         <aside x-data="adminSidebar()" x-cloak x-on:open-admin-sidebar.window="open = true"
             x-on:close-admin-sidebar.window="open = false" x-init="init()"
             x-bind:class="open ? 'translate-x-0' : '-translate-x-full'"
-            class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full md:translate-x-0 bg-white border-r border-gray-200 pt-14  dark:bg-gray-800 dark:border-gray-700">
+            class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 pt-14 dark:bg-gray-800 dark:border-gray-700">
 
             <x-layouts.admin-sidebar-nav />
         </aside>
@@ -155,7 +155,7 @@
             x-on:close-admin-sidebar.window="toggleOverlay = false"
             x-show.transition.opacity.duration.500="toggleOverlay == true"
             @click="$dispatch('close-admin-sidebar'), toggleOverlay = false"
-            class="fixed z-30 inset-0 bg-black bg-opacity-40"></div>
+            class="fixed inset-0 z-30 bg-black bg-opacity-40"></div>
 
         <!-- End of Sidebar -->
 

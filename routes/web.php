@@ -44,6 +44,8 @@ Route::view('profile', 'profile')
 Route::prefix('admin')->middleware('admin')->group(function () {
     //ADMIN ROUTES (PRE-PENDED WORD ADMIN ON NAMED ROUTES )
 
+
+
     Volt::route('overview', 'pages.admin.overview')->name('admin.overview');
 
     // TODO: Super Admin middleware
@@ -52,6 +54,10 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     // TO BE DELETED
     Volt::route('create/patient', 'pages.admin.create-patient')->name('admin.create.patient');
     Volt::route('index/patient', 'pages.admin.index-patient')->name('admin.index.patient');
+
+
+    // PROFILE
+    Route::view('profile', 'pages.admin.admin-profile')->name('admin.profile');
 
 
     // PAYMENTS - TO BE MOVED TO USERS
