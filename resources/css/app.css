@@ -19,6 +19,25 @@
 /* End of Music Playlist */
 
 
+
+
+
+
+/* Pomodoro Timer */
+
+/* Hide number arrows in WebKit browsers (Chrome, Safari, Edge) */
+#minutes-input::-webkit-inner-spin-button,
+#minutes-input::-webkit-outer-spin-button,
+#seconds-input::-webkit-inner-spin-button,
+#seconds-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* End of Timer */
+
+
+
 /* For CKEditor */
 
 .ckeditor--main-container {

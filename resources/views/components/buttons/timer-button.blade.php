@@ -85,78 +85,87 @@
                             <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-900">
                             {{-- HR - END --}}
 
-                            <form class="flex flex-wrap items-center justify-center w-full mx-auto">
+                            <form x-data="setFormTimer()" x-init="init()"
+                                class="flex flex-wrap items-center justify-center w-full mx-auto">
                                 {{-- MINUTES --}}
-                                <div class="mx-2">
-                                    <label for="minutes-input" class="sr-only">Choose Minutes:</label>
-                                    <div class="relative flex items-center mb-2">
-                                        {{-- Minus Icon --}}
-                                        <button type="button" id="decrement-button"
-                                            data-input-counter-decrement="minutes-input"
-                                            class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-s-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                            <svg class="w-3 h-3 text-gray-900 dark:text-white"
-                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
-                                            </svg>
-                                        </button>
-                                        <input type="text" id="minutes-input" data-input-counter
-                                            data-input-counter-min="1" data-input-counter-max="60"
-                                            class="block w-full pb-6 text-sm font-medium text-center text-gray-900 border-gray-300 bg-gray-50 border-x-0 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="" value="25" required />
-                                        <div
-                                            class="absolute flex items-center space-x-1 text-xs text-gray-400 -translate-x-1/2 bottom-1 start-1/2 rtl:translate-x-1/2 rtl:space-x-reverse">
-                                            <span>MINUTES</span>
-                                        </div>
+                                <div class="mx-1">
+                                    <div class="relative flex items-center mb-2 flex-col">
+
                                         {{-- Plus Icon --}}
-                                        <button type="button" id="increment-button"
-                                            data-input-counter-increment="minutes-input"
-                                            class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-e-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                        <button type="button" id="increment-button-minutes"
+                                            @click="if (minutes < 59) minutes++"
+                                            class="py-3 px-5 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-t-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                             <svg class="w-3 h-3 text-gray-900 dark:text-white"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                                 <path stroke="currentColor" stroke-linecap="round"
                                                     stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                                            </svg>
+
+                                        </button>
+
+                                        <input type="number" id="minutes-input"
+                                            class="block w-full px-3 pt-6 pb-9 text-sm font-medium text-center text-gray-900 border border-gray-300 bg-gray-50 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="" x-model="minutes"
+                                            @input="minutes = Math.max(1, Math.min(59, minutes))" required
+                                            min="1" max="59" />
+
+                                        <div
+                                            class="absolute  flex items-center text-2xs text-gray-400 bottom-[50px] w-full  justify-center">
+                                            <span>MINUTES</span>
+                                        </div>
+
+                                        {{-- Minus Icon --}}
+                                        <button type="button" id="decrement-button-minutes"
+                                            @click="if (minutes > 1) minutes--"
+                                            class="py-3 px-5 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-b-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            <svg class="w-3 h-3 text-gray-900 dark:text-white"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
                                             </svg>
                                         </button>
                                     </div>
                                 </div>
 
                                 {{-- SECONDS --}}
-                                <div class="mx-2">
-                                    <label for="seconds-input" class="sr-only">Choose Seconds:</label>
-                                    <div class="relative flex items-center mb-2">
-                                        <button type="button" id="decrement-button"
-                                            data-input-counter-decrement="seconds-input"
-                                            class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-s-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                            {{-- Minus Icon --}}
+                                <div class="">
+                                    <div class="relative flex items-center mb-2 flex-col">
+
+                                        {{-- Plus Icon --}}
+                                        <button type="button" id="increment-button-seconds"
+                                            @click="if (seconds < 59) seconds++"
+                                            class="py-3 px-5 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-t-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            <svg class="w-3 h-3 text-gray-900 dark:text-white"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                                            </svg>
+
+                                        </button>
+
+                                        <input type="number" id="seconds-input"
+                                            class="block w-full px-3 pt-6 pb-9 text-sm font-medium text-center text-gray-900 border border-gray-300 bg-gray-50 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="" x-model="seconds"
+                                            @input="seconds = Math.max(0, Math.min(59, seconds))" required
+                                            min="0" max="59" />
+
+                                        <div
+                                            class="absolute  flex items-center text-2xs text-gray-400 bottom-[50px] w-full  justify-center">
+                                            <span>SECONDS</span>
+                                        </div>
+
+                                        {{-- Minus Icon --}}
+                                        <button type="button" id="decrement-button-seconds"
+                                            @click="if (seconds > 0) seconds--"
+                                            class="py-3 px-5 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-b-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                             <svg class="w-3 h-3 text-gray-900 dark:text-white"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                                 <path stroke="currentColor" stroke-linecap="round"
                                                     stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
                                             </svg>
                                         </button>
-                                        <input type="text" id="seconds-input" data-input-counter
-                                            data-input-counter-min="0" data-input-counter-max="59"
-                                            class="block w-full pb-6 text-sm font-medium text-center text-gray-900 border-gray-300 bg-gray-50 border-x-0 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="" value="0" required />
-                                        <div
-                                            class="absolute flex items-center space-x-1 text-xs text-gray-400 -translate-x-1/2 bottom-1 start-1/2 rtl:translate-x-1/2 rtl:space-x-reverse">
-                                            <span>SECONDS</span>
-                                        </div>
-                                        <button type="button" id="increment-button"
-                                            data-input-counter-increment="seconds-input"
-                                            class="p-3 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-e-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                            <svg class="w-3 h-3 text-gray-900 dark:text-white"
-                                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 18 18">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                                            </svg>
-                                        </button>
                                     </div>
                                 </div>
-
-
                             </form>
 
                         </div>
@@ -221,6 +230,27 @@
         let startingSeconds = 0;
         let time = (startingMinutes * 60) + startingSeconds;
         let intervalID = null;
+
+        function setFormTimer() {
+            return {
+                minutes: 25,
+                seconds: 0,
+
+                init() {
+                    // Retrieve values from localStorage and update minutes and seconds if they exist
+                    const storedMinutes = localStorage.getItem('set:Minutes');
+                    const storedSeconds = localStorage.getItem('set:Seconds');
+
+                    if (storedMinutes !== null) {
+                        this.minutes = parseInt(storedMinutes);
+                    }
+                    if (storedSeconds !== null) {
+                        this.seconds = parseInt(storedSeconds);
+                    }
+                },
+
+            }
+        }
 
 
         // If there is a key 'set:Minutes' and 'set:Seconds' stored in storage, save that to the form for setting the timer
