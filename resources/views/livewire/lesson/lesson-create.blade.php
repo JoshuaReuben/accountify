@@ -24,7 +24,7 @@
 
     {{-- Sweet Alert --}}
     @if (session()->has('message'))
-        <x-sweet-alert :message="session('message')" />
+        <x-alerts.sweet-alert :message="session('message')" />
     @endif
 
 

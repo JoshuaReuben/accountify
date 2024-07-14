@@ -2,10 +2,10 @@
 
     {{-- START SECTION --}}
 
+
+
     {{-- Sweet Alert --}}
-    @if (session()->has('message'))
-        <x-sweet-alert :message="session('message')" />
-    @endif
+    <x-alerts.sweet-alert-2 on="course-created" message="Course Created Successfully" />
 
 
 

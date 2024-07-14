@@ -3,13 +3,13 @@
 
     {{-- Sweet Alert --}}
     @if (session()->has('message'))
-        <x-sweet-alert :message="session('message')" />
+        <x-alerts.sweet-alert :message="session('message')" />
     @endif
 
 
-    <x-sweet-alert-2 on="flashcard-added" message="Flashcard Added Successfully" />
-    <x-sweet-alert-2 on="flashcard-deleted" message="Flashcard Deleted Successfully" />
-    <x-sweet-alert-2 on="flashcard-updated" message="Flashcard Updated Successfully" />
+    <x-alerts.sweet-alert-2 on="flashcard-added" message="Flashcard Added Successfully" />
+    <x-alerts.sweet-alert-2 on="flashcard-deleted" message="Flashcard Deleted Successfully" />
+    <x-alerts.sweet-alert-2 on="flashcard-updated" message="Flashcard Updated Successfully" />
 
 
 

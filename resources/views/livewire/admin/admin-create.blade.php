@@ -8,8 +8,8 @@
     </x-slot>
 
     {{-- Sweet Alert --}}
-    <x-sweet-alert-2 on="admin-updated" message="Admin Role Updated Successfully" />
-    <x-sweet-alert-2 on="admin-deleted" message="Admin Deleted Successfully" />
+    <x-alerts.sweet-alert-2 on="admin-updated" message="Admin Role Updated Successfully" />
+    <x-alerts.sweet-alert-2 on="admin-deleted" message="Admin Deleted Successfully" />
 
 
     {{-- START - SECTION 1 - CREATE ADMIN --}}

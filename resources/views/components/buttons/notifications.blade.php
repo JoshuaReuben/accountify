@@ -1,12 +1,12 @@
 <div x-data="{ isOpen: false, openedWithKeyboard: false }" class="relative" @keydown.esc.window="isOpen = false, openedWithKeyboard = false">
     <!-- Toggle Button -->
-    <button type="button" @click="isOpen = ! isOpen" class="  " aria-haspopup="true"
+    <button type="button" @click="isOpen = ! isOpen" class="" aria-haspopup="true"
         @keydown.space.prevent="openedWithKeyboard = true" @keydown.enter.prevent="openedWithKeyboard = true"
         @keydown.down.prevent="openedWithKeyboard = true"
         :class="isOpen || openedWithKeyboard ? 'text-black dark:text-white' : 'text-slate-700 dark:text-slate-300'"
         :aria-expanded="isOpen || openedWithKeyboard">
         <!-- Bell icon -->
-        <svg aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6" fill="currentColor" viewBox="0 0 20 20"
+        <svg aria-hidden="true" class="w-5 h-5 md:h-6 md:w-6" fill="currentColor" viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
@@ -18,23 +18,23 @@
     <div x-cloak x-show="isOpen || openedWithKeyboard" x-transition x-trap="openedWithKeyboard"
         @click.outside="isOpen = false, openedWithKeyboard = false" @keydown.down.prevent="$focus.wrap().next()"
         @keydown.up.prevent="$focus.wrap().previous()"
-        class="absolute top-11 left-[-18rem] flex w-[max-content] flex-col overflow-hidden  z-50 my-4 max-w-sm text-base list-none bg-white  divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700 rounded-xl"
+        class="absolute top-11 left-[-20rem] flex w-[max-content] flex-col overflow-hidden  z-50 my-4 max-w-sm text-base list-none bg-white  divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700 rounded-xl"
         role="menu">
         <!-- Dropdown menu -->
 
         <div
-            class="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300">
+            class="block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300">
             Notifications
         </div>
         <div>
             <a href="#"
-                class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
+                class="flex px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
                 <div class="flex-shrink-0">
-                    <img class="w-11 h-11 rounded-full"
+                    <img class="rounded-full w-11 h-11"
                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
                         alt="Bonnie Green avatar" />
                     <div
-                        class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 rounded-full border border-white bg-primary-700 dark:border-gray-700">
+                        class="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 border border-white rounded-full bg-primary-700 dark:border-gray-700">
                         <svg aria-hidden="true" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -46,7 +46,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="pl-3 w-full">
+                <div class="w-full pl-3">
                     <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
                         New message from
                         <span class="font-semibold text-gray-900 dark:text-white">Bonnie Green</span>:
@@ -58,13 +58,13 @@
                 </div>
             </a>
             <a href="#"
-                class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
+                class="flex px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
                 <div class="flex-shrink-0">
-                    <img class="w-11 h-11 rounded-full"
+                    <img class="rounded-full w-11 h-11"
                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
                         alt="Jese Leos avatar" />
                     <div
-                        class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-gray-900 rounded-full border border-white dark:border-gray-700">
+                        class="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-gray-900 border border-white rounded-full dark:border-gray-700">
                         <svg aria-hidden="true" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -73,7 +73,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="pl-3 w-full">
+                <div class="w-full pl-3">
                     <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
                         <span class="font-semibold text-gray-900 dark:text-white">Jese leos</span>
                         and
@@ -86,13 +86,13 @@
                 </div>
             </a>
             <a href="#"
-                class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
+                class="flex px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
                 <div class="flex-shrink-0">
-                    <img class="w-11 h-11 rounded-full"
+                    <img class="rounded-full w-11 h-11"
                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/joseph-mcfall.png"
                         alt="Joseph McFall avatar" />
                     <div
-                        class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-red-600 rounded-full border border-white dark:border-gray-700">
+                        class="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-red-600 border border-white rounded-full dark:border-gray-700">
                         <svg aria-hidden="true" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -101,7 +101,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="pl-3 w-full">
+                <div class="w-full pl-3">
                     <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
                         <span class="font-semibold text-gray-900 dark:text-white">Joseph Mcfall</span>
                         and
@@ -114,13 +114,13 @@
                 </div>
             </a>
             <a href="#"
-                class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
+                class="flex px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
                 <div class="flex-shrink-0">
-                    <img class="w-11 h-11 rounded-full"
+                    <img class="rounded-full w-11 h-11"
                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png"
                         alt="Roberta Casas image" />
                     <div
-                        class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-green-400 rounded-full border border-white dark:border-gray-700">
+                        class="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-green-400 border border-white rounded-full dark:border-gray-700">
                         <svg aria-hidden="true" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -129,7 +129,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="pl-3 w-full">
+                <div class="w-full pl-3">
                     <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
                         <span class="font-semibold text-gray-900 dark:text-white">Leslie
                             Livingston</span>
@@ -142,13 +142,13 @@
                     </div>
                 </div>
             </a>
-            <a href="#" class="flex py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-600">
+            <a href="#" class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600">
                 <div class="flex-shrink-0">
-                    <img class="w-11 h-11 rounded-full"
+                    <img class="rounded-full w-11 h-11"
                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/robert-brown.png"
                         alt="Robert image" />
                     <div
-                        class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-purple-500 rounded-full border border-white dark:border-gray-700">
+                        class="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-purple-500 border border-white rounded-full dark:border-gray-700">
                         <svg aria-hidden="true" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -157,7 +157,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="pl-3 w-full">
+                <div class="w-full pl-3">
                     <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
                         <span class="font-semibold text-gray-900 dark:text-white">Robert Brown</span>
                         posted a new video: Glassmorphism - learn how to implement
@@ -170,9 +170,9 @@
             </a>
         </div>
         <a href="#"
-            class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:underline">
+            class="block py-2 font-medium text-center text-gray-900 text-md bg-gray-50 hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:underline">
             <div class="inline-flex items-center">
-                <svg aria-hidden="true" class="mr-2 w-4 h-4 text-gray-500 dark:text-gray-400" fill="currentColor"
+                <svg aria-hidden="true" class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" fill="currentColor"
                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                     <path fill-rule="evenodd"

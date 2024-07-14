@@ -17,7 +17,6 @@ use App\Livewire\Flashcard\FlashcardCreate;
 use App\Livewire\Question\CourseQuestionCreate;
 use App\Livewire\Question\ModuleQuestionCreate;
 use App\Http\Controllers\Auth\ProviderController;
-use App\Http\Controllers\AdminEmailVerifyController;
 use App\Livewire\Admin\AdminCreate;
 
 Route::view('/', 'welcome');
@@ -35,9 +34,13 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['customauth', 'verified'])
     ->name('dashboard');
 
-Route::view('profile', 'profile')
+Route::view('profile', 'pages.user.my-profile')
     ->middleware(['customauth'])
-    ->name('profile');
+    ->name('user.profile');
+
+Route::view('profile/my-account', 'pages.user.my-account')
+    ->middleware(['customauth'])
+    ->name('user.account');
 
 
 

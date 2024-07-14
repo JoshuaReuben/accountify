@@ -1,8 +1,12 @@
 @props(['on', 'color' => 'green', 'title' => 'Success', 'message' => 'Saved.'])
 
-<div x-data="{ shown: false, timeout: null }" x-init="@this.on('{{ $on }}', () => { clearTimeout(timeout);
+{{-- Activated Via Dispatchable Events - used in single pages --}}
+
+<div x-data="{ shown: false, timeout: null }" x-init="@this.on('{{ $on }}', () => {
+    clearTimeout(timeout);
     shown = true;
-    timeout = setTimeout(() => { shown = false }, 2000); })" x-transition:enter="transform transition-transform duration-300"
+    timeout = setTimeout(() => { shown = false }, 2000);
+})" x-transition:enter="transform transition-transform duration-300"
     x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
     x-transition:leave="transform transition-transform duration-300" x-transition:leave-start="translate-x-0"
     x-transition:leave-end="translate-x-full" x-show="shown" @click="shown = false"

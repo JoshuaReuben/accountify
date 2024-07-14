@@ -1,5 +1,7 @@
 @props(['color' => 'green', 'title' => 'Success', 'message' => 'Saved.'])
 
+{{-- Requires Sessions to show -- needed at redirects --}}
+
 <div x-data="{ shown: false, timeout: null }" x-init="shown = true;
 timeout = setTimeout(() => { shown = false }, 2000);" x-transition:enter="transform transition-transform duration-300"
     x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"

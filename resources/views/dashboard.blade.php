@@ -7,10 +7,18 @@
 
     {{-- Alert Message --}}
     @if (session()->has('firstLogin'))
-        <x-alert-message :id="uniqid()" class="w-4/5 mx-auto mt-4">
-            {{ session('firstLogin') }}
-        </x-alert-message>
+        <x-alerts.info-alert-message>
+            An email has been sent to your account containing a temporary password. Please check your email.
+        </x-alerts.info-alert-message>
+
+        @php
+            session()->forget('firstLogin');
+        @endphp
     @endif
+
+
+
+
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">

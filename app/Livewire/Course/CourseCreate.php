@@ -90,7 +90,8 @@ class CourseCreate extends Component
         $this->reset(['course_name', 'course_description', 'course_difficulty', 'course_overview', 'course_cover_photo', 'course_duration', 'course_publish_date']);
         // session()->flash('message', 'Music Added Successfully!');
         // $this->dispatch('reload-page');
-        return redirect()->route('pages.admin.course')->with('message', 'Course Added Successfully!');
+        // return redirect()->route('pages.admin.course')->with('message', 'Course Added Successfully!');
+        $this->dispatch('course-created');
     }
 
     public function render()

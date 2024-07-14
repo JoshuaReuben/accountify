@@ -1,13 +1,13 @@
 <div>
 
-    <x-sweet-alert-2 on="module-deleted" message="Module Deleted Successfully" />
+    <x-alerts.sweet-alert-2 on="module-deleted" message="Module Deleted Successfully" />
 
 
 
 
     {{-- Sweet Alert --}}
     @if (session()->has('message'))
-        <x-sweet-alert :message="session('message')" />
+        <x-alerts.sweet-alert :message="session('message')" />
 
         @php
             session()->forget('message');

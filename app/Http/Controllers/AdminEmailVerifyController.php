@@ -24,10 +24,10 @@ class AdminEmailVerifyController extends Controller
             $user->save();
 
             // Redirect to a success page or dashboard
-            return redirect()->route('admin.dashboard')->with('status', 'Email verified successfully!');
+            return redirect()->route('admin.overview')->with('status', 'Email verified successfully!');
         } else {
             // Handle invalid token or user not found
-            return redirect()->route('admin.dashboard')->with('error', 'Invalid verification link or user not found.');
+            return redirect()->route('admin.overview')->with('error', 'Invalid verification link or user not found.');
         }
     }
 }

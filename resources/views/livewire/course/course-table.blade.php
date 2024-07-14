@@ -1,4 +1,10 @@
 <div>
+
+
+    {{-- Sweet Alert --}}
+    <x-alerts.sweet-alert-2 on="course-deleted" message="Course Deleted Successfully" />
+
+
     <h1 class="my-4 text-xl font-bold uppercase">{{ $title }}</h1>
     <hr class="mb-4">
 
@@ -10,7 +16,7 @@
             @endphp
 
 
-            <div
+            <div wire:key="course-{{ $course->id }}"
                 class="max-w-[370px] m-2 group bg-white border overflow-hidden border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:scale-[1.01] duration-250 transition-all ease-in hover:shadow-2xl ">
                 {{-- Course Image but on DIV --}}
                 <div class="h-[150px] w-[370px] relative dark:border-gray-700 overflow-hidden "
@@ -24,7 +30,7 @@
                         </div>
 
                         {{-- Actions --}}
-                        @if (request()->routeIs('pages.admin.course'))
+                        @if ($isCreateCoursePage)
                             <div class="items-center justify-between hidden group-hover:flex">
                                 {{-- Edit Button --}}
                                 <a href="{{ route('pages.admin.course.edit', $course->id) }}">

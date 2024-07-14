@@ -3,13 +3,13 @@
 
     {{-- Sweet Alert --}}
     @if (session()->has('message'))
-        <x-sweet-alert :message="session('message')" />
+        <x-alerts.sweet-alert :message="session('message')" />
     @endif
 
 
-    <x-sweet-alert-2 on="module-question-deleted" message="Question Deleted Successfully" />
-    <x-sweet-alert-2 on="module-question-added" message="Question Added Successfully" />
-    <x-sweet-alert-2 on="module-question-updated" message="Question Updated Successfully" />
+    <x-alerts.sweet-alert-2 on="module-question-deleted" message="Question Deleted Successfully" />
+    <x-alerts.sweet-alert-2 on="module-question-added" message="Question Added Successfully" />
+    <x-alerts.sweet-alert-2 on="module-question-updated" message="Question Updated Successfully" />
 
 
 
