@@ -1,4 +1,4 @@
-<div x-data="setupTimer()" x-init="init()">
+<div x-data="setupTimer()" x-init="init(), initFormTimer()">
 
     <x-dropdown width="w-full"
         contentClasses="absolute top-0 right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
@@ -88,15 +88,14 @@
                             <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-900">
                             {{-- HR - END --}}
 
-                            <form x-data="setFormTimer()" x-init="init()"
-                                class="flex flex-wrap items-center justify-center w-full mx-auto">
+                            <form class="flex flex-wrap items-center justify-center w-full mx-auto">
                                 {{-- MINUTES --}}
                                 <div class="mx-1">
                                     <div class="relative flex flex-col items-center mb-2">
 
                                         {{-- Plus Icon --}}
                                         <button type="button" id="increment-button-minutes"
-                                            @click="if (minutes < 59) minutes++"
+                                            @click="if (form_Set_Minutes < 59) form_Set_Minutes++"
                                             class="px-5 py-3 bg-gray-100 border border-gray-300 rounded-t-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                             <svg class="w-3 h-3 text-gray-900 dark:text-white"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -108,9 +107,9 @@
 
                                         <input type="number" id="minutes-input"
                                             class="block w-full px-3 pt-6 text-sm font-medium text-center text-gray-900 border border-gray-300 pb-9 bg-gray-50 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="" x-model="minutes"
-                                            @input="minutes = Math.max(1, Math.min(59, minutes))" required
-                                            min="1" max="59" />
+                                            placeholder="" x-model="form_Set_Minutes"
+                                            @input="form_Set_Minutes = Math.max(1, Math.min(59, form_Set_Minutes))"
+                                            required min="1" max="59" />
 
                                         <div
                                             class="absolute  flex items-center text-2xs text-gray-400 bottom-[50px] w-full  justify-center">
@@ -119,7 +118,7 @@
 
                                         {{-- Minus Icon --}}
                                         <button type="button" id="decrement-button-minutes"
-                                            @click="if (minutes > 1) minutes--"
+                                            @click="if (form_Set_Minutes > 1) form_Set_Minutes--"
                                             class="px-5 py-3 bg-gray-100 border border-gray-300 rounded-b-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                             <svg class="w-3 h-3 text-gray-900 dark:text-white"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
@@ -136,7 +135,7 @@
 
                                         {{-- Plus Icon --}}
                                         <button type="button" id="increment-button-seconds"
-                                            @click="if (seconds < 59) seconds++"
+                                            @click="if (form_Set_Seconds < 59) form_Set_Seconds++"
                                             class="px-5 py-3 bg-gray-100 border border-gray-300 rounded-t-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                             <svg class="w-3 h-3 text-gray-900 dark:text-white"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -148,9 +147,9 @@
 
                                         <input type="number" id="seconds-input"
                                             class="block w-full px-3 pt-6 text-sm font-medium text-center text-gray-900 border border-gray-300 pb-9 bg-gray-50 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="" x-model="seconds"
-                                            @input="seconds = Math.max(0, Math.min(59, seconds))" required
-                                            min="0" max="59" />
+                                            placeholder="" x-model="form_Set_Seconds"
+                                            @input="form_Set_Seconds = Math.max(0, Math.min(59, form_Set_Seconds))"
+                                            required min="0" max="59" />
 
                                         <div
                                             class="absolute  flex items-center text-2xs text-gray-400 bottom-[50px] w-full  justify-center">
@@ -159,7 +158,7 @@
 
                                         {{-- Minus Icon --}}
                                         <button type="button" id="decrement-button-seconds"
-                                            @click="if (seconds > 0) seconds--"
+                                            @click="if (form_Set_Seconds > 0) form_Set_Seconds--"
                                             class="px-5 py-3 bg-gray-100 border border-gray-300 rounded-b-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                             <svg class="w-3 h-3 text-gray-900 dark:text-white"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
@@ -175,7 +174,7 @@
                         <!-- Modal footer -->
                         <div
                             class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
-                            <button onclick="updateStartingTime()" type="button" x-on:click="$dispatch('close')"
+                            <button @click="updateStartingTime()" type="button" x-on:click="$dispatch('close')"
                                 class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                                 Save Changes
                             </button>
@@ -267,7 +266,7 @@
                     const minutesInput = document.getElementById('minutes-input');
                     const secondsInput = document.getElementById('seconds-input');
                     this.startingMinutes = parseInt(minutesInput.value);
-                    this.time = startingMinutes * 60;
+                    this.time = this.startingMinutes * 60;
                     this.time += parseInt(secondsInput.value);
                     this.updateCountdown();
                     localStorage.setItem('set:Minutes', minutesInput.value);
@@ -276,28 +275,22 @@
                 },
 
 
-            }
-        }
+                // For the Form Timer - Change Default Timer
+                form_Set_Minutes: 25,
+                form_Set_Seconds: 0,
 
-
-        function setFormTimer() {
-            return {
-                minutes: 25,
-                seconds: 0,
-
-                init() {
+                initFormTimer() {
                     // Retrieve values from localStorage and update minutes and seconds if they exist
                     const storedMinutes = localStorage.getItem('set:Minutes');
                     const storedSeconds = localStorage.getItem('set:Seconds');
 
                     if (storedMinutes !== null) {
-                        this.minutes = parseInt(storedMinutes);
+                        this.form_Set_Minutes = parseInt(storedMinutes);
                     }
                     if (storedSeconds !== null) {
-                        this.seconds = parseInt(storedSeconds);
+                        this.form_Set_Seconds = parseInt(storedSeconds);
                     }
                 },
-
             }
         }
     </script>
