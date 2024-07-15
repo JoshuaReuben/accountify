@@ -34,6 +34,15 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['customauth', 'verified'])
     ->name('dashboard');
 
+// Experiment
+Route::view('page1', 'page1')
+    ->middleware(['customauth', 'verified'])
+    ->name('user.page1');
+
+Route::view('page2', 'page2')
+    ->middleware(['customauth', 'verified'])
+    ->name('user.page2');
+
 Route::view('profile', 'pages.user.my-profile')
     ->middleware(['customauth'])
     ->name('user.profile');

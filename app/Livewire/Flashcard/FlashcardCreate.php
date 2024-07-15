@@ -195,7 +195,6 @@ class FlashcardCreate extends Component
     }
 
 
-    #[On('flashcard-deleted')]
     public function render()
     {
         return view('livewire.flashcard.flashcard-create');

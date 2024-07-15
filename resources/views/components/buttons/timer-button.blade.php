@@ -89,12 +89,12 @@
                                 class="flex flex-wrap items-center justify-center w-full mx-auto">
                                 {{-- MINUTES --}}
                                 <div class="mx-1">
-                                    <div class="relative flex items-center mb-2 flex-col">
+                                    <div class="relative flex flex-col items-center mb-2">
 
                                         {{-- Plus Icon --}}
                                         <button type="button" id="increment-button-minutes"
                                             @click="if (minutes < 59) minutes++"
-                                            class="py-3 px-5 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-t-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            class="px-5 py-3 bg-gray-100 border border-gray-300 rounded-t-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                             <svg class="w-3 h-3 text-gray-900 dark:text-white"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                                 <path stroke="currentColor" stroke-linecap="round"
@@ -104,7 +104,7 @@
                                         </button>
 
                                         <input type="number" id="minutes-input"
-                                            class="block w-full px-3 pt-6 pb-9 text-sm font-medium text-center text-gray-900 border border-gray-300 bg-gray-50 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            class="block w-full px-3 pt-6 text-sm font-medium text-center text-gray-900 border border-gray-300 pb-9 bg-gray-50 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="" x-model="minutes"
                                             @input="minutes = Math.max(1, Math.min(59, minutes))" required
                                             min="1" max="59" />
@@ -117,7 +117,7 @@
                                         {{-- Minus Icon --}}
                                         <button type="button" id="decrement-button-minutes"
                                             @click="if (minutes > 1) minutes--"
-                                            class="py-3 px-5 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-b-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            class="px-5 py-3 bg-gray-100 border border-gray-300 rounded-b-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                             <svg class="w-3 h-3 text-gray-900 dark:text-white"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                                 <path stroke="currentColor" stroke-linecap="round"
@@ -129,12 +129,12 @@
 
                                 {{-- SECONDS --}}
                                 <div class="">
-                                    <div class="relative flex items-center mb-2 flex-col">
+                                    <div class="relative flex flex-col items-center mb-2">
 
                                         {{-- Plus Icon --}}
                                         <button type="button" id="increment-button-seconds"
                                             @click="if (seconds < 59) seconds++"
-                                            class="py-3 px-5 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-t-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            class="px-5 py-3 bg-gray-100 border border-gray-300 rounded-t-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                             <svg class="w-3 h-3 text-gray-900 dark:text-white"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                                 <path stroke="currentColor" stroke-linecap="round"
@@ -144,7 +144,7 @@
                                         </button>
 
                                         <input type="number" id="seconds-input"
-                                            class="block w-full px-3 pt-6 pb-9 text-sm font-medium text-center text-gray-900 border border-gray-300 bg-gray-50 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            class="block w-full px-3 pt-6 text-sm font-medium text-center text-gray-900 border border-gray-300 pb-9 bg-gray-50 h-11 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="" x-model="seconds"
                                             @input="seconds = Math.max(0, Math.min(59, seconds))" required
                                             min="0" max="59" />
@@ -157,7 +157,7 @@
                                         {{-- Minus Icon --}}
                                         <button type="button" id="decrement-button-seconds"
                                             @click="if (seconds > 0) seconds--"
-                                            class="py-3 px-5 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 rounded-b-lg h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            class="px-5 py-3 bg-gray-100 border border-gray-300 rounded-b-lg dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                             <svg class="w-3 h-3 text-gray-900 dark:text-white"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                                 <path stroke="currentColor" stroke-linecap="round"
@@ -192,151 +192,138 @@
     {{-- JAVASCRIPT --}}
 
     <script>
-        const countdownEl = document.getElementById('countdown');
-        let timerPlayBtn = document.getElementById('timer-play-btn');
-        let timerPauseBtn = document.getElementById('timer-pause-btn');
+        (function() {
+            const countdownEl = document.getElementById('countdown');
+            let timerPlayBtn = document.getElementById('timer-play-btn');
+            let timerPauseBtn = document.getElementById('timer-pause-btn');
 
-        function toggleResetforPlayBtn() {
+            let startingMinutes = 25;
+            let startingSeconds = 0;
+            let time = (startingMinutes * 60) + startingSeconds;
+            let intervalID = null;
 
-
-            // Always show back to play button, hide the pause button then show the play button
-            if (timerPauseBtn.classList.contains('flex')) {
-                // if pause is show, hide it then show play
-                timerPauseBtn.classList.remove('flex');
-                timerPauseBtn.classList.add('hidden');
-
-                //show the play
-                timerPlayBtn.classList.remove('hidden');
-                timerPlayBtn.classList.add('flex');
-            }
-        }
-
-        // Function to toggle the open state
-        function toggleTimerOpen() {
-            timerPlayBtn.classList.toggle('hidden');
-
-            //Handling the toggle for Pause Button - i did it this way because it shows csslint error for displaying hiden and flex at the same time
-            if (timerPauseBtn.classList.contains('hidden')) {
-                timerPauseBtn.classList.remove('hidden');
-                timerPauseBtn.classList.add('flex');
-            } else {
-                timerPauseBtn.classList.remove('flex');
-                timerPauseBtn.classList.add('hidden');
+            function toggleResetforPlayBtn() {
+                if (timerPauseBtn.classList.contains('flex')) {
+                    timerPauseBtn.classList.remove('flex');
+                    timerPauseBtn.classList.add('hidden');
+                    timerPlayBtn.classList.remove('hidden');
+                    timerPlayBtn.classList.add('flex');
+                }
             }
 
-        }
-
-        let startingMinutes = 25;
-        let startingSeconds = 0;
-        let time = (startingMinutes * 60) + startingSeconds;
-        let intervalID = null;
-
-        function setFormTimer() {
-            return {
-                minutes: 25,
-                seconds: 0,
-
-                init() {
-                    // Retrieve values from localStorage and update minutes and seconds if they exist
-                    const storedMinutes = localStorage.getItem('set:Minutes');
-                    const storedSeconds = localStorage.getItem('set:Seconds');
-
-                    if (storedMinutes !== null) {
-                        this.minutes = parseInt(storedMinutes);
-                    }
-                    if (storedSeconds !== null) {
-                        this.seconds = parseInt(storedSeconds);
-                    }
-                },
-
+            function toggleTimerOpen() {
+                timerPlayBtn.classList.toggle('hidden');
+                if (timerPauseBtn.classList.contains('hidden')) {
+                    timerPauseBtn.classList.remove('hidden');
+                    timerPauseBtn.classList.add('flex');
+                } else {
+                    timerPauseBtn.classList.remove('flex');
+                    timerPauseBtn.classList.add('hidden');
+                }
             }
-        }
 
-
-        // If there is a key 'set:Minutes' and 'set:Seconds' stored in storage, save that to the form for setting the timer
-        if (localStorage.getItem('set:Minutes') && localStorage.getItem('set:Seconds')) {
-            document.getElementById("minutes-input").value = parseInt(localStorage.getItem('set:Minutes'));
-            document.getElementById("seconds-input").value = parseInt(localStorage.getItem('set:Seconds'));
-        }
-
-        // If there is a key 'time' stored in storage, then use that value as the time then update the innerHTML
-        if (localStorage.getItem('time')) {
-            time = parseInt(localStorage.getItem('time'));
-            updateCountdown();
-        } else {
-            updateCountdown();
-        }
-
-        function startCountdown() {
-            clearInterval(intervalID); // Clear any existing interval before setting a new one
-            intervalID = setInterval(updateCountdown, 1000);
-        }
-
-        // Pause the timer
-        function pauseCountdown() {
-            if (intervalID !== null) {
+            function startCountdown() {
                 clearInterval(intervalID);
-            }
-        }
-        // Countdown timer function
-        function updateCountdown() {
-            const minutes = Math.floor(time / 60);
-            let seconds = time % 60;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-
-            countdownEl.innerHTML = `${minutes}:${seconds}`;
-            localStorage.setItem('time', time);
-
-            if (time < 0) {
-                clearInterval(intervalID); // Stop the interval
-                alert('Time is up! Take a short break!');
-
-                // Reset the timer back 
-                resetCountdown();
-                toggleResetforPlayBtn()
-
-            } else {
-                time--;
-            }
-        }
-
-        // Reset the timer back
-        function resetCountdown() {
-            // Stop the interval if it is currently running
-            if (typeof intervalID !== 'undefined' && intervalID !== null) {
-                clearInterval(intervalID);
+                intervalID = setInterval(updateCountdown, 1000);
             }
 
-            if (localStorage.getItem('set:Minutes') && localStorage.getItem('set:Seconds')) {
-                setMinutes = parseInt(localStorage.getItem('set:Minutes'));
-                setSeconds = parseInt(localStorage.getItem('set:Seconds'));
-                time = (setMinutes * 60) + setSeconds;
-            } else {
+            function pauseCountdown() {
+                if (intervalID !== null) {
+                    clearInterval(intervalID);
+                }
+            }
+
+            function updateCountdown() {
+                const minutes = Math.floor(time / 60);
+                let seconds = time % 60;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                countdownEl.innerHTML = `${minutes}:${seconds}`;
+                localStorage.setItem('time', time);
+
+                if (time < 0) {
+                    clearInterval(intervalID);
+                    alert('Time is up! Take a short break!');
+                    resetCountdown();
+                    toggleResetforPlayBtn();
+                } else {
+                    time--;
+                }
+            }
+
+            function resetCountdown() {
+                if (intervalID !== null) {
+                    clearInterval(intervalID);
+                }
+                if (localStorage.getItem('set:Minutes') && localStorage.getItem('set:Seconds')) {
+                    const setMinutes = parseInt(localStorage.getItem('set:Minutes'));
+                    const setSeconds = parseInt(localStorage.getItem('set:Seconds'));
+                    time = (setMinutes * 60) + setSeconds;
+                } else {
+                    time = startingMinutes * 60;
+                }
+                updateCountdown();
+                toggleResetforPlayBtn();
+            }
+
+            function updateStartingTime() {
+                const minutesInput = document.getElementById('minutes-input');
+                const secondsInput = document.getElementById('seconds-input');
+                startingMinutes = parseInt(minutesInput.value);
                 time = startingMinutes * 60;
+                time += parseInt(secondsInput.value);
+                updateCountdown();
+                localStorage.setItem('set:Minutes', minutesInput.value);
+                localStorage.setItem('set:Seconds', secondsInput.value);
+                resetCountdown();
             }
-            updateCountdown();
-            toggleResetforPlayBtn();
 
-        }
+            // Initial setup
+            if (localStorage.getItem('set:Minutes') && localStorage.getItem('set:Seconds')) {
+                document.getElementById("minutes-input").value = parseInt(localStorage.getItem('set:Minutes'));
+                document.getElementById("seconds-input").value = parseInt(localStorage.getItem('set:Seconds'));
+            }
 
+            if (localStorage.getItem('time')) {
+                time = parseInt(localStorage.getItem('time'));
+                updateCountdown();
+            } else {
+                updateCountdown();
+            }
 
-        // Function to update the startingMinutes based on the input field
-        function updateStartingTime() {
-            const minutesInput = document.getElementById('minutes-input');
-            const secondsInput = document.getElementById('seconds-input');
-            startingMinutes = parseInt(minutesInput.value);
-            time = startingMinutes * 60;
-            // Add the inputted seconds to the time
-            time += parseInt(secondsInput.value);
-            updateCountdown(); // Update the countdown display immediately
+            function setFormTimer() {
+                return {
+                    minutes: 25,
+                    seconds: 0,
 
+                    init() {
+                        // Retrieve values from localStorage and update minutes and seconds if they exist
+                        const storedMinutes = localStorage.getItem('set:Minutes');
+                        const storedSeconds = localStorage.getItem('set:Seconds');
 
-            localStorage.setItem('set:Minutes', minutesInput.value);
-            localStorage.setItem('set:Seconds', secondsInput.value);
+                        if (storedMinutes !== null) {
+                            this.minutes = parseInt(storedMinutes);
+                        }
+                        if (storedSeconds !== null) {
+                            this.seconds = parseInt(storedSeconds);
+                        }
+                    },
 
-            resetCountdown();
-        }
+                }
+            }
+
+            // Exposing functions to global scope
+            window.toggleResetforPlayBtn = toggleResetforPlayBtn;
+            window.toggleTimerOpen = toggleTimerOpen;
+            window.startCountdown = startCountdown;
+            window.pauseCountdown = pauseCountdown;
+            window.updateCountdown = updateCountdown;
+            window.resetCountdown = resetCountdown;
+            window.updateStartingTime = updateStartingTime;
+            window.setFormTimer = setFormTimer;
+
+        })();
     </script>
+
 
 
 </div>

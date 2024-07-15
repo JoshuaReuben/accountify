@@ -55,8 +55,9 @@
                     <div class="flex items-center">
 
                         {{-- Timer --}}
-                        <x-buttons.timer-button />
-
+                        @persist('pomodoro-timer')
+                            <x-buttons.timer-button />
+                        @endpersist
 
                         <!-- THEME TOGGLER -->
                         <div
