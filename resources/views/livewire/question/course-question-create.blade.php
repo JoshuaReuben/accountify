@@ -1,13 +1,25 @@
 <div>
 
-
-
-
-    {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day. --}}
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
             {{ __('Course Examination') }}
         </h2>
+    </x-slot> --}}
+
+    <x-slot name="header">
+        <div class="flex justify-between w-full">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                {{ __('Course Examination') }}
+            </h2>
+
+            <div>
+                {{-- Back to Courses --}}
+                <a href="{{ route('pages.admin.course.show', $courseID) }}"
+                    class=" focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">
+                    &nbsp; <i class="text-2xl fa-solid fa-xmark"></i>
+                </a>
+            </div>
+        </div>
     </x-slot>
 
 

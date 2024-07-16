@@ -43,4 +43,50 @@ class Course extends Model
 
         return $lessonsCount;
     }
+
+    public function isCourseReadyToPublish()
+    {
+        // Check Course Exam Question Count
+        if ($this->courseQuestions()->count() == 0) {
+            return false;
+        }
+
+        // Check Module Count
+        if ($this->modules->count() == 0) {
+            return false;
+        }
+
+        // Check Module Exam Count
+        foreach ($this->modules as $module) {
+            if ($module->moduleQuestions()->count() == 0) {
+                return false;
+            }
+        }
+
+        // Check Lesson Count
+        if ($this->checkLessonsCount() == 0) {
+            return false;
+        }
+
+        // Check Lesson Questions Count
+        foreach ($this->modules as $module) {
+            foreach ($module->lessons as $lesson) {
+                if ($lesson->questions->count() == 0) {
+                    return false;
+                }
+            }
+        }
+
+        // Check Flashcards Count
+        foreach ($this->modules as $module) {
+            foreach ($module->lessons as $lesson) {
+                if ($lesson->flashcards->count() == 0) {
+                    return false;
+                }
+            }
+        }
+
+        // Otherwise, return true
+        return true;
+    }
 }

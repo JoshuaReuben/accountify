@@ -9,7 +9,7 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 
-#[Layout('layouts.app')]
+#[Layout('layouts.admin')]
 class CourseShow extends Component
 {
 
@@ -110,6 +110,26 @@ class CourseShow extends Component
         $this->EDIT_COPY_module_name = $this->EDIT_module_name;
     }
 
+    public function publishCourse($courseID)
+    {
+        $course = Course::find($courseID);
+        $course->update([
+            'course_publish_date' => now()
+        ]);
+        $this->dispatch('course-published');
+    }
+
+    public function unpublishCourse($courseID)
+    {
+        $course = Course::find($courseID);
+        $course->update([
+            'course_publish_date' => null
+        ]);
+        $this->dispatch('course-unpublished');
+    }
+
+    #[On('course-published')]
+    #[On('course-unpublished')]
     public function render()
     {
         return view('livewire.course.course-show');

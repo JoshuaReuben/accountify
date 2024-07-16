@@ -369,10 +369,6 @@ if (window.location.pathname.includes("admin/lessons/create")) {
             );
         }
     }); //End of DOMContentLoad
-} else {
-    console.log(
-        "The path does not include /lesson/create. The 1st instance of Ckeditor will not be created."
-    );
 }
 
 function sendLessonsContent() {
@@ -822,8 +818,4 @@ if (window.location.pathname.includes("admin/lessons/edit")) {
             console.log("CK Editor_Edit_Mode element not on this page.");
         }
     } //End of Function for Creating the CKEditor
-} else {
-    console.log(
-        "The path does not include admin/lessons/edit. There is no need to run the 2nd instance of CKEditor. "
-    );
 }

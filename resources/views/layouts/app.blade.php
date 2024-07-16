@@ -67,58 +67,59 @@
 
 
                         {{--  Music Playlist --}}
-                        <div>
-                            <div
-                                class="p-2 pt-4 mr-0 text-center text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
-                                <button x-data @click="$dispatch('open-music-player')" type="button">
-                                    <i class="w-5 h-5 fa-solid fa-music md:h-6 md:w-6"></i>
-                                </button>
-                            </div>
-
-                            <section x-data="musicSidebar()" x-cloak x-on:open-music-player.window="open = true"
-                                @keydown.escape.window="open = false" x-init="init()">
-
-                                {{-- Overlay --}}
-                                <div x-show.transition.opacity.duration.500="open" @click="open = false"
-                                    class="fixed inset-0 z-50 bg-black bg-opacity-40"></div>
-
-                                {{-- Side Bar --}}
-                                <div class="fixed top-0 right-0 z-50 w-full h-screen max-w-sm overflow-hidden transition duration-300 transform bg-gray-100 dark:bg-gray-800"
-                                    :class="{ 'translate-x-full': open == false }">
-
-                                    <div class="flex items-center w-full mt-10">
-
-                                        <h5
-                                            class="inline-flex items-center mt-4 mb-4 ml-4 text-base font-semibold text-gray-500 uppercase dark:text-gray-400">
-                                            <svg class="w-4 h-4 me-2.5" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path
-                                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                                            </svg>Music Playlist
-                                        </h5>
-
-                                        <button @click="open = false"
-                                            class="fixed z-50 mt-2 mr-4 text-gray-400 bg-transparent top-10 right-2 hover:text-gray-900 dark:hover:text-white">
-                                            {{-- Close Button --}}
-                                            <i class="text-3xl fa-solid fa-xmark"></i>
-                                        </button>
-                                    </div>
-
-
-
-                                    <div class="absolute w-full h-full px-6 pt-2 overflow-y-auto">
-                                        {{-- Side Bar Content --}}
-                                        <div class="mt-auto">
-                                            <livewire:blocks.music-playlist />
-                                        </div>
-                                    </div>
+                        @persist('music-player')
+                            <div>
+                                <div
+                                    class="p-2 pt-4 mr-0 text-center text-gray-500 rounded-lg md:mr-1 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                                    <button x-data @click="$dispatch('open-music-player')" type="button">
+                                        <i class="w-5 h-5 fa-solid fa-music md:h-6 md:w-6"></i>
+                                    </button>
                                 </div>
 
-                            </section>
+                                <section x-data="musicSidebar()" x-cloak x-on:open-music-player.window="open = true"
+                                    @keydown.escape.window="open = false" x-init="init()">
 
-                        </div>
+                                    {{-- Overlay --}}
+                                    <div x-show.transition.opacity.duration.500="open" @click="open = false"
+                                        class="fixed inset-0 z-50 bg-black bg-opacity-40"></div>
 
+                                    {{-- Side Bar --}}
+                                    <div class="fixed top-0 right-0 z-50 w-full h-screen max-w-sm overflow-hidden transition duration-300 transform bg-gray-100 dark:bg-gray-800"
+                                        :class="{ 'translate-x-full': open == false }">
+
+                                        <div class="flex items-center w-full mt-10">
+
+                                            <h5
+                                                class="inline-flex items-center mt-4 mb-4 ml-4 text-base font-semibold text-gray-500 uppercase dark:text-gray-400">
+                                                <svg class="w-4 h-4 me-2.5" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                    viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                                </svg>Music Playlist
+                                            </h5>
+
+                                            <button @click="open = false"
+                                                class="fixed z-50 mt-2 mr-4 text-gray-400 bg-transparent top-10 right-2 hover:text-gray-900 dark:hover:text-white">
+                                                {{-- Close Button --}}
+                                                <i class="text-3xl fa-solid fa-xmark"></i>
+                                            </button>
+                                        </div>
+
+
+
+                                        <div class="absolute w-full h-full px-6 pt-2 overflow-y-auto">
+                                            {{-- Side Bar Content --}}
+                                            <div class="mt-auto">
+                                                <livewire:blocks.music-playlist />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </section>
+
+                            </div>
+                        @endpersist
 
                         <!-- NOTIFICATIONS -->
                         <div

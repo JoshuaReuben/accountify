@@ -31,7 +31,7 @@ new #[Layout('layouts.admin')] class extends Component {
 
 
                 {{-- Container of Table --}}
-                <div class="relative w-full overflow-x-auto  shadow-md sm:rounded-lg py-5">
+                <div class="relative w-full py-5 overflow-x-auto shadow-md sm:rounded-lg">
 
                     {{-- Table --}}
                     <div class="text-sm text-gray-500 dark:text-gray-400">
@@ -93,7 +93,7 @@ new #[Layout('layouts.admin')] class extends Component {
                                                 content="To create a course examination, you must have at least one lesson created.">
                                                 <x-slot name="trigger">
                                                     <i class="fa-solid fa-circle-info"></i>
-                                                    <span class="text-center italic opacity-80">
+                                                    <span class="italic text-center opacity-80">
                                                         Not Available
                                                     </span>
                                                 </x-slot>
@@ -160,7 +160,7 @@ new #[Layout('layouts.admin')] class extends Component {
                                 {{-- TR - 2nd Row --}}
                                 <div x-cloak wire:key="tr-2-course-{{ $course->id }}"
                                     x-show="expandedCourseID == {{ $course->id }}"
-                                    class=" w-full h-full px-6 py-4 border border-gray-500 darkborder-gray-500 bg-gray-950">
+                                    class="w-full h-full px-6 py-4 border border-gray-500 darkborder-gray-500 bg-gray-950">
                                     {{-- ------------------------------------------------------------------------------------- --}}
                                     {{-- Start Container Table for Modules --}}
 
@@ -206,7 +206,7 @@ new #[Layout('layouts.admin')] class extends Component {
                                                                         class="px-6 py-7 w-[500px] min-w-[500px] max-w-[500px] font-bold text-white">
                                                                         {{ $module->module_name }}
                                                                     </td>
-                                                                    <td class="px-6 py-7  text-center ">
+                                                                    <td class="px-6 text-center py-7 ">
                                                                         {{-- Display Module Exam Question Count if Greater than 0 and Has Lessons --}}
                                                                         @if ($module->moduleQuestions()->count() >= 0 && $module->lessons()->count() > 0)
                                                                             <span class="font-bold text-white">
@@ -228,7 +228,7 @@ new #[Layout('layouts.admin')] class extends Component {
                                                                                     <i
                                                                                         class="fa-solid fa-circle-info"></i>
                                                                                     <span
-                                                                                        class="text-center italic opacity-80">
+                                                                                        class="italic text-center opacity-80">
                                                                                         Not Available
                                                                                     </span>
                                                                                 </x-slot>
@@ -237,11 +237,11 @@ new #[Layout('layouts.admin')] class extends Component {
 
                                                                     </td>
                                                                     <td
-                                                                        class="px-6 py-7 font-bold text-center text-white">
+                                                                        class="px-6 font-bold text-center text-white py-7">
                                                                         {{ $module->lessons()->count() }}
                                                                     </td>
                                                                     <td
-                                                                        class="px-6 py-7 font-bold text-center text-white">
+                                                                        class="px-6 font-bold text-center text-white py-7">
                                                                         <button type="button"
                                                                             @click="moduleExpanded = ! moduleExpanded"
                                                                             :aria-expanded="moduleExpanded ? 'true' : 'false'"
@@ -311,8 +311,8 @@ new #[Layout('layouts.admin')] class extends Component {
                                                                 @empty
                                                                     <tr x-show="moduleExpanded">
                                                                         <td colspan="4"
-                                                                            class="px-6 py-4  text-center">
-                                                                            <span class="italic mr-2">
+                                                                            class="px-6 py-4 text-center">
+                                                                            <span class="mr-2 italic">
                                                                                 No Lesson Added
                                                                             </span>
                                                                             (<a href="{{ route('pages.admin.lesson', ['courseID' => $course->id, 'moduleID' => $module->id]) }}"
@@ -333,7 +333,7 @@ new #[Layout('layouts.admin')] class extends Component {
                                         </div>
                                     @empty
                                         <div class="p-6 italic text-center text-gray-900 dark:text-gray-100">
-                                            <span class="italic mr-2">
+                                            <span class="mr-2 italic">
                                                 No Modules Added
                                             </span>
                                             (<a href="{{ route('pages.admin.course.show', ['courseID' => $course->id]) }}"

@@ -1,6 +1,8 @@
 <div>
 
     <x-alerts.sweet-alert-2 on="module-deleted" message="Module Deleted Successfully" />
+    <x-alerts.sweet-alert-2 on="course-published" message="Course has been Published Successfully" />
+    <x-alerts.sweet-alert-2 on="course-unpublished" message="Course has been Unpublished." />
 
 
 
@@ -22,13 +24,7 @@
                 <i class="text-sm fa-solid fa-chevron-right"></i> &nbsp;
                 {{ $course->course_name }}
             </div>
-            <div>
-                {{-- Back to Courses --}}
-                <a href="{{ route('pages.admin.course') }}"
-                    class=" focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">
-                    &nbsp; <i class="text-2xl fa-solid fa-xmark"></i>
-                </a>
-            </div>
+
         </div>
     </x-slot>
 
@@ -36,14 +32,14 @@
 
 
     {{-- Image and Course Details --}}
-    <div class="md:flex md:flex-wrap md:flex-row-reverse md:h-[400px]">
+    <div class="md:flex md:flex-wrap md:flex-row-reverse justify-between md:h-[400px] w-full py-2  sm:px-6 lg:px-8  ">
         {{-- Cover Photo --}}
-        <div class="h-[200px] md:h-full md:w-1/2 mx-auto "
+        <div class="h-[200px] md:h-full md:w-[50%] rounded-lg "
             style="background-image: url('/storage/{{ $course->course_cover_photo }}'); background-size: cover; background-position: center">
         </div>
 
         {{-- Course Details --}}
-        <div class="bg-white shadow md:h-full md:w-1/2 dark:bg-gray-800 ">
+        <div class="bg-white rounded-lg shadow md:h-full md:w-[50%] dark:bg-gray-800">
             <div class="px-4 py-6 mx-auto max-w-9xl sm:px-6 lg:px-8">
                 <h1 class="text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100">
                     {{ $course->course_name }}
@@ -64,7 +60,12 @@
 
                 <div class="items-center">
                     {{-- Publish Course Button --}}
-                    <x-buttons.create-button message="Publish Course" icon="fa-solid fa-calendar-check" />
+                    @if ($course->course_publish_date == null)
+                        <x-buttons.create-button x-data=""
+                            x-on:click.prevent="$dispatch('open-modal', 'publish-course')" message="Publish Course"
+                            icon="fa-solid fa-calendar-check" />
+                    @endif
+
 
                     {{-- Edit Button --}}
                     <a href="{{ route('pages.admin.course.edit', $course->id) }}">
@@ -76,12 +77,227 @@
                         wire:click="deleteACourse({{ $course->id }})">
                         <x-buttons.delete-button message="Delete Course" />
                     </div>
+
+                    {{-- Unpublish Button --}}
+                    @if ($course->course_publish_date)
+                        <x-buttons.my-secondary-button type="button" x-data=""
+                            x-on:click.prevent="$dispatch('open-modal', 'unpublish-course')" message="Unpublish Course"
+                            icon="fa-solid fa-calendar-xmark" />
+                    @endif
                 </div>
 
 
             </div>
         </div>
     </div>
+
+    {{-- MODAL for Publish A Course --}}
+    <x-modal name="publish-course" focus="true" bgColor="">
+        <div class="w-full h-[90vh]  flex items-center justify-center">
+            <div id="edit-timer" class="items-center justify-center w-full overflow-x-hidden overflow-y-auto">
+                <div class="relative w-full max-w-2xl max-h-full p-4">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                        <!-- Modal header -->
+                        <div
+                            class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                Publish Course Now?
+                            </h3>
+                            <button x-on:click="$dispatch('close')" type="button"
+                                class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white">
+                                <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="p-4 space-y-4 md:p-5">
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                <span class="font-bold text-white">Note: </span>
+                                Publishing the course will make it available for students to see and take the
+                                course.
+                                Unpublished courses remain hidden from students. Before publishing, please make sure to
+                                confirm all the details below.
+                            </p>
+                            {{-- HR - START --}}
+                            <hr
+                                class="w-full h-[2px] mx-auto my-4 bg-gray-900 border-0 rounded md:my-10 dark:bg-gray-100">
+                            {{-- HR - END --}}
+                            {{-- Content --}}
+                            <div class="overflow-y-auto h-[400px]">
+
+                                <!-- Warning Alert -->
+                                @if ($course->isCourseReadyToPublish() == false)
+                                    <div class="w-[90%] mx-auto mt-1 mb-4">
+                                        <div class="relative w-full overflow-hidden bg-white border rounded-xl border-amber-500 text-slate-700 dark:bg-slate-900 dark:text-slate-300"
+                                            role="alert">
+                                            <div class="flex items-center w-full gap-2 p-4 bg-amber-500/10">
+                                                <div class="p-1 rounded-full bg-amber-500/15 text-amber-500"
+                                                    aria-hidden="true">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                        fill="currentColor" class="size-6" aria-hidden="true">
+                                                        <path fill-rule="evenodd"
+                                                            d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-2">
+                                                    <h3 class="text-sm font-semibold text-amber-500"> Can't Be Published
+                                                    </h3>
+                                                    <p class="text-xs font-medium sm:text-sm">Your course details
+                                                        contain
+                                                        incomplete details. Please complete them before publishing.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
+
+                                {{-- Course Title --}}
+                                <h1 class="text-xl text-gray-500 dark:text-gray-400"><span class="text-white"> Course
+                                        Title:</span>
+                                    {{ $course->course_name }}
+                                </h1>
+                                {{-- Course Exam Count --}}
+                                <p class="mb-4 text-lg text-gray-500 dark:text-gray-400">
+                                    <i
+                                        class="fa-solid {{ $course->courseQuestions()->count() > 0 ? 'text-green-500 fa-check' : 'text-red-500 fa-xmark' }}  "></i>&nbsp;
+                                    <span class="text-white">
+                                        Course Exam:</span>
+                                    {{ $course->courseQuestions()->count() }} Questions
+                                </p>
+
+                                <ul class="space-y-4 text-gray-500 list-inside dark:text-gray-400">
+                                    {{-- Modules Loop --}}
+                                    @forelse ($course->modules as $module)
+                                        <li class="ml-6">
+                                            <h1 class="mt-4"> <span class="text-white">Module
+                                                    {{ $loop->iteration }}:</span>
+                                                {{ $module->module_name }}</h1>
+                                            <p><i
+                                                    class="fa-solid {{ $module->moduleQuestions()->count() > 0 ? 'text-green-500 fa-check' : 'text-red-500 fa-xmark' }}  "></i>&nbsp;
+                                                <span class="text-white">Module Exam:</span>
+                                                {{ $module->moduleQuestions()->count() }} Questions
+                                            </p>
+                                            <ul class="space-y-1 list-disc list-inside ps-5">
+                                                {{-- Lessons Loop --}}
+                                                @forelse ($module->lessons as $lesson)
+                                                    <li class="pt-1"> <span class="text-white">Lesson
+                                                            {{ $loop->iteration }}:</span>
+                                                        {{ $lesson->lesson_title }} </li>
+
+                                                    <p class="indent-4"> <i
+                                                            class="fa-solid {{ $lesson->questions->count() > 0 ? 'text-green-500 fa-check' : 'text-red-500 fa-xmark' }}  "></i>&nbsp;
+                                                        {{ $lesson->questions->count() }}
+                                                        Questions </p>
+
+                                                    <p class="indent-4"> <i
+                                                            class="fa-solid {{ $lesson->flashcards->count() > 0 ? 'text-green-500 fa-check' : 'text-red-500 fa-xmark' }}  "></i>&nbsp;
+                                                        {{ $lesson->flashcards->count() }}
+                                                        Flashcards</p>
+                                                @empty
+                                                    <p class="italic"><i
+                                                            class="text-red-500 fa-solid fa-xmark "></i>&nbsp;
+                                                        No Lessons Added.</p>
+                                                @endforelse
+                                            </ul>
+                                        </li>
+                                    @empty
+                                        <p class="italic"><i class="text-red-500 fa-solid fa-xmark "></i>&nbsp; No
+                                            Modules Added.</p>
+                                    @endforelse
+
+                                    {{--  --}}
+                                </ul>
+
+
+
+
+
+                            </div>
+
+                        </div>
+                        <!-- Modal footer -->
+                        <div
+                            class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
+                            <button type="button" wire:click="publishCourse({{ $course->id }})"
+                                x-on:click="$dispatch('close')"
+                                {{ $course->isCourseReadyToPublish() ? '' : 'disabled' }}
+                                class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 disabled:opacity-50 disabled:cursor-not-allowed ">
+                                Publish Now
+                            </button>
+                            <button x-on:click="$dispatch('close')" type="button"
+                                class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </x-modal>
+
+    {{-- MODAL for Unpublishing A Course --}}
+    <x-modal name="unpublish-course" focus="true" bgColor="">
+        <div class="w-full h-[90vh]  flex items-center justify-center">
+            <div id="edit-timer" class="items-center justify-center w-full overflow-x-hidden overflow-y-auto">
+                <div class="relative w-full max-w-2xl max-h-full p-4">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                        <!-- Modal header -->
+                        <div
+                            class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                Do you want to unpublish this course?
+                            </h3>
+                            <button x-on:click="$dispatch('close')" type="button"
+                                class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white">
+                                <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="p-4 space-y-4 md:p-5">
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                <span class="font-bold text-white">Note: </span>
+                                Unpublishing this course will make it unlisted from the platform. This action makes
+                                the course hidden from user's end. Do you still want to proceed?
+                            </p>
+
+
+
+                        </div>
+                        <!-- Modal footer -->
+                        <div
+                            class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
+                            <button type="button" wire:click="unpublishCourse({{ $course->id }})"
+                                x-on:click="$dispatch('close')"
+                                class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 disabled:opacity-50 disabled:cursor-not-allowed ">
+                                Unpublish Now
+                            </button>
+                            <button x-on:click="$dispatch('close')" type="button"
+                                class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </x-modal>
 
     {{-- Icons - Self Paced - Hours, Difficulty --}}
     <div class="py-1">
@@ -97,7 +313,8 @@
 
                     <div class="p-2 text-center bg-white dark:bg-gray-800  min-w-[150px] my-2">
                         <i class="text-2xl fa-regular fa-clock"></i>
-                        <p class="font-bold text-gray-700 uppercase dark:text-gray-400 ">{{ $course->course_duration }}
+                        <p class="font-bold text-gray-700 uppercase dark:text-gray-400 ">
+                            {{ $course->course_duration }}
                             Hours</p>
                     </div>
 
@@ -183,7 +400,8 @@
 
                             {{-- Edit Module --}}
                             <x-buttons.edit-button message="Edit Module" @click="mode = 'edit'"
-                                x-show="(mode === 'edit') || (mode === 'view')" x-bind:disabled="mode === 'edit'" />
+                                x-show="(mode === 'edit') || (mode === 'view')"
+                                x-bind:disabled="mode === 'edit'" />
 
                             {{-- Delete Module --}}
                             <x-buttons.delete-button Message="Delete Module" @click="mode = 'delete'"
@@ -206,7 +424,8 @@
                         <form wire:submit.prevent="createModule" class="max-w-md mx-auto">
                             <h1 class="my-4 text-xl font-bold uppercase">Create New Module</h1>
                             <div class="relative z-0 w-full mb-5 group">
-                                <input type="text" wire:model="module_name" name="create_module" id="create_module"
+                                <input type="text" wire:model="module_name" name="create_module"
+                                    id="create_module"
                                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                     placeholder=" " required />
                                 <label for="create_module"
