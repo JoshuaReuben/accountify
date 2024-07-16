@@ -6,6 +6,7 @@ use Livewire\Attributes\On;
 
 new class extends Component {
     public $songs = [];
+    public $ARR_songs = [];
 
     public $songs_title = [];
     public $songs_artist = [];
@@ -15,6 +16,7 @@ new class extends Component {
     public function mount()
     {
         $this->songs = Music::all();
+        $this->ARR_songs = $this->songs->toArray();
 
         foreach ($this->songs as $song) {
             $this->songs_title[] = $song->song_title;
@@ -32,7 +34,9 @@ new class extends Component {
     <div>
 
         {{-- Music Layout Design --}}
-        <div class="w-full ">
+        <div class="w-full" x-data="setupMusicPlayer({{ json_encode($ARR_songs) }})">
+
+            {{-- put code here --}}
             <div
                 class='flex w-full mx-auto overflow-hidden bg-gray-100 shadow-md dark:bg-gray-800 dark:ring-1 dark:ring-gray-600 drop-shadow-2xl rounded-xl '>
 
@@ -40,23 +44,27 @@ new class extends Component {
                 @if (count($this->songs) > 0)
                     <div class="flex flex-col w-full">
                         <div class="flex p-5 border-b">
-                            <img id="musicCoverPhoto" class='object-cover w-20 h-20' alt='User avatar' src="">
+                            <img id="musicCoverPhoto" class='object-cover w-20 h-20' alt='Music Cover Photo'
+                                :src="currentMusic_Cover">
                             <div class="flex flex-col w-full px-2">
 
                                 {{-- Status --}}
                                 <span id="musicStatus"
                                     class="text-xs font-medium text-gray-700 uppercase dark:text-white ">
-                                    Paused
+                                    <span x-show="isMusicPlaying == true">Playing</span>
+                                    <span x-show="isMusicPlaying == false">Paused</span>
                                 </span>
 
                                 {{-- Title --}}
-                                <span id="musicTitle" class="pt-1 text-sm font-semibold text-green-500 capitalize">
-                                    I think I need a sunrise, I'm tired of the sunset
+                                <span x-text="currentMusic_Title" id="musicTitle"
+                                    class="pt-1 text-sm font-semibold text-green-500 capitalize">
+                                    Display The Current Music Title
                                 </span>
 
                                 {{-- Author --}}
-                                <span id="musicAuthor" class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
-                                    -"Boston," Augustana
+                                <span x-text="currentMusic_Author" id="musicAuthor"
+                                    class="text-xs font-medium text-gray-500 dark:text-gray-400 ">
+                                    Display The Current Music Author
                                 </span>
                             </div>
                         </div>
@@ -66,22 +74,20 @@ new class extends Component {
                             <div class="flex items-center">
                                 <div class="flex p-2 mt-2 space-x-3">
                                     {{-- Previous --}}
-                                    <button onclick="previousSongForMusic()"
-                                        class="group focus:outline-none hover:scale-125">
+                                    <button @click="previousMusic" class="group focus:outline-none hover:scale-125">
                                         <i
                                             class="text-2xl text-green-400 transition fa-solid fa-backward-step group-hover:text-green-500 "></i>
                                     </button>
 
-                                    {{-- Play --}}
-                                    <button onclick="togglePlayPauseForMusic()"
+                                    {{-- Play Button --}}
+                                    <button @click="toggleMusic()"
                                         class=" group rounded-full focus:outline-none w-14 h-14 flex items-center justify-center pl-0.5 ring-1 ring-green-400 hover:ring-green-500 hover:ring-2">
-                                        <i id="playPauseIconForMusic"
-                                            class="text-2xl text-green-400 fa-solid fa-play group-hover:text-green-500 group-hover:scale-125"></i>
+                                        <i class="text-2xl text-green-400 fa-solid group-hover:text-green-500 group-hover:scale-125"
+                                            x-bind:class="isMusicPlaying ? 'fa-pause' : 'fa-play'"></i>
                                     </button>
 
                                     {{-- Next --}}
-                                    <button onclick="nextSongForMusic()"
-                                        class=" group focus:outline-none hover:scale-125">
+                                    <button @click="nextMusic" class=" group focus:outline-none hover:scale-125">
                                         <i
                                             class="text-2xl text-green-400 transition fa-solid fa-forward-step group-hover:text-green-500 "></i>
                                     </button>
@@ -90,14 +96,16 @@ new class extends Component {
 
                             <div class="relative w-full ml-2">
                                 {{-- Music Progress Slider --}}
-                                <input id="music-progress-slider" type="range" value="0" class="">
+                                <input x-ref="music_ProgressSlider" id="music-progress-slider" type="range"
+                                    value="0" class="">
                             </div>
 
                             <div class="flex justify-end w-full pt-1 sm:pt-0">
                                 {{-- Time --}}
-                                <span id="musicCurrentTime"
+                                <span x-ref="musicCurrentTime" id="musicCurrentTime"
                                     class="pl-2 text-xs font-medium text-gray-700 uppercase dark:text-white">
-                                    00:00 / --:--
+                                    <span x-text="currentMusic_CurrentTime"></span> / <span
+                                        x-text="currentMusic_Duration"></span>
                                 </span>
                             </div>
 
@@ -109,14 +117,18 @@ new class extends Component {
                                 <span class="text-base font-semibold text-gray-700 uppercase dark:text-white"> play
                                     list</span>
                                 <span class="flex items-center space-x-2">
-                                    <i id="volumeIconForMusic"
-                                        class="fa-solid fa-volume-high text-slate-500 dark:text-white"></i>
-                                    <input type="range" id="musicVolumeControl" min="0" max="1"
-                                        step="0.01" value="0.9" style="accent-color: rgb(74 222 128);">
+                                    <i id="volumeIconForMusic" class="fa-solid text-slate-500 dark:text-white"
+                                        x-bind:class="{
+                                            'fa-volume-high': isMuted == false,
+                                            'fa-volume-xmark': isMuted == true,
+                                        }"></i>
+                                    <input x-ref="volume_slider" type="range" id="musicVolumeControl" min="0"
+                                        max="1" step="0.01" value="0.9"
+                                        style="accent-color: rgb(74 222 128);">
                                     {{-- Label --}}
-                                    <span id="musicCurrentVolumeTxt"
+                                    <span id="musicCurrentVolumeTxt" x-text="displayed_volume"
                                         class="text-xs font-medium text-gray-700 uppercase dark:text-white">
-                                        90%
+                                        90
                                     </span>
                                 </span>
 
@@ -124,8 +136,8 @@ new class extends Component {
 
                             {{-- Playlist --}}
                             <div class="flex flex-col h-[40vh] overflow-y-auto">
-                                @foreach ($songs as $song)
-                                    <div
+                                @foreach ($songs as $song) 
+                                    <div @click="playSelectedSong({{ $loop->iteration }})"
                                         class="flex px-2 py-3 transition-all duration-100 ease-in border-b cursor-pointer song-playlist dark:border dark:border-gray-700 hover:shadow-sm hover:bg-gray-100 hover:rounded-xl dark:hover:bg-gray-900">
                                         {{-- Avatar --}}
                                         <img class='object-cover w-10 h-10 rounded-lg' alt='User avatar'
@@ -154,197 +166,159 @@ new class extends Component {
                     </div>
                 @endif
             </div>
+
         </div>
 
 
-
         <script data-navigate-once>
-            (function() {
-                // Variables
-                let passedPlaylist = @json($songs_filepath);
-                let passedSongsTitle = @json($songs_title);
-                let passedSongsArtist = @json($songs_artist);
-                let passedSongsCover = @json($songs_cover_photo);
+            function setupMusicPlayer(passed_songs) {
+                return {
+                    // Initial data
+                    song_Titles: [],
+                    song_Artists: [],
+                    song_Covers: [],
+                    song_Paths: [],
+                    song_Counts: null,
 
-                let playlistArray;
-                let songsTitleArray;
-                let songsArtistArray;
-                let songsCoverArray;
-                let totalMusicCount;
+                    currentMusicIndex: 0,
+                    isMusicPlaying: false,
+                    isMuted: false,
 
-                let playPauseIconForMusic = document.getElementById('playPauseIconForMusic');
-                let musicProgressSlider = document.getElementById('music-progress-slider');
-                let musicCurrentTime = document.getElementById('musicCurrentTime');
-                let musicStatus = document.getElementById('musicStatus');
 
-                let musicAudio = new Audio();
-                let currentMusicIndex;
-                let musicIntervalID;
+                    currentMusic_Title: 'Music Title',
+                    currentMusic_Author: 'Music Author',
+                    currentMusic_Cover: '',
+                    currentMusic_Duration: '--:--',
+                    currentMusic_CurrentTime: '00:00',
 
-                // Rendering Music Info
-                let musicTitle = document.getElementById('musicTitle');
-                let musicAuthor = document.getElementById('musicAuthor');
-                let musicCover = document.getElementById('musicCoverPhoto');
+                    // Music On Start
+                    musicAudio: null,
 
-                // Music Volume -------------------------------------------------------------
-                let musicVolumeControl = document.getElementById("musicVolumeControl");
-                let musicCurrentVolumeTxt = document.getElementById("musicCurrentVolumeTxt");
-                let volumeIconForMusic = document.getElementById("volumeIconForMusic");
+                    // Volume
+                    displayed_volume: null,
 
-                function startMusicPlayer(paths, titles, artists, covers) {
-                    playlistArray = paths;
-                    songsTitleArray = titles;
-                    songsArtistArray = artists;
-                    songsCoverArray = covers;
 
-                    currentMusicIndex = 0;
-                    totalMusicCount = playlistArray.length;
+                    // Initialize
+                    init() {
+                        if (!passed_songs.length) return; // Fail the init if there are no songs
 
-                    // Start the music player
-                    musicAudio = new Audio('/audio/' + playlistArray[currentMusicIndex]); // Adjust the Web URL as necessary
+                        // Receive Params and Set the variables
+                        this.song_Titles = passed_songs.map(song => song.song_title);
+                        this.song_Artists = passed_songs.map(song => song.song_artist);
+                        this.song_Covers = passed_songs.map(song => song.song_cover_photo);
+                        this.song_Paths = passed_songs.map(song => song.song_file_path);
+                        this.song_Counts = passed_songs.length;
 
-                    // Music On Start ------------------------------------------------------------
-                    musicAudio.onloadedmetadata = function() {
-                        musicProgressSlider.max = musicAudio.duration;
-                        musicProgressSlider.value = musicAudio.currentTime;
-                    }
+                        this.musicAudio = new Audio('/audio/' + this.song_Paths[this.currentMusicIndex]);
+                        this.displayed_volume = Math.floor((this.musicAudio.volume * 100)) + '%';
 
-                    renderMusicInfo();
-                }
 
-                // Start the music player only if the variables passed are not null
-                if (passedPlaylist.length != 0) {
-                    startMusicPlayer(passedPlaylist, passedSongsTitle, passedSongsArtist, passedSongsCover);
-                } else {
-                    console.log('Side Note: No songs added yet on the music playlist');
-                }
 
-                /////////////////////////////////////////////////////////////////////////////////
 
-                // When the song ends, increment the currentMusicIndex then play
-                musicAudio.onended = function() {
-                    nextSongForMusic();
-                }
+                        this.musicAudio.onloadedmetadata = () => {
+                            this.$refs.music_ProgressSlider.max = this.musicAudio.duration;
+                            this.$refs.music_ProgressSlider.value = this.musicAudio.currentTime;
 
-                // Initialize the function for Progress Slider and Music Volume if there is a song
-                if (passedPlaylist.length != 0) {
-                    musicProgressSlider.onchange = function() {
-                        musicAudio.currentTime = musicProgressSlider.value;
-                        playPauseIconForMusic.classList.remove('fa-play');
-                        playPauseIconForMusic.classList.add('fa-pause');
-                        clearInterval(musicIntervalID);
-                        musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
-                    }
+                            this.currentMusic_Title = this.song_Titles[this.currentMusicIndex];
+                            this.currentMusic_Author = this.song_Artists[this.currentMusicIndex];
+                            this.currentMusic_Cover = '/storage/' + this.song_Covers[this.currentMusicIndex];
+                            this.currentMusic_Duration = this.formatMusicTime(this.musicAudio.duration);
 
-                    musicVolumeControl.onchange = function() {
-                        musicAudio.volume = musicVolumeControl.value;
-                        musicCurrentVolumeTxt.innerText = `${Math.floor(musicAudio.volume * 100)}%`;
 
-                        //Icon Change for Volume
-                        if (musicAudio.volume == 0) {
-                            volumeIconForMusic.classList.remove('fa-volume-high');
-                            volumeIconForMusic.classList.add('fa-volume-xmark');
-                        } else {
-                            volumeIconForMusic.classList.remove('fa-volume-xmark');
-                            volumeIconForMusic.classList.add('fa-volume-high');
+                        };
+
+                        this.musicAudio.onended = () => {
+                            this.nextMusic();
+                        };
+
+                        this.musicAudio.onplaying = () => {
+                            this.isMusicPlaying = true;
+
+                        };
+
+
+                        this.musicAudio.ontimeupdate = () => {
+                            this.currentMusic_CurrentTime = this.formatMusicTime(this.musicAudio.currentTime);
+                            this.$refs.music_ProgressSlider.value = this.musicAudio.currentTime;
+                        };
+
+
+
+                        // On Slider Change -> Adjust Current Music Time
+                        this.$refs.music_ProgressSlider.oninput = () => {
+                            this.musicAudio.currentTime = this.$refs.music_ProgressSlider.value;
+                        };
+
+
+                        // On Volume Change
+                        this.$refs.volume_slider.onchange = () => {
+                            this.musicAudio.volume = this.$refs.volume_slider.value;
+                            this.displayed_volume = Math.floor((this.musicAudio.volume * 100)) + '%';
+                            this.isMuted = this.musicAudio.volume == 0 ? true : false;
                         }
-                    }
-                }
 
-                // When clicking a new song to play, update the play-pause icon
-                musicAudio.onplaying = function() {
-                    playPauseIconForMusic.classList.remove('fa-play');
-                    playPauseIconForMusic.classList.add('fa-pause');
-                    clearInterval(musicIntervalID);
-                    musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
-                    musicStatus.innerText = 'Now Playing';
-                }
+                    }, // End of Init()
 
-                function togglePlayPauseForMusic() {
-                    // Play Icon is showing, Music is Playing
-                    if (playPauseIconForMusic.classList.contains('fa-play')) {
-                        playPauseIconForMusic.classList.remove('fa-play');
-                        playPauseIconForMusic.classList.add('fa-pause');
-                        musicAudio.play();
-                        musicIntervalID = setInterval(updateMusicIntervalDetails, 1000);
-                        musicStatus.innerText = 'Now Playing';
 
-                    } else {
-                        // Pause Icon is showing, Music is Playing 
-                        playPauseIconForMusic.classList.remove('fa-pause');
-                        playPauseIconForMusic.classList.add('fa-play');
-                        musicAudio.pause();
-                        clearInterval(musicIntervalID);
-                        musicStatus.innerText = 'Paused';
-                    }
-                }
 
-                function updateMusicIntervalDetails() {
-                    if (musicAudio.play()) {
-                        musicProgressSlider.value = musicAudio.currentTime;
-
-                        //if audio metadata is loaded
-                        if (musicAudio.duration) {
-                            musicCurrentTime.innerText =
-                                `${formatMusicTime(musicAudio.currentTime)} / ${formatMusicTime(musicAudio.duration)}`;
+                    toggleMusic() {
+                        if (this.isMusicPlaying) {
+                            // Playing -> Paused
+                            this.musicAudio.pause();
+                            this.isMusicPlaying = false;
                         } else {
-                            musicCurrentTime.innerText = '00:00 / --:--';
+                            // Paused -> Playing
+                            this.musicAudio.play();
+                            this.isMusicPlaying = true;
                         }
-                    }
+                    },
+
+                    formatMusicTime(seconds) {
+                        let minutes = Math.floor(seconds / 60);
+                        let remainingSeconds = Math.floor(seconds % 60);
+                        return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+                    },
+
+
+
+                    nextMusic() {
+                        this.currentMusicIndex++;
+                        if (this.currentMusicIndex < this.song_Counts) {
+                            this.musicAudio.src = '/audio/' + this.song_Paths[this.currentMusicIndex];
+                            this.musicAudio.play();
+                        } else {
+                            this.currentMusicIndex = 0;
+                            this.musicAudio.src = '/audio/' + this.song_Paths[this.currentMusicIndex];
+                            this.musicAudio.play();
+                        }
+                    },
+
+                    previousMusic() {
+                        if (this.currentMusicIndex > 0) {
+                            this.currentMusicIndex--;
+                            this.musicAudio.src = '/audio/' + this.song_Paths[this.currentMusicIndex];
+                            this.musicAudio.play();
+                        } else {
+                            this.currentMusicIndex = this.song_Counts - 1;
+                            this.musicAudio.src = '/audio/' + this.song_Paths[this.currentMusicIndex];
+                            this.musicAudio.play();
+                        }
+                    },
+
+                    playSelectedSong(index) {
+                        // Before changing song, pause audio if playing
+                        if (this.isMusicPlaying) {
+                            this.musicAudio.pause();
+                            this.isMusicPlaying = false;
+                        }
+                        this.currentMusicIndex = index - 1;
+                        this.musicAudio.src = '/audio/' + this.song_Paths[this.currentMusicIndex];
+                        this.musicAudio.play();
+                        this.toggleMusic();
+                    },
+
                 }
-
-                // Rendering Music Info
-                function renderMusicInfo() {
-                    musicTitle.innerText = songsTitleArray[currentMusicIndex];
-                    musicAuthor.innerText = songsArtistArray[currentMusicIndex];
-
-                    let currentCover = songsCoverArray[currentMusicIndex];
-                    let imageUrl = "/storage/" + currentCover;
-                    musicCover.src = imageUrl;
-                }
-
-                // Function to format time
-                function formatMusicTime(seconds) {
-                    let minutes = Math.floor(seconds / 60);
-                    let remainingSeconds = Math.floor(seconds % 60);
-                    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-                }
-
-                // Playlist via click
-                let songPlaylist = document.querySelectorAll('.song-playlist');
-
-                for (let i = 0; i < songPlaylist.length; i++) {
-                    songPlaylist[i].addEventListener('click', function() {
-                        currentMusicIndex = Math.abs(i);
-                        musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
-                        musicAudio.play();
-                        renderMusicInfo();
-                    });
-                }
-
-                // Music Play List -------------------------------------------------------------
-                function previousSongForMusic() {
-                    currentMusicIndex = currentMusicIndex % totalMusicCount;
-                    currentMusicIndex = ((currentMusicIndex - 1) + totalMusicCount) % totalMusicCount;
-
-                    console.log(currentMusicIndex);
-                    musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
-                    renderMusicInfo();
-                }
-
-                function nextSongForMusic() {
-                    currentMusicIndex = (currentMusicIndex + 1) % totalMusicCount;
-                    currentMusicIndex = Math.abs(currentMusicIndex);
-
-                    musicAudio.src = '/audio/' + playlistArray[currentMusicIndex];
-                    renderMusicInfo();
-                }
-
-                // Expose functions to the global scope for HTML button event handlers
-                window.togglePlayPauseForMusic = togglePlayPauseForMusic;
-                window.previousSongForMusic = previousSongForMusic;
-                window.nextSongForMusic = nextSongForMusic;
-            })();
+            }
         </script>
 
     </div>

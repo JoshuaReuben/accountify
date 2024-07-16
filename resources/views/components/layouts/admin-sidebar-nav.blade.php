@@ -4,7 +4,7 @@
 
         {{-- OVERVIEW --}}
         <li class="mt-4">
-            <a href="{{ route('admin.overview') }}"
+            <a wire:navigate href="{{ route('admin.overview') }}"
                 class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <x-svgs.pie-chart-icon />
                 <span class="ml-3">OVERVIEW</span>
@@ -13,7 +13,7 @@
 
         {{-- SCRATCH --}}
         <li class="mt-4">
-            <a href="{{ route('admin.scratch') }}"
+            <a wire:navigate href="{{ route('admin.scratch') }}"
                 class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <x-svgs.pie-chart-icon />
                 <span class="ml-3">scratch</span>
@@ -45,34 +45,20 @@
                 <x-slot name="content">
                     <ul class="w-full py-2">
                         <li>
-                            <a href="{{ route('pages.admin.course') }}"
+                            <a wire:navigate href="{{ route('pages.admin.course') }}"
                                 class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                                 <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; COURSES
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('pages.admin.module') }}"
+                            <a wire:navigate href="{{ route('pages.admin.module') }}"
                                 class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                                 <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; MODULES
                             </a>
                         </li>
 
-                        {{-- <li>
-                            <a href="#"
-                                class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; QUESTIONS
-                            </a>
-                        </li>
-
                         <li>
-                            <a href="#"
-                                class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; FLASHCARDS
-                            </a>
-                        </li> --}}
-
-                        <li>
-                            <a href="{{ route('pages.admin.resources') }}"
+                            <a wire:navigate href="{{ route('pages.admin.resources') }}"
                                 class="flex items-center w-full p-2 pl-4 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                                 <i class="fa-solid fa-chevron-right"></i> &nbsp; &nbsp; RESOURCES
                             </a>
@@ -86,7 +72,7 @@
 
         {{-- PAYPAL --}}
         <li class="mt-4">
-            <a href="{{ route('admin.paypal') }}"
+            <a wire:navigate href="{{ route('admin.paypal') }}"
                 class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 {{-- <x-svgs.pie-chart-icon /> --}}
                 <i class="fa-solid fa-wallet"></i>
@@ -97,7 +83,7 @@
 
         {{-- UPLOAD A MUSIC --}}
         <li class="mt-4 group">
-            <a href="{{ route('pages.admin.music') }}"
+            <a wire:navigate href="{{ route('pages.admin.music') }}"
                 class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 {{-- <i
                             class="text-gray-500 fa-solid fa-cloud-arrow-up dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i> --}}
@@ -113,7 +99,7 @@
         {{-- ADMIN DASHBOARD --}}
         @if (Auth::guard('admin')->user()->role == 'Super Admin')
             <li class="mt-4">
-                <a href="{{ route('admin.dashboard') }}"
+                <a wire:navigate href="{{ route('admin.dashboard') }}"
                     class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <i class="fa-solid fa-user-tie"></i>
                     <span class="ml-3">ADMIN DASHBOARD</span>

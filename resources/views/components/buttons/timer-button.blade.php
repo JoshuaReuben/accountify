@@ -193,7 +193,7 @@
 
     {{-- JAVASCRIPT --}}
 
-    <script>
+    <script data-navigate-once>
         function setupTimer() {
             return {
                 startingMinutes: 25,

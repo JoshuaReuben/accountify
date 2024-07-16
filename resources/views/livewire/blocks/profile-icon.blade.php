@@ -53,12 +53,12 @@ new class extends Component {
                             My Admin Profile
                         </a>
                     @else
-                        <a href="{{ route('user.profile') }}"
+                        <a wire:navigate href="{{ route('user.profile') }}"
                             class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-100 dark:hover:text-white rounded-t-xl">
                             My profile
                         </a>
 
-                        <a href="{{ route('user.account') }}"
+                        <a wire:navigate href="{{ route('user.account') }}"
                             class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-100 dark:hover:text-white rounded-t-xl">
                             My Account
                         </a>
