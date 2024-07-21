@@ -259,6 +259,7 @@
                         this.time = this.startingMinutes * 60;
                     }
                     this.updateCountdown();
+                    this.isPlaying = false;
                 },
 
                 // Form - Change Default Startup Timer

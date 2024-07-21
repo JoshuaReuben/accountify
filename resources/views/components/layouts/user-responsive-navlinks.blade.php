@@ -2,11 +2,10 @@
 
 @php
     $links = [
-        ['name' => 'Dashboard', 'routeIs' => 'dashboard'],
-        ['name' => 'Profile', 'routeIs' => 'user.profile'],
-        ['name' => 'Settings', 'routeIs' => 'user.account'],
-        ['name' => 'page1', 'routeIs' => 'user.page1'],
-        ['name' => 'page2', 'routeIs' => 'user.page2'],
+        ['name' => 'Learnings', 'routeIs' => 'dashboard'],
+        ['name' => 'Flashcards', 'routeIs' => 'user.profile'],
+        ['name' => 'My Scores', 'routeIs' => 'user.account'],
+        ['name' => 'Achievements', 'routeIs' => 'user.page1'],
     ];
 @endphp
 
